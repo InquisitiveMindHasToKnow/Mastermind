@@ -22,95 +22,41 @@
         android:textSize="24sp" />
 
     <LinearLayout
-        android:id="@+id/numbers_selected_textview"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
 
+    <TextView
+        android:id="@+id/random_numbers_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/textColor"
+        android:paddingStart="16dp"
+        android:paddingEnd="4dp"
+        android:text="5 4 5 3"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textSize="32sp"
+        android:background="@color/colorPrimary"/>
+
+
         <TextView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:background="@color/colorPrimary"
-            android:gravity="center"
+            android:id="@+id/random_numbers_textview_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textColor"
+            android:paddingStart="4dp"
+            android:paddingEnd="16dp"
+            android:text="4 8 3 4"
             android:textStyle="bold"
-            android:text="0"
-            android:textColor="@color/textColor" />
-
-        <TextView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="8dp"
-            android:background="@color/colorPrimary"
+            android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:textStyle="bold"
-            android:text="1"
-            android:textColor="@color/textColor" />
+            android:textSize="32sp"
+            android:background="@color/colorPrimary"/>
 
-        <TextView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="8dp"
-            android:background="@color/colorPrimary"
-            android:gravity="center"
-            android:text="2"
-            android:textColor="@color/textColor" />
-
-        <TextView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="8dp"
-            android:background="@color/colorPrimary"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:text="3"
-            android:textColor="@color/textColor" />
-
-        <TextView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="8dp"
-            android:background="@color/colorPrimary"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:text="4"
-            android:textColor="@color/textColor" />
-
-        <TextView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="8dp"
-            android:background="@color/colorPrimary"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:text="5"
-            android:textColor="@color/textColor" />
-
-
-        <TextView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="8dp"
-            android:background="@color/colorPrimary"
-            android:gravity="center"
-            android:text="6"
-            android:textStyle="bold"
-            android:textColor="@color/textColor" />
-
-        <TextView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="8dp"
-            android:background="@color/colorPrimary"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:text="7"
-            android:textColor="@color/textColor" />
-
-
-    </LinearLayout>
+</LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -367,7 +313,7 @@
                 android:text="@string/guess_button_text"
                 android:textAllCaps="false"
                 android:textColor="@color/textColor"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
 
