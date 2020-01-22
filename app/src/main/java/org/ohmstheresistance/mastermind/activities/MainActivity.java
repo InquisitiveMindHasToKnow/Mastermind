@@ -1,7 +1,9 @@
-package org.ohmstheresistance.mastermind;
+package org.ohmstheresistance.mastermind.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import org.ohmstheresistance.mastermind.R;
 
 public class MainActivity extends AppCompatActivity {
 

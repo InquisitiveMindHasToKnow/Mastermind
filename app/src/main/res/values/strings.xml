@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Mastermind</string>
     <string name="mastermind_header_text">Mastermind</string>
+    <string name="greeting_text">Good night,\n Omar!</string>
+    <string name="play_now_button_text">Play Now</string>
+    <string name="game_rules_text">Game Rules</string>
 </resources>
