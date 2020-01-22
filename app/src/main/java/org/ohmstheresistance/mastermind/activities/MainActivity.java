@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private long timeLeftInMillis;
 
     private String randomNumbersResponse;
-    int firstNum;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.unassigned_button:
+
                 playSong();
                 break;
 
@@ -225,18 +226,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     final String[] separatedResponse = randomNumbersResponse.split("\\s+");
 
+                    final String firstNumber = separatedResponse[0];
+                    final String secondNumber = separatedResponse[1];
+                    final String thirdNumber = separatedResponse[2];
+                    final String fourthNumber = separatedResponse[3];
+
                     MainActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
 
-                            firstNumberTextView.setText(separatedResponse[2]);
-                            secondNumberTextView.setText(separatedResponse[3]);
-                            thirdNumberTextView.setText(separatedResponse[1]);
-                            fourthNumberTextView.setText(separatedResponse[0]);
-                            fifthNumberTextView.setText(separatedResponse[2]);
-                            sixthNumberTextView.setText(separatedResponse[0]);
-                            seventhNumberTextView.setText(separatedResponse[1]);
-                            eighthNumberTextView.setText(separatedResponse[3]);
+                            firstNumberTextView.setText(thirdNumber);
+                            secondNumberTextView.setText(fourthNumber);
+                            thirdNumberTextView.setText(secondNumber);
+                            fourthNumberTextView.setText(firstNumber);
+                            fifthNumberTextView.setText(thirdNumber);
+                            sixthNumberTextView.setText(firstNumber);
+                            seventhNumberTextView.setText(secondNumber);
+                            eighthNumberTextView.setText(fourthNumber);
                         }
 
                     });
@@ -246,8 +252,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void playSong() {
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.jeopardytheme);
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.jeopardytheme);
         mediaPlayer.start();
+        mediaPlayer.setLooping(true);
+
+        if(mediaPlayer.isPlaying()) {
+
+            unassignedButton.setEnabled(false);
+        }
+        else {
+            unassignedButton.setEnabled(true);
+            mediaPlayer.start();
+        }
     }
 
     private void startCountDown() {
@@ -287,10 +304,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mediaPlayer.stop();
 
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        mediaPlayer.stop();
     }
 }
