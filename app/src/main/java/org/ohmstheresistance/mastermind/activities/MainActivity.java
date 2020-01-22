@@ -1,9 +1,11 @@
 package org.ohmstheresistance.mastermind.activities;
 
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,8 +31,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView previousGuessesHeaderTextView;
     private TextView guessesRemainingTextView;
     private TextView countDownTimerTextView;
-    private TextView randomNumbersTextView;
-    private TextView randomNumbersTextViewTwo;
+    private TextView firstNumberTextView;
+    private TextView secondNumberTextView;
+    private TextView thirdNumberTextView;
+    private TextView fourthNumberTextView;
+    private TextView fifthNumberTextView;
+    private TextView sixthNumberTextView;
+    private TextView seventhNumberTextView;
+    private TextView eighthNumberTextView;
+
+
+
 
     private Button zeroButton;
     private Button oneButton;
@@ -49,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private long timeLeftInMillis;
 
     private String randomNumbersResponse;
-
+    int firstNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +80,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         previousGuessesHeaderTextView = findViewById(R.id.previous_guesses_header_textview);
         guessesRemainingTextView = findViewById(R.id.remaining_guess_count_textview);
         countDownTimerTextView = findViewById(R.id.countdown_timer_textview);
-        randomNumbersTextView = findViewById(R.id.random_numbers_textview);
-        randomNumbersTextViewTwo = findViewById(R.id.random_numbers_textview_two);
+        firstNumberTextView = findViewById(R.id.first_number_textview);
+        secondNumberTextView = findViewById(R.id.second_number_textview);
+        thirdNumberTextView = findViewById(R.id.third_number_textview);
+        fourthNumberTextView = findViewById(R.id.fourth_number_textview);
+        fifthNumberTextView = findViewById(R.id.fifth_number_textview);
+        sixthNumberTextView = findViewById(R.id.sixth_number_textview);
+        seventhNumberTextView = findViewById(R.id.seventh_number_textview);
+        eighthNumberTextView = findViewById(R.id.eighth_number_textview);
 
         zeroButton = findViewById(R.id.zero_button);
         oneButton = findViewById(R.id.one_button);
@@ -94,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sevenButton.setOnClickListener(this);
         deleteButton.setOnClickListener(this);
         guessButton.setOnClickListener(this);
+        unassignedButton.setOnClickListener(this);
 
     }
 
@@ -146,19 +164,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.unassigned_button:
-
+                playSong();
                 break;
 
             case R.id.guess_button:
 
-
                 if (totalGuesses > 0) {
 
-                    if(userGuessEditText.getText().toString().length() < 4 && userGuessEditText.getText().toString().length() >= 1 ){
+                    if (userGuessEditText.getText().toString().length() < 4 && userGuessEditText.getText().toString().length() >= 1) {
                         Toast.makeText(this, "Please enter a 4 digit combination.", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    if(userGuessEditText.getText().toString().isEmpty()){
+                    if (userGuessEditText.getText().toString().isEmpty()) {
                         Toast.makeText(this, "Please enter a valid entry.", Toast.LENGTH_SHORT).show();
 
                         return;
@@ -176,12 +193,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void getRandomNumbers(){
+    private void getRandomNumbers() {
         OkHttpClient client = new OkHttpClient();
 
-        String url = "https://www.random.org/integers/?num=4&min=0&max=7&col=4&base=10&format=plain&rnd=new";
-
-        String baseOfNumers = "10";
+        String baseOfNumbers = "10";
         String col = "1";
         String num = "4";
         String minNum = "0";
@@ -189,6 +204,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String format = "plain";
         String rnd = "new";
 
+        String url = "https://www.random.org/integers/?num=" + num + "&min=" + minNum + "&max=" + maxNum + "&col=" + col + "&base=" + baseOfNumbers + "&format=" + format + "&rnd=" + rnd;
 
         Request request = new Request.Builder()
                 .url(url)
@@ -205,16 +221,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (response.isSuccessful()) {
                     randomNumbersResponse = response.body().string();
 
+                    Log.e("RESPONSE", randomNumbersResponse);
+
+                    final String[] separatedResponse = randomNumbersResponse.split("\\s+");
+
                     MainActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            randomNumbersTextView.setText(randomNumbersResponse);
-                            randomNumbersTextViewTwo.setText(randomNumbersResponse);
+
+                            firstNumberTextView.setText(separatedResponse[2]);
+                            secondNumberTextView.setText(separatedResponse[3]);
+                            thirdNumberTextView.setText(separatedResponse[1]);
+                            fourthNumberTextView.setText(separatedResponse[0]);
+                            fifthNumberTextView.setText(separatedResponse[2]);
+                            sixthNumberTextView.setText(separatedResponse[0]);
+                            seventhNumberTextView.setText(separatedResponse[1]);
+                            eighthNumberTextView.setText(separatedResponse[3]);
                         }
+
                     });
                 }
             }
         });
+    }
+
+    private void playSong() {
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.jeopardytheme);
+        mediaPlayer.start();
     }
 
     private void startCountDown() {

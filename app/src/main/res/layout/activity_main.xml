@@ -22,41 +22,121 @@
         android:textSize="24sp" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/numbers_selected_textview"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/random_numbers_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/textColor"
-        android:paddingStart="16dp"
-        android:paddingEnd="4dp"
-        android:text="5 4 5 3"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:textSize="32sp"
-        android:background="@color/colorPrimary"/>
+        <TextView
+            android:id="@+id/first_number_textview"
+            android:layout_width="32dp"
+            android:layout_height="48dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/autour_one"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/textColor"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/second_number_textview"
+            android:layout_width="32dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/autour_one"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@color/textColor"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/third_number_textview"
+            android:layout_width="32dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/autour_one"
+            android:gravity="center"
+            android:text="2"
+            android:textColor="@color/textColor"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/fourth_number_textview"
+            android:layout_width="32dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/autour_one"
+            android:gravity="center"
+            android:text="3"
+            android:textColor="@color/textColor"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/fifth_number_textview"
+            android:layout_width="32dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/autour_one"
+            android:gravity="center"
+            android:text="4"
+            android:textColor="@color/textColor"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/sixth_number_textview"
+            android:layout_width="32dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/autour_one"
+            android:gravity="center"
+            android:text="5"
+            android:textColor="@color/textColor"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
 
         <TextView
-            android:id="@+id/random_numbers_textview_two"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/textColor"
-            android:paddingStart="4dp"
-            android:paddingEnd="16dp"
-            android:text="4 8 3 4"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
+            android:id="@+id/seventh_number_textview"
+            android:layout_width="32dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/autour_one"
             android:gravity="center"
-            android:textSize="32sp"
-            android:background="@color/colorPrimary"/>
+            android:text="6"
+            android:textColor="@color/textColor"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/eighth_number_textview"
+            android:layout_width="32dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/autour_one"
+            android:gravity="center"
+            android:text="7"
+            android:textColor="@color/textColor"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -79,6 +159,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/autour_one"
                 android:text="Guesses:"
                 android:textColor="@color/textColor"
                 android:textSize="16sp" />
@@ -88,6 +169,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
+                android:fontFamily="@font/autour_one"
                 android:gravity="center"
                 android:text="10"
                 android:textColor="@color/textColor"
@@ -107,6 +189,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:fontFamily="@font/autour_one"
                 android:text="Time:"
                 android:textColor="@color/textColor"
                 android:textSize="16sp" />
@@ -116,6 +199,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
+                android:fontFamily="@font/autour_one"
                 android:gravity="center"
                 android:text="00:30"
                 android:textColor="@color/textColor"
@@ -132,6 +216,7 @@
         android:layout_gravity="center"
         android:background="@color/colorAccent"
         android:focusable="false"
+        android:fontFamily="@font/autour_one"
         android:hint="@string/guess_hint"
         android:inputType="number"
         android:maxLength="4"
@@ -160,6 +245,7 @@
                 android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/colorPrimary"
+                android:fontFamily="@font/autour_one"
                 android:gravity="center"
                 android:text="@string/button_zero_text"
                 android:textColor="@color/textColor"
@@ -172,6 +258,7 @@
                 android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/colorPrimary"
+                android:fontFamily="@font/autour_one"
                 android:gravity="center"
                 android:text="@string/button_one_text"
                 android:textColor="@color/textColor"
@@ -185,6 +272,7 @@
                 android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/colorPrimary"
+                android:fontFamily="@font/autour_one"
                 android:gravity="center"
                 android:text="@string/button_two_text"
                 android:textColor="@color/textColor"
@@ -197,6 +285,7 @@
                 android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/colorPrimary"
+                android:fontFamily="@font/autour_one"
                 android:gravity="center"
                 android:text="@string/button_three_text"
                 android:textColor="@color/textColor"
@@ -221,6 +310,7 @@
                 android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/colorPrimary"
+                android:fontFamily="@font/autour_one"
                 android:gravity="center"
                 android:text="@string/button_four_text"
                 android:textColor="@color/textColor"
@@ -233,6 +323,7 @@
                 android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/colorPrimary"
+                android:fontFamily="@font/autour_one"
                 android:gravity="center"
                 android:text="@string/button_five_text"
                 android:textColor="@color/textColor"
@@ -246,6 +337,7 @@
                 android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/colorPrimary"
+                android:fontFamily="@font/autour_one"
                 android:gravity="center"
                 android:text="@string/button_six_text"
                 android:textColor="@color/textColor"
@@ -258,6 +350,7 @@
                 android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/colorPrimary"
+                android:fontFamily="@font/autour_one"
                 android:gravity="center"
                 android:text="@string/button_seven_text"
                 android:textColor="@color/textColor"
@@ -283,11 +376,12 @@
                 android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/colorPrimary"
+                android:fontFamily="@font/autour_one"
                 android:gravity="center"
                 android:text="@string/delete_button_text"
                 android:textAllCaps="false"
                 android:textColor="@color/textColor"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <Button
@@ -295,9 +389,9 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/play_song_speaker"
+                android:backgroundTint="@color/colorPrimary"
                 android:gravity="center"
-                android:text="-"
                 android:textColor="@color/textColor"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -309,11 +403,12 @@
                 android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/colorPrimary"
+                android:fontFamily="@font/autour_one"
                 android:gravity="center"
                 android:text="@string/guess_button_text"
                 android:textAllCaps="false"
                 android:textColor="@color/textColor"
-                android:textSize="22sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
 
@@ -323,13 +418,14 @@
             android:id="@+id/previous_guesses_header_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_alignParentStart="true"
             android:layout_marginStart="16dp"
+            android:fontFamily="@font/autour_one"
+            android:gravity="center"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:layout_alignParentStart="true"
-            android:textColor="@color/textColor"
-            android:text="Previous Guesses"/>
+            android:text="Previous Guesses"
+            android:textColor="@color/textColor" />
 
     </RelativeLayout>
 
