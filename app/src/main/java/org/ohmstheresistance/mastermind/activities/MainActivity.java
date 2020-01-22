@@ -1,17 +1,27 @@
 package org.ohmstheresistance.mastermind.activities;
 
+import android.graphics.Color;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ohmstheresistance.mastermind.R;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final long COUNTDOWN_TIMER_IN_MILLIS = 30000;
+
     private EditText userGuessEditText;
+    private TextView previousGuessesHeaderTextView;
+    private TextView guessesRemainingTextView;
+    private TextView countDownTimerTextView;
     private Button zeroButton;
     private Button oneButton;
     private Button twoButton;
@@ -22,7 +32,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button sevenButton;
     private Button deleteButton;
     private Button unassignedButton;
-    private Button checkButton;
+    private Button guessButton;
+
+    private CountDownTimer countDownTimer;
+    private int totalGuesses = 10;
+    private long timeLeftInMillis;
 
 
     @Override
@@ -30,12 +44,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        timeLeftInMillis = COUNTDOWN_TIMER_IN_MILLIS;
+
         setUpViews();
+        startCountDown();
     }
 
     private void setUpViews() {
 
         userGuessEditText = findViewById(R.id.user_guess_edittext);
+        previousGuessesHeaderTextView = findViewById(R.id.previous_guesses_header_textview);
+        guessesRemainingTextView = findViewById(R.id.remaining_guess_count_textview);
+        countDownTimerTextView = findViewById(R.id.countdown_timer_textview);
+
         zeroButton = findViewById(R.id.zero_button);
         oneButton = findViewById(R.id.one_button);
         twoButton = findViewById(R.id.two_button);
@@ -46,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sevenButton = findViewById(R.id.seven_button);
         deleteButton = findViewById(R.id.delete_button);
         unassignedButton = findViewById(R.id.unassigned_button);
-        checkButton = findViewById(R.id.check_button);
+        guessButton = findViewById(R.id.guess_button);
 
         zeroButton.setOnClickListener(this);
         oneButton.setOnClickListener(this);
@@ -57,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sixButton.setOnClickListener(this);
         sevenButton.setOnClickListener(this);
         deleteButton.setOnClickListener(this);
-        checkButton.setOnClickListener(this);
+        guessButton.setOnClickListener(this);
     }
 
     @Override
@@ -108,13 +129,64 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
 
-            case  R.id.unassigned_button:
+            case R.id.unassigned_button:
 
                 break;
 
-            case R.id.check_button:
+            case R.id.guess_button:
 
+                if (totalGuesses > 0) {
+                    totalGuesses--;
+                } else {
+
+                    guessButton.setEnabled(false);
+                    Toast.makeText(this, "You Lost!", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
+    }
+
+    private void startCountDown() {
+
+        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timeLeftInMillis = millisUntilFinished;
+                updateCountDownText();
+            }
+
+            @Override
+            public void onFinish() {
+
+                timeLeftInMillis = 0;
+                updateCountDownText();
+            }
+        }.start();
+    }
+
+    private void updateCountDownText() {
+
+        int minutes = (int) (timeLeftInMillis / 1000 / 60);
+        int seconds = (int) (timeLeftInMillis / 1000) % 60;
+
+        String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+        countDownTimerTextView.setText(formattedTime);
+
+        if (timeLeftInMillis < 5000) {
+            countDownTimerTextView.setTextColor(Color.RED);
+        } else {
+            countDownTimerTextView.setTextColor(countDownTimerTextView.getTextColors());
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+
     }
 }
