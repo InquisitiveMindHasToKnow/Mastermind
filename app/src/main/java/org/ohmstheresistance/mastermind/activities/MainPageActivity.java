@@ -5,12 +5,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ohmstheresistance.mastermind.R;
 
+import java.util.Calendar;
+
 public class MainPageActivity extends AppCompatActivity {
 
+    private TextView greetingTextView;
     private Button playNowButton;
     private Button rulesButton;
     private Intent navigationIntent;
@@ -21,10 +25,12 @@ public class MainPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_page);
 
         setViews();
+        setGreeting();
     }
 
     private void setViews(){
 
+        greetingTextView = findViewById(R.id.greeting_textview);
         playNowButton = findViewById(R.id.play_now_button);
         rulesButton = findViewById(R.id.rules_button);
 
@@ -50,5 +56,23 @@ public class MainPageActivity extends AppCompatActivity {
 
     }
 
+    private void setGreeting(){
+
+        Calendar c = Calendar.getInstance();
+        int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
+
+        if (timeOfDay >= 0 && timeOfDay < 12) {
+            greetingTextView.setText(getString(R.string.good_morning) + " Omar.");
+
+        } else if (timeOfDay >= 12 && timeOfDay < 16) {
+            greetingTextView.setText(getString(R.string.good_afternoon)+ " Omar.");
+
+        } else if (timeOfDay >= 16 && timeOfDay < 21) {
+            greetingTextView.setText(getString(R.string.good_evening)+ " Omar.");
+
+        } else if (timeOfDay >= 21 && timeOfDay < 24) {
+            greetingTextView.setText(getString(R.string.good_night)+ " Omar.");
+        }
+    }
 }
 

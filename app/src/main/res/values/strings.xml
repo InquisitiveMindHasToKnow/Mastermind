@@ -4,4 +4,9 @@
     <string name="greeting_text">Good night,\n Omar!</string>
     <string name="play_now_button_text">Play Now</string>
     <string name="game_rules_text">Game Rules</string>
+
+    <string name="good_morning">Good morning,</string>
+    <string name="good_afternoon">Good afternoon,</string>
+    <string name="good_evening">Good evening,</string>
+    <string name="good_night">Good night,</string>
 </resources>
