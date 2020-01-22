@@ -35,6 +35,7 @@
             android:layout_height="32dp"
             android:background="@color/colorPrimary"
             android:gravity="center"
+            android:textStyle="bold"
             android:text="0"
             android:textColor="@color/textColor" />
 
@@ -44,6 +45,7 @@
             android:layout_marginStart="8dp"
             android:background="@color/colorPrimary"
             android:gravity="center"
+            android:textStyle="bold"
             android:text="1"
             android:textColor="@color/textColor" />
 
@@ -62,6 +64,7 @@
             android:layout_marginStart="8dp"
             android:background="@color/colorPrimary"
             android:gravity="center"
+            android:textStyle="bold"
             android:text="3"
             android:textColor="@color/textColor" />
 
@@ -71,6 +74,7 @@
             android:layout_marginStart="8dp"
             android:background="@color/colorPrimary"
             android:gravity="center"
+            android:textStyle="bold"
             android:text="4"
             android:textColor="@color/textColor" />
 
@@ -80,6 +84,7 @@
             android:layout_marginStart="8dp"
             android:background="@color/colorPrimary"
             android:gravity="center"
+            android:textStyle="bold"
             android:text="5"
             android:textColor="@color/textColor" />
 
@@ -91,6 +96,7 @@
             android:background="@color/colorPrimary"
             android:gravity="center"
             android:text="6"
+            android:textStyle="bold"
             android:textColor="@color/textColor" />
 
         <TextView
@@ -98,8 +104,8 @@
             android:layout_height="32dp"
             android:layout_marginStart="8dp"
             android:background="@color/colorPrimary"
-
             android:gravity="center"
+            android:textStyle="bold"
             android:text="7"
             android:textColor="@color/textColor" />
 
@@ -109,20 +115,20 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="32dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:gravity="center_horizontal"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
             android:layout_alignParentStart="true"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -132,11 +138,11 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/guesses_remaining_textview"
+                android:id="@+id/remaining_guess_count_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_marginStart="4dp"
+                android:gravity="center"
                 android:text="10"
                 android:textColor="@color/textColor"
                 android:textSize="16sp" />
@@ -146,10 +152,10 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
             android:layout_alignParentEnd="true"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -171,7 +177,7 @@
 
 
         </LinearLayout>
-        </RelativeLayout>
+    </RelativeLayout>
 
     <EditText
         android:id="@+id/user_guess_edittext"
@@ -180,7 +186,7 @@
         android:layout_gravity="center"
         android:background="@color/colorAccent"
         android:focusable="false"
-        android:hint="_ _ _ _"
+        android:hint="@string/guess_hint"
         android:inputType="number"
         android:maxLength="4"
         android:paddingStart="24dp"
@@ -189,38 +195,39 @@
         android:textStyle="bold" />
 
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:layout_marginTop="40dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/zero_one_two_three_linear"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/zero_button"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="0"
+                android:text="@string/button_zero_text"
                 android:textColor="@color/textColor"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/one_button"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="1"
+                android:text="@string/button_one_text"
                 android:textColor="@color/textColor"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -228,24 +235,24 @@
 
             <Button
                 android:id="@+id/two_button"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="2"
+                android:text="@string/button_two_text"
                 android:textColor="@color/textColor"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/three_button"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="3"
+                android:text="@string/button_three_text"
                 android:textColor="@color/textColor"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -253,32 +260,35 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/four_five_six_seven_linear"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/zero_one_two_three_linear"
+            android:layout_alignParentEnd="true"
             android:layout_marginTop="16dp"
-            android:gravity="center"
+            android:layout_marginEnd="16dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/four_button"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="4"
+                android:text="@string/button_four_text"
                 android:textColor="@color/textColor"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/five_button"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="5"
+                android:text="@string/button_five_text"
                 android:textColor="@color/textColor"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -286,24 +296,24 @@
 
             <Button
                 android:id="@+id/six_button"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="6"
+                android:text="@string/button_six_text"
                 android:textColor="@color/textColor"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/seven_button"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="7"
+                android:text="@string/button_seven_text"
                 android:textColor="@color/textColor"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -313,29 +323,31 @@
 
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/four_five_six_seven_linear"
+            android:layout_alignParentEnd="true"
             android:layout_marginTop="16dp"
-            android:gravity="center"
+            android:layout_marginEnd="16dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/delete_button"
-                android:layout_width="88dp"
-                android:layout_height="80dp"
+                android:layout_width="40dp"
+                android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="Delete"
+                android:text="@string/delete_button_text"
                 android:textAllCaps="false"
                 android:textColor="@color/textColor"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/unassigned_button"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
@@ -346,13 +358,13 @@
 
 
             <Button
-                android:id="@+id/check_button"
-                android:layout_width="88dp"
-                android:layout_height="80dp"
+                android:id="@+id/guess_button"
+                android:layout_width="72dp"
+                android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="Check"
+                android:text="@string/guess_button_text"
                 android:textAllCaps="false"
                 android:textColor="@color/textColor"
                 android:textSize="24sp"
@@ -361,8 +373,18 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/previous_guesses_header_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginStart="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:layout_alignParentStart="true"
+            android:textColor="@color/textColor"
+            android:text="Previous Guesses"/>
 
-    </LinearLayout>
-
+    </RelativeLayout>
 
 </LinearLayout>
