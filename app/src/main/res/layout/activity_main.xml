@@ -141,7 +141,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
@@ -423,7 +422,6 @@
                 android:id="@+id/previous_guesses_header_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:fontFamily="@font/autour_one"
                 android:gravity="center"
                 android:paddingStart="16dp"
@@ -437,13 +435,12 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/prev_guess_recycler"
             android:layout_width="120dp"
-            android:layout_height="320dp"
+            android:layout_height="200dp"
+            android:layout_marginBottom="32dp"
             tools:listitem="@layout/prev_guesses_itemview"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/previous_guesses_header_textview"
-            app:layout_constraintRight_toLeftOf="@id/four_five_six_seven_linear"
-
-            />
+            app:layout_constraintRight_toLeftOf="@id/four_five_six_seven_linear" />
 
     </android.support.constraint.ConstraintLayout>
 
