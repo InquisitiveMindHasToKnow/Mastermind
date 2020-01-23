@@ -1,17 +1,19 @@
 package org.ohmstheresistance.mastermind.activities;
 
 import android.graphics.Color;
-import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +50,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView seventhNumberTextView;
     private TextView eighthNumberTextView;
     private TextView combinationTextView;
+
+    private ImageView personImageView;
+    private ImageView brickOne;
+    private ImageView brickTwo;
+    private ImageView brickThree;
+    private ImageView brickFour;
+    private ImageView brickFive;
+    private ImageView brickSix;
+    private ImageView brickSeven;
+    private ImageView brickEight;
+    private ImageView brickNine;
+    private ImageView brickTen;
 
     private RecyclerView prevGuessesRecyclerView;
     private PrevGuessesAdapter prevGuessesAdapter;
@@ -101,6 +115,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         eighthNumberTextView = findViewById(R.id.eighth_number_textview);
         prevGuessesRecyclerView = findViewById(R.id.prev_guess_recycler);
         combinationTextView = findViewById(R.id.combination_textview);
+
+        personImageView = findViewById(R.id.person_imageview);
+
+        brickOne = findViewById(R.id.brick_one_imageview);
+        brickTwo = findViewById(R.id.brick_two_imageview);
+        brickThree = findViewById(R.id.brick_three_imageview);
+        brickFour = findViewById(R.id.brick_four_imageview);
+        brickFive = findViewById(R.id.brick_five_imageview);
+        brickSix = findViewById(R.id.brick_six_imageview);
+        brickSeven = findViewById(R.id.brick_seven_imageview);
+        brickEight = findViewById(R.id.brick_eight_imageview);
+        brickNine = findViewById(R.id.brick_nine_imageview);
+        brickTen = findViewById(R.id.brick_ten_imageview);
 
 
         zeroButton = findViewById(R.id.zero_button);
@@ -198,10 +225,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         return;
                     }
 
-                    checkWhatToastToDisplay();
-
+                    animatePersonLinear();
 
                 } else {
+
+                    animatePersonLinear();
                     guessButton.setEnabled(false);
                     Toast.makeText(this, "You Lost!", Toast.LENGTH_SHORT).show();
                 }
@@ -216,7 +244,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prevGuessesAdapter = new PrevGuessesAdapter(prevGuessesEnteredList);
         prevGuessesRecyclerView.setAdapter(prevGuessesAdapter);
     }
-
 
     private void getRandomNumbers() {
         OkHttpClient client = new OkHttpClient();
@@ -248,20 +275,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     Log.e("RESPONSE", randomNumbersResponse);
 
-                   String[] separatedResponse = randomNumbersResponse.split("\\s+");
+                    String[] separatedResponse = randomNumbersResponse.split("\\s+");
 
                     String firstNumber = separatedResponse[0];
                     String secondNumber = separatedResponse[1];
                     String thirdNumber = separatedResponse[2];
                     String fourthNumber = separatedResponse[3];
 
-                    combination = firstNumber +secondNumber + thirdNumber + fourthNumber;
+                    combination = firstNumber + secondNumber + thirdNumber + fourthNumber;
                     combinationTextView.setText(combination);
 
-                    String[] numbers = {"0","1", "2", "3", "4", "5", "6", "7"};
+                    String[] numbers = {"0", "1", "2", "3", "4", "5", "6", "7"};
                     Collections.shuffle(Arrays.asList(numbers));
 
-                    final String[] eightDisplayedNumbers = {numbers[0], numbers[2],numbers[4], numbers[6], firstNumber, secondNumber, thirdNumber, fourthNumber};
+                    final String[] eightDisplayedNumbers = {numbers[0], numbers[2], numbers[4], numbers[6], firstNumber, secondNumber, thirdNumber, fourthNumber};
                     Collections.shuffle(Arrays.asList(eightDisplayedNumbers));
 
 
@@ -274,7 +301,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         public void run() {
 
                             firstNumberTextView.setText(eightDisplayedNumbers[5]);
-                            secondNumberTextView.setText(eightDisplayedNumbers[7]);
+                            secondNumberTextView.setText(eightDisplayedNumbers[1]);
                             thirdNumberTextView.setText(eightDisplayedNumbers[3]);
                             fourthNumberTextView.setText(eightDisplayedNumbers[0]);
                             fifthNumberTextView.setText(eightDisplayedNumbers[2]);
@@ -289,12 +316,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    private void checkWhatToastToDisplay(){
+    private void checkWhatToastToDisplay() {
 
         prevGuessesEnteredList.add(userGuessEditText.getText().toString());
         prevGuessesAdapter.setData(prevGuessesEnteredList);
 
-        if(userGuessEditText.getText().toString().equals(combination)){
+        if (userGuessEditText.getText().toString().equals(combination)) {
 
             countDownTimer.cancel();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -305,28 +332,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
-        if(combination.contains(userGuessEditText.getText().toString().substring(0, 3))){
+        if (combination.contains(userGuessEditText.getText().toString().substring(0, 3))) {
 
             Toast.makeText(this, "You guessed a correct number and its correct location!", Toast.LENGTH_SHORT).show();
             userGuessEditText.setText("");
             return;
         }
 
-        if(!combination.contains(userGuessEditText.getText().toString().substring(0, 3))){
+        if (!combination.contains(userGuessEditText.getText().toString().substring(0, 3))) {
             Toast.makeText(this, "Incorrect!", Toast.LENGTH_SHORT).show();
             userGuessEditText.setText("");
         }
 
-        int minLen = Math.min(userGuessEditText.getText().toString().length(), combination.length());
-        for (int i = 0 ; i != minLen ; i++) {
-            char chA = userGuessEditText.getText().toString().charAt(i);
-            char chB = combination.charAt(i);
-            if (chA == chB) {
-
-                Toast.makeText(this, "You guessed a correct number and its correct location!", Toast.LENGTH_SHORT).show();
-
-            }
-        }
     }
 
     private void startCountDown() {
@@ -368,10 +385,105 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private void animatePersonLinear() {
 
-    @Override
-    protected void onPause() {
-        super.onPause();
+        checkWhatToastToDisplay();
+
+        if (totalGuesses == 9) {
+            brickTen.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    brickTen.setVisibility(View.GONE);
+                }
+            }, 200);
+        }
+        if (totalGuesses == 8) {
+            brickNine.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    brickNine.setVisibility(View.GONE);
+                }
+            }, 200);
+        }
+        if (totalGuesses == 7) {
+            brickEight.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    brickEight.setVisibility(View.GONE);
+                }
+            }, 200);
+        }
+        if (totalGuesses == 6) {
+            brickSeven.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    brickSeven.setVisibility(View.GONE);
+                }
+            }, 200);
+        }
+        if (totalGuesses == 5) {
+            personImageView.setImageDrawable(getDrawable(R.drawable.nervous));
+            brickSix.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    brickSix.setVisibility(View.GONE);
+                }
+            }, 200);
+        }
+        if (totalGuesses == 4) {
+            brickFive.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    brickFive.setVisibility(View.GONE);
+                }
+            }, 200);
+        }
+        if (totalGuesses == 3) {
+            brickFour.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    brickFour.setVisibility(View.GONE);
+                }
+            }, 200);
+        }
+        if (totalGuesses == 2) {
+            brickThree.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    brickThree.setVisibility(View.GONE);
+                }
+            }, 200);        }
+        if (totalGuesses == 1) {
+            personImageView.setImageDrawable(getDrawable(R.drawable.scared));
+            brickTwo.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    brickTwo.setVisibility(View.GONE);
+                }
+            }, 200);
+        }
+        if (totalGuesses == 0) {
+
+            brickOne.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+            personImageView.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.exit_bottom));
+            brickOne.setVisibility(View.GONE);
+
+        }
+
     }
 
     @Override
