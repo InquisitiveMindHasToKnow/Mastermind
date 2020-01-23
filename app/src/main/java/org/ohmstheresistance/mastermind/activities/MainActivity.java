@@ -20,6 +20,7 @@ import org.ohmstheresistance.mastermind.rv.PrevGuessesAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView sixthNumberTextView;
     private TextView seventhNumberTextView;
     private TextView eighthNumberTextView;
+    private TextView combinationTextView;
 
     private RecyclerView prevGuessesRecyclerView;
     private PrevGuessesAdapter prevGuessesAdapter;
@@ -69,9 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private String combination;
     private String randomNumbersResponse;
-    private MediaPlayer mediaPlayer;
 
-    private List<String> combinationList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,8 +87,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setUpViews() {
 
-        combinationList = new ArrayList<>();
-
         userGuessEditText = findViewById(R.id.user_guess_edittext);
         previousGuessesHeaderTextView = findViewById(R.id.previous_guesses_header_textview);
         guessesRemainingTextView = findViewById(R.id.remaining_guess_count_textview);
@@ -102,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         seventhNumberTextView = findViewById(R.id.seventh_number_textview);
         eighthNumberTextView = findViewById(R.id.eighth_number_textview);
         prevGuessesRecyclerView = findViewById(R.id.prev_guess_recycler);
+        combinationTextView = findViewById(R.id.combination_textview);
 
 
         zeroButton = findViewById(R.id.zero_button);
@@ -180,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.unassigned_button:
 
-                playSong();
+                Toast.makeText(this, "Removed music for now", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.guess_button:
@@ -224,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         String baseOfNumbers = "10";
         String col = "1";
-        String num = "4";
+        final String num = "4";
         String minNum = "0";
         String maxNum = "7";
         String format = "plain";
@@ -251,34 +250,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                    String[] separatedResponse = randomNumbersResponse.split("\\s+");
 
-                   final String firstNumber = separatedResponse[0];
-                   final String secondNumber = separatedResponse[1];
-                   final String thirdNumber = separatedResponse[2];
-                   final String fourthNumber = separatedResponse[3];
+                    String firstNumber = separatedResponse[0];
+                    String secondNumber = separatedResponse[1];
+                    String thirdNumber = separatedResponse[2];
+                    String fourthNumber = separatedResponse[3];
 
-                    combinationList.add(0, firstNumber);
-                    combinationList.add(1, secondNumber);
-                    combinationList.add(2, thirdNumber);
-                    combinationList.add(3, fourthNumber);
-                    Collections.shuffle(combinationList);
+                    combination = firstNumber +secondNumber + thirdNumber + fourthNumber;
+                    combinationTextView.setText(combination);
 
-                    combination = combinationList.get(0) + combinationList.get(3) + combinationList.get(1) + combinationList.get(2);
+                    String[] numbers = {"0","1", "2", "3", "4", "5", "6", "7"};
+                    Collections.shuffle(Arrays.asList(numbers));
+
+                    final String[] eightDisplayedNumbers = {numbers[0], numbers[2],numbers[4], numbers[6], firstNumber, secondNumber, thirdNumber, fourthNumber};
+                    Collections.shuffle(Arrays.asList(eightDisplayedNumbers));
+
 
                     Log.e("Combination", combination);
+                    Log.e("Combination", numbers[2]);
 
 
                     MainActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
 
-                            firstNumberTextView.setText(thirdNumber);
-                            secondNumberTextView.setText(fourthNumber);
-                            thirdNumberTextView.setText(secondNumber);
-                            fourthNumberTextView.setText(firstNumber);
-                            fifthNumberTextView.setText(thirdNumber);
-                            sixthNumberTextView.setText(firstNumber);
-                            seventhNumberTextView.setText(secondNumber);
-                            eighthNumberTextView.setText(fourthNumber);
+                            firstNumberTextView.setText(eightDisplayedNumbers[5]);
+                            secondNumberTextView.setText(eightDisplayedNumbers[7]);
+                            thirdNumberTextView.setText(eightDisplayedNumbers[3]);
+                            fourthNumberTextView.setText(eightDisplayedNumbers[0]);
+                            fifthNumberTextView.setText(eightDisplayedNumbers[2]);
+                            sixthNumberTextView.setText(eightDisplayedNumbers[7]);
+                            seventhNumberTextView.setText(eightDisplayedNumbers[4]);
+                            eighthNumberTextView.setText(eightDisplayedNumbers[6]);
                         }
 
                     });
@@ -313,22 +315,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(!combination.contains(userGuessEditText.getText().toString().substring(0, 3))){
             Toast.makeText(this, "Incorrect!", Toast.LENGTH_SHORT).show();
             userGuessEditText.setText("");
-            return;
         }
-    }
 
-    private void playSong() {
+        int minLen = Math.min(userGuessEditText.getText().toString().length(), combination.length());
+        for (int i = 0 ; i != minLen ; i++) {
+            char chA = userGuessEditText.getText().toString().charAt(i);
+            char chB = combination.charAt(i);
+            if (chA == chB) {
 
-        mediaPlayer = MediaPlayer.create(this, R.raw.jeopardytheme);
-        mediaPlayer.start();
-        mediaPlayer.setLooping(true);
+                Toast.makeText(this, "You guessed a correct number and its correct location!", Toast.LENGTH_SHORT).show();
 
-        if (mediaPlayer.isPlaying()) {
-
-            unassignedButton.setEnabled(false);
-        } else {
-            unassignedButton.setEnabled(true);
-            mediaPlayer.start();
+            }
         }
     }
 
@@ -367,7 +364,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (totalGuesses == 0) {
 
             countDownTimer.cancel();
-            //mediaPlayer.stop();
         }
 
     }
@@ -376,13 +372,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onPause() {
         super.onPause();
-//        mediaPlayer.stop();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //  mediaPlayer.stop();
 
         if (countDownTimer != null) {
             countDownTimer.cancel();
