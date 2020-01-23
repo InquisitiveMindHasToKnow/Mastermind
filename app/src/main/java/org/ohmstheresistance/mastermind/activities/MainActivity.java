@@ -5,6 +5,8 @@ import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,8 +15,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ohmstheresistance.mastermind.R;
+import org.ohmstheresistance.mastermind.rv.PrevGuessesAdapter;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import okhttp3.Call;
@@ -25,7 +30,7 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final long COUNTDOWN_TIMER_IN_MILLIS = 30000;
+    private static final long COUNTDOWN_TIMER_IN_MILLIS = 60000;
 
     private EditText userGuessEditText;
     private TextView previousGuessesHeaderTextView;
@@ -40,8 +45,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView seventhNumberTextView;
     private TextView eighthNumberTextView;
 
-
-
+    private RecyclerView prevGuessesRecyclerView;
+    private PrevGuessesAdapter prevGuessesAdapter;
+    private List<String> prevGuessesEnteredList;
 
     private Button zeroButton;
     private Button oneButton;
@@ -72,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setUpViews();
         getRandomNumbers();
         startCountDown();
+        setUpRV();
     }
 
     private void setUpViews() {
@@ -88,6 +95,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sixthNumberTextView = findViewById(R.id.sixth_number_textview);
         seventhNumberTextView = findViewById(R.id.seventh_number_textview);
         eighthNumberTextView = findViewById(R.id.eighth_number_textview);
+        prevGuessesRecyclerView = findViewById(R.id.prev_guess_recycler);
+
 
         zeroButton = findViewById(R.id.zero_button);
         oneButton = findViewById(R.id.one_button);
@@ -178,21 +187,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     if (userGuessEditText.getText().toString().isEmpty()) {
                         Toast.makeText(this, "Please enter a valid entry.", Toast.LENGTH_SHORT).show();
-
                         return;
                     }
 
                     totalGuesses--;
                     guessesRemainingTextView.setText(totalGuesses + "");
 
-                } else {
+                    prevGuessesEnteredList.add(userGuessEditText.getText().toString());
+                    prevGuessesAdapter.setData(prevGuessesEnteredList);
 
+                    userGuessEditText.setText("");
+
+
+                } else {
                     guessButton.setEnabled(false);
                     Toast.makeText(this, "You Lost!", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
     }
+
+    private void setUpRV(){
+
+        prevGuessesRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        prevGuessesEnteredList = new ArrayList<>();
+        prevGuessesAdapter = new PrevGuessesAdapter(prevGuessesEnteredList);
+        prevGuessesRecyclerView.setAdapter(prevGuessesAdapter);
+    }
+
 
     private void getRandomNumbers() {
         OkHttpClient client = new OkHttpClient();
@@ -299,23 +321,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             countDownTimerTextView.setTextColor(countDownTimerTextView.getTextColors());
         }
 
-    }
+        if(totalGuesses == 0){
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mediaPlayer.stop();
-
-        if (countDownTimer != null) {
             countDownTimer.cancel();
+            //mediaPlayer.stop();
         }
 
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-        mediaPlayer.stop();
+    protected void onPause() {
+        super.onPause();
+//        mediaPlayer.stop();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //  mediaPlayer.stop();
+
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+    }
+
 }
