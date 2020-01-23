@@ -2,6 +2,7 @@ package org.ohmstheresistance.mastermind.activities;
 
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import org.ohmstheresistance.mastermind.rv.PrevGuessesAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -65,9 +67,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int totalGuesses = 10;
     private long timeLeftInMillis;
 
+    private String combination;
     private String randomNumbersResponse;
     private MediaPlayer mediaPlayer;
 
+    private List<String> combinationList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setUpViews() {
+
+        combinationList = new ArrayList<>();
 
         userGuessEditText = findViewById(R.id.user_guess_edittext);
         previousGuessesHeaderTextView = findViewById(R.id.previous_guesses_header_textview);
@@ -179,6 +185,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.guess_button:
 
+                totalGuesses--;
+                guessesRemainingTextView.setText(totalGuesses + "");
+
                 if (totalGuesses > 0) {
 
                     if (userGuessEditText.getText().toString().length() < 4 && userGuessEditText.getText().toString().length() >= 1) {
@@ -190,13 +199,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         return;
                     }
 
-                    totalGuesses--;
-                    guessesRemainingTextView.setText(totalGuesses + "");
-
-                    prevGuessesEnteredList.add(userGuessEditText.getText().toString());
-                    prevGuessesAdapter.setData(prevGuessesEnteredList);
-
-                    userGuessEditText.setText("");
+                    checkWhatToastToDisplay();
 
 
                 } else {
@@ -207,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void setUpRV(){
+    private void setUpRV() {
 
         prevGuessesRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         prevGuessesEnteredList = new ArrayList<>();
@@ -246,12 +249,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     Log.e("RESPONSE", randomNumbersResponse);
 
-                    final String[] separatedResponse = randomNumbersResponse.split("\\s+");
+                   String[] separatedResponse = randomNumbersResponse.split("\\s+");
 
-                    final String firstNumber = separatedResponse[0];
-                    final String secondNumber = separatedResponse[1];
-                    final String thirdNumber = separatedResponse[2];
-                    final String fourthNumber = separatedResponse[3];
+                   final String firstNumber = separatedResponse[0];
+                   final String secondNumber = separatedResponse[1];
+                   final String thirdNumber = separatedResponse[2];
+                   final String fourthNumber = separatedResponse[3];
+
+                    combinationList.add(0, firstNumber);
+                    combinationList.add(1, secondNumber);
+                    combinationList.add(2, thirdNumber);
+                    combinationList.add(3, fourthNumber);
+                    Collections.shuffle(combinationList);
+
+                    combination = combinationList.get(0) + combinationList.get(3) + combinationList.get(1) + combinationList.get(2);
+
+                    Log.e("Combination", combination);
+
 
                     MainActivity.this.runOnUiThread(new Runnable() {
                         @Override
@@ -273,17 +287,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    private void checkWhatToastToDisplay(){
+
+        prevGuessesEnteredList.add(userGuessEditText.getText().toString());
+        prevGuessesAdapter.setData(prevGuessesEnteredList);
+
+        if(userGuessEditText.getText().toString().equals(combination)){
+
+            countDownTimer.cancel();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                userGuessEditText.setBackgroundColor(getColor(R.color.userWonColor));
+                userGuessEditText.setText(combination);
+            }
+            Toast.makeText(this, "You won!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(combination.contains(userGuessEditText.getText().toString().substring(0, 3))){
+
+            Toast.makeText(this, "You guessed a correct number and its correct location!", Toast.LENGTH_SHORT).show();
+            userGuessEditText.setText("");
+            return;
+        }
+
+        if(!combination.contains(userGuessEditText.getText().toString().substring(0, 3))){
+            Toast.makeText(this, "Incorrect!", Toast.LENGTH_SHORT).show();
+            userGuessEditText.setText("");
+            return;
+        }
+    }
+
     private void playSong() {
 
         mediaPlayer = MediaPlayer.create(this, R.raw.jeopardytheme);
         mediaPlayer.start();
         mediaPlayer.setLooping(true);
 
-        if(mediaPlayer.isPlaying()) {
+        if (mediaPlayer.isPlaying()) {
 
             unassignedButton.setEnabled(false);
-        }
-        else {
+        } else {
             unassignedButton.setEnabled(true);
             mediaPlayer.start();
         }
@@ -321,13 +364,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             countDownTimerTextView.setTextColor(countDownTimerTextView.getTextColors());
         }
 
-        if(totalGuesses == 0){
+        if (totalGuesses == 0) {
 
             countDownTimer.cancel();
             //mediaPlayer.stop();
         }
 
     }
+
 
     @Override
     protected void onPause() {
