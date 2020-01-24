@@ -40,6 +40,7 @@ public class MainPageActivity extends AppCompatActivity {
 
                 navigationIntent = new Intent(MainPageActivity.this, MainActivity.class);
                 startActivity(navigationIntent);
+                overridePendingTransition(0, 0);
 
             }
         });

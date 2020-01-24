@@ -404,7 +404,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }, 200);
         }
         if (totalGuesses == 7) {
-            personImageView.setImageDrawable(getDrawable(R.drawable.bartjumping));
             brickEight.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
 
             new Handler().postDelayed(new Runnable() {
@@ -424,7 +423,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }, 200);
         }
         if (totalGuesses == 5) {
-            personImageView.setImageDrawable(getDrawable(R.drawable.bartscared));
+            personImageView.setImageDrawable(getDrawable(R.drawable.bartjumping));
             brickSix.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
 
             new Handler().postDelayed(new Runnable() {
@@ -445,7 +444,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }, 200);
         }
         if (totalGuesses == 3) {
-            personImageView.setImageDrawable(getDrawable(R.drawable.bartscared));
             brickFour.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -455,6 +453,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }, 200);
         }
         if (totalGuesses == 2) {
+            personImageView.setImageDrawable(getDrawable(R.drawable.bartscared));
             brickThree.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -490,4 +489,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        overridePendingTransition(0, 0);
+    }
 }
