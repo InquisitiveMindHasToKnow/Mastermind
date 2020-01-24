@@ -36,6 +36,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final long COUNTDOWN_TIMER_IN_MILLIS = 60000;
+    public static final String COMBO = "combo";
 
     private EditText userGuessEditText;
     private TextView guessesRemainingTextView;
@@ -87,9 +88,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String combination;
     private String randomNumbersResponse;
 
-    private int guessCount = 0;
-
     LinearLayoutManager linearLayoutManager;
+
+    private List<String> comboList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,8 +165,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         linearLayoutManager = new LinearLayoutManager(this);
         prevGuessesRecyclerView.setLayoutManager(linearLayoutManager);
         prevGuessesEnteredList = new ArrayList<>();
-        prevGuessesAdapter = new PrevGuessesAdapter(prevGuessesEnteredList);
+        prevGuessesAdapter = new PrevGuessesAdapter(prevGuessesEnteredList, comboList);
         prevGuessesRecyclerView.setAdapter(prevGuessesAdapter);
+
+        comboList = new ArrayList<>();
 
     }
 
@@ -292,6 +296,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     String fourthNumber = separatedResponse[3];
 
                     combination = firstNumber + secondNumber + thirdNumber + fourthNumber;
+
+                    comboList.add(combination);
+                    Log.d("FORIMAGE", String.valueOf(comboList).substring(1, 5));
+                    Log.d("FORIMAGE2", String.valueOf(comboList).substring(1));
+                    Log.d("FORIMAGE3", String.valueOf(comboList).substring(2));
+
                     combinationTextView.setText(combination);
 
                     String[] numbers = {"0", "1", "2", "3", "4", "5", "6", "7"};
@@ -327,6 +337,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void checkWhatToastToDisplay() {
 
+        prevGuessesAdapter.setComboInfo(comboList);
         prevGuessesEnteredList.add(userGuessEditText.getText().toString());
         prevGuessesAdapter.setData(prevGuessesEnteredList);
 
@@ -341,7 +352,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 userGuessEditText.setBackgroundColor(getColor(R.color.userWonColor));
                 userGuessEditText.setText(combination);
-
 
             }
             Toast.makeText(this, "You won!", Toast.LENGTH_SHORT).show();
@@ -358,6 +368,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.e("CMONUSER2and3", secondAndThirdNumbers );
             Log.e("CMONUSER2", secondNumber );
             Log.e("CMONUSER3", thirdNumber );
+
             Toast.makeText(this, "You guessed a correct number and its correct location!", Toast.LENGTH_SHORT).show();
             userGuessEditText.setText("");
 
@@ -511,6 +522,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             personImageView.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.exit_bottom));
             brickOne.setVisibility(View.INVISIBLE);
 
+            guessButton.setEnabled(false);
+            deleteButton.setEnabled(false);
         }
 
     }
