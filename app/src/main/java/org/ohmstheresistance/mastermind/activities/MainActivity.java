@@ -36,7 +36,6 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final long COUNTDOWN_TIMER_IN_MILLIS = 60000;
-    public static final String COMBO = "combo";
 
     private EditText userGuessEditText;
     private TextView guessesRemainingTextView;
@@ -298,10 +297,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     combination = firstNumber + secondNumber + thirdNumber + fourthNumber;
 
                     comboList.add(combination);
-                    Log.d("FORIMAGE", String.valueOf(comboList).substring(1, 5));
-                    Log.d("FORIMAGE2", String.valueOf(comboList).substring(1));
-                    Log.d("FORIMAGE3", String.valueOf(comboList).substring(2));
-
                     combinationTextView.setText(combination);
 
                     String[] numbers = {"0", "1", "2", "3", "4", "5", "6", "7"};
@@ -362,12 +357,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String.valueOf(combination.charAt(1)).matches(secondNumber)||
                 String.valueOf(combination.charAt(2)).matches(thirdNumber) ||
                         combination.endsWith((userGuessEditText.getText().toString().substring(3))))) {
-
-            Log.e("CMONCOM",  String.valueOf(combination.charAt(2)));
-
-            Log.e("CMONUSER2and3", secondAndThirdNumbers );
-            Log.e("CMONUSER2", secondNumber );
-            Log.e("CMONUSER3", thirdNumber );
 
             Toast.makeText(this, "You guessed a correct number and its correct location!", Toast.LENGTH_SHORT).show();
             userGuessEditText.setText("");
