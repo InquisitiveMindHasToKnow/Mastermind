@@ -16,7 +16,7 @@ public class MainPageActivity extends AppCompatActivity {
 
     private TextView greetingTextView;
     private Button playNowButton;
-    private Button rulesButton;
+    private Button instructionsButton;
     private Intent navigationIntent;
 
     @Override
@@ -32,7 +32,7 @@ public class MainPageActivity extends AppCompatActivity {
 
         greetingTextView = findViewById(R.id.greeting_textview);
         playNowButton = findViewById(R.id.play_now_button);
-        rulesButton = findViewById(R.id.rules_button);
+        instructionsButton = findViewById(R.id.instructions_button);
 
         playNowButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,13 +45,12 @@ public class MainPageActivity extends AppCompatActivity {
             }
         });
 
-        rulesButton.setOnClickListener(new View.OnClickListener() {
+        instructionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MastermindInstructions dialog = new MastermindInstructions();
+                dialog.show(getSupportFragmentManager(), "MyCustomDialog");
 
-//                navigationIntent = new Intent(MainPageActivity.this, GameRules.class);
-//                startActivity(navigationIntent);
-                Toast.makeText(MainPageActivity.this, "Game Rules", Toast.LENGTH_SHORT).show();
             }
         });
 
