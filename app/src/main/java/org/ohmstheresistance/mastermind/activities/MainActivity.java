@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final long COUNTDOWN_TIMER_IN_MILLIS = 60000;
 
     private EditText userGuessEditText;
-    private TextView previousGuessesHeaderTextView;
     private TextView guessesRemainingTextView;
+    private TextView previousGuessesHeaderTextView;
     private TextView countDownTimerTextView;
     private TextView firstNumberTextView;
     private TextView secondNumberTextView;
@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setUpViews();
         getRandomNumbers();
         startCountDown();
-        setUpRV();
     }
 
     private void setUpViews() {
@@ -153,6 +152,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         deleteButton.setOnClickListener(this);
         guessButton.setOnClickListener(this);
         unassignedButton.setOnClickListener(this);
+
+        prevGuessesRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        prevGuessesEnteredList = new ArrayList<>();
+        prevGuessesAdapter = new PrevGuessesAdapter(prevGuessesEnteredList);
+        prevGuessesRecyclerView.setAdapter(prevGuessesAdapter);
 
     }
 
@@ -211,9 +215,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.guess_button:
 
-                totalGuesses--;
-                guessesRemainingTextView.setText(totalGuesses + "");
-
                 if (totalGuesses > 0) {
 
                     if (userGuessEditText.getText().toString().length() < 4 && userGuessEditText.getText().toString().length() >= 1) {
@@ -224,7 +225,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Toast.makeText(this, "Please enter a valid entry.", Toast.LENGTH_SHORT).show();
                         return;
                     }
-
+                    totalGuesses--;
+                    guessesRemainingTextView.setText(totalGuesses + "");
                     animatePersonLinear();
 
                 } else {
@@ -235,14 +237,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
         }
-    }
-
-    private void setUpRV() {
-
-        prevGuessesRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        prevGuessesEnteredList = new ArrayList<>();
-        prevGuessesAdapter = new PrevGuessesAdapter(prevGuessesEnteredList);
-        prevGuessesRecyclerView.setAdapter(prevGuessesAdapter);
     }
 
     private void getRandomNumbers() {
@@ -322,8 +316,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prevGuessesAdapter.setData(prevGuessesEnteredList);
 
         if (userGuessEditText.getText().toString().equals(combination)) {
-
             countDownTimer.cancel();
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 userGuessEditText.setBackgroundColor(getColor(R.color.userWonColor));
                 userGuessEditText.setText(combination);
@@ -372,7 +366,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
         countDownTimerTextView.setText(formattedTime);
 
-        if (timeLeftInMillis < 5000) {
+        if (timeLeftInMillis < 15000) {
             countDownTimerTextView.setTextColor(Color.RED);
         } else {
             countDownTimerTextView.setTextColor(countDownTimerTextView.getTextColors());
@@ -395,7 +389,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    brickTen.setVisibility(View.GONE);
+                    brickTen.setVisibility(View.INVISIBLE);
                 }
             }, 200);
         }
@@ -405,17 +399,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    brickNine.setVisibility(View.GONE);
+                    brickNine.setVisibility(View.INVISIBLE);
                 }
             }, 200);
         }
         if (totalGuesses == 7) {
+            personImageView.setImageDrawable(getDrawable(R.drawable.bartjumping));
             brickEight.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
 
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    brickEight.setVisibility(View.GONE);
+                    brickEight.setVisibility(View.INVISIBLE);
                 }
             }, 200);
         }
@@ -424,18 +419,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    brickSeven.setVisibility(View.GONE);
+                    brickSeven.setVisibility(View.INVISIBLE);
                 }
             }, 200);
         }
         if (totalGuesses == 5) {
-            personImageView.setImageDrawable(getDrawable(R.drawable.nervous));
+            personImageView.setImageDrawable(getDrawable(R.drawable.bartscared));
             brickSix.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
 
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    brickSix.setVisibility(View.GONE);
+                    brickSix.setVisibility(View.INVISIBLE);
                 }
             }, 200);
         }
@@ -445,16 +440,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    brickFive.setVisibility(View.GONE);
+                    brickFive.setVisibility(View.INVISIBLE);
                 }
             }, 200);
         }
         if (totalGuesses == 3) {
+            personImageView.setImageDrawable(getDrawable(R.drawable.bartscared));
             brickFour.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    brickFour.setVisibility(View.GONE);
+                    brickFour.setVisibility(View.INVISIBLE);
                 }
             }, 200);
         }
@@ -463,24 +459,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    brickThree.setVisibility(View.GONE);
+                    brickThree.setVisibility(View.INVISIBLE);
                 }
             }, 200);        }
         if (totalGuesses == 1) {
-            personImageView.setImageDrawable(getDrawable(R.drawable.scared));
             brickTwo.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    brickTwo.setVisibility(View.GONE);
+                    brickTwo.setVisibility(View.INVISIBLE);
                 }
             }, 200);
         }
         if (totalGuesses == 0) {
-
+            personImageView.setImageDrawable(getDrawable(R.drawable.bartfalling));
             brickOne.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
             personImageView.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.exit_bottom));
-            brickOne.setVisibility(View.GONE);
+            brickOne.setVisibility(View.INVISIBLE);
 
         }
 
