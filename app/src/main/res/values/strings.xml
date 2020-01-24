@@ -20,4 +20,5 @@
     <string name="button_seven_text">7</string>
     <string name="delete_button_text">Del</string>
     <string name="guess_button_text">Guess</string>
+    <string name="reset_button_text">Reset</string>
 </resources>

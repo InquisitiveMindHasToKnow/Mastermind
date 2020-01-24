@@ -76,7 +76,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button sixButton;
     private Button sevenButton;
     private Button deleteButton;
-    private Button unassignedButton;
+    private Button resetButton;
+    private Button hintButton;
     private Button guessButton;
 
     private CountDownTimer countDownTimer;
@@ -85,6 +86,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private String combination;
     private String randomNumbersResponse;
+
+    private int guessCount = 0;
+
+    LinearLayoutManager linearLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         eighthNumberTextView = findViewById(R.id.eighth_number_textview);
         prevGuessesRecyclerView = findViewById(R.id.prev_guess_recycler);
         combinationTextView = findViewById(R.id.combination_textview);
+        resetButton = findViewById(R.id.reset_button);
 
         personImageView = findViewById(R.id.person_imageview);
 
@@ -138,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sixButton = findViewById(R.id.six_button);
         sevenButton = findViewById(R.id.seven_button);
         deleteButton = findViewById(R.id.delete_button);
-        unassignedButton = findViewById(R.id.unassigned_button);
+        hintButton = findViewById(R.id.hint_button);
         guessButton = findViewById(R.id.guess_button);
 
         zeroButton.setOnClickListener(this);
@@ -151,9 +157,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sevenButton.setOnClickListener(this);
         deleteButton.setOnClickListener(this);
         guessButton.setOnClickListener(this);
-        unassignedButton.setOnClickListener(this);
+        hintButton.setOnClickListener(this);
+        resetButton.setOnClickListener(this);
 
-        prevGuessesRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        linearLayoutManager = new LinearLayoutManager(this);
+        prevGuessesRecyclerView.setLayoutManager(linearLayoutManager);
         prevGuessesEnteredList = new ArrayList<>();
         prevGuessesAdapter = new PrevGuessesAdapter(prevGuessesEnteredList);
         prevGuessesRecyclerView.setAdapter(prevGuessesAdapter);
@@ -208,9 +216,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
 
-            case R.id.unassigned_button:
+            case R.id.hint_button:
 
-                Toast.makeText(this, "Removed music for now", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "No hints available yet.", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.reset_button:
+
+                Toast.makeText(this, "Reset has not been implemented yet.", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.guess_button:
@@ -225,8 +238,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Toast.makeText(this, "Please enter a valid entry.", Toast.LENGTH_SHORT).show();
                         return;
                     }
+
                     totalGuesses--;
                     guessesRemainingTextView.setText(totalGuesses + "");
+
                     animatePersonLinear();
 
                 } else {
@@ -315,25 +330,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prevGuessesEnteredList.add(userGuessEditText.getText().toString());
         prevGuessesAdapter.setData(prevGuessesEnteredList);
 
+        String secondAndThirdNumbers = userGuessEditText.getText().toString().substring(1);
+        String secondNumber = String.valueOf(secondAndThirdNumbers.charAt(0));
+        String thirdNumber = String.valueOf(secondAndThirdNumbers.charAt(1));
+
+
         if (userGuessEditText.getText().toString().equals(combination)) {
             countDownTimer.cancel();
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 userGuessEditText.setBackgroundColor(getColor(R.color.userWonColor));
                 userGuessEditText.setText(combination);
+
+
             }
             Toast.makeText(this, "You won!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (combination.contains(userGuessEditText.getText().toString().substring(0, 3))) {
+        if ((combination.startsWith(String.valueOf(userGuessEditText.getText().toString().charAt(0))) ||
+                String.valueOf(combination.charAt(1)).matches(secondNumber)||
+                String.valueOf(combination.charAt(2)).matches(thirdNumber) ||
+                        combination.endsWith((userGuessEditText.getText().toString().substring(3))))) {
 
+            Log.e("CMONCOM",  String.valueOf(combination.charAt(2)));
+
+            Log.e("CMONUSER2and3", secondAndThirdNumbers );
+            Log.e("CMONUSER2", secondNumber );
+            Log.e("CMONUSER3", thirdNumber );
             Toast.makeText(this, "You guessed a correct number and its correct location!", Toast.LENGTH_SHORT).show();
             userGuessEditText.setText("");
+
             return;
         }
 
-        if (!combination.contains(userGuessEditText.getText().toString().substring(0, 3))) {
+        if (!(combination.startsWith(String.valueOf(userGuessEditText.getText().toString().charAt(0))) ||
+                String.valueOf(combination.charAt(1)).matches(secondNumber)||
+                String.valueOf(combination.charAt(2)).matches(thirdNumber) ||
+                combination.endsWith((userGuessEditText.getText().toString().substring(3))))) {
+
             Toast.makeText(this, "Incorrect!", Toast.LENGTH_SHORT).show();
             userGuessEditText.setText("");
         }
