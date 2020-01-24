@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.hint_button:
 
-                Toast.makeText(this, "No hints available yet.", Toast.LENGTH_SHORT).show();
+                pickAHintToDisplay();
                 break;
 
             case R.id.reset_button:
@@ -515,6 +515,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             deleteButton.setEnabled(false);
         }
 
+    }
+
+    private void pickAHintToDisplay(){
+
+        String[] hints = {"There is no chance the number to guess is negative.", "The combination is 4 digit long.", "At least one of the numbers above is in the combo.",
+                "You have " + totalGuesses + " remaining!", "You have " +countDownTimerTextView.getText().toString()+ " left!" };
+
+        Collections.shuffle(Arrays.asList(hints));
+        String displayHint = hints[2];
+
+        Toast.makeText(this, displayHint, Toast.LENGTH_SHORT).show();
     }
 
     @Override
