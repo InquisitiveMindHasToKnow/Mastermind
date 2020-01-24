@@ -12,9 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:background="#FFF"
-        android:paddingTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="16dp">
 
         <ImageView
             android:id="@+id/person_imageview"
@@ -27,71 +26,61 @@
             android:id="@+id/brick_one_imageview"
             android:layout_width="240dp"
             android:layout_height="4dp"
-            android:src="@drawable/bricks"
-            />
+            android:src="@drawable/bricks" />
 
         <ImageView
             android:id="@+id/brick_two_imageview"
             android:layout_width="240dp"
             android:layout_height="4dp"
-            android:src="@drawable/bricks"
-            />
+            android:src="@drawable/bricks" />
 
         <ImageView
             android:id="@+id/brick_three_imageview"
             android:layout_width="240dp"
             android:layout_height="4dp"
-            android:src="@drawable/bricks"
-            />
+            android:src="@drawable/bricks" />
 
         <ImageView
             android:id="@+id/brick_four_imageview"
             android:layout_width="240dp"
             android:layout_height="4dp"
-            android:src="@drawable/bricks"
-            />
+            android:src="@drawable/bricks" />
 
         <ImageView
             android:id="@+id/brick_five_imageview"
             android:layout_width="240dp"
             android:layout_height="4dp"
-            android:src="@drawable/bricks"
-            />
+            android:src="@drawable/bricks" />
 
         <ImageView
             android:id="@+id/brick_six_imageview"
             android:layout_width="240dp"
             android:layout_height="4dp"
-            android:src="@drawable/bricks"
-            />
+            android:src="@drawable/bricks" />
 
         <ImageView
             android:id="@+id/brick_seven_imageview"
             android:layout_width="240dp"
             android:layout_height="4dp"
-            android:src="@drawable/bricks"
-            />
+            android:src="@drawable/bricks" />
 
         <ImageView
             android:id="@+id/brick_eight_imageview"
             android:layout_width="240dp"
             android:layout_height="4dp"
-            android:src="@drawable/bricks"
-            />
+            android:src="@drawable/bricks" />
 
         <ImageView
             android:id="@+id/brick_nine_imageview"
             android:layout_width="240dp"
             android:layout_height="4dp"
-            android:src="@drawable/bricks"
-            />
+            android:src="@drawable/bricks" />
 
         <ImageView
             android:id="@+id/brick_ten_imageview"
             android:layout_width="240dp"
             android:layout_height="4dp"
-            android:src="@drawable/bricks"
-            />
+            android:src="@drawable/bricks" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -101,11 +90,80 @@
                 android:id="@+id/brick_eleven_imageview"
                 android:layout_width="match_parent"
                 android:layout_height="16dp"
-                android:src="@drawable/water"
-                />
+                android:src="@drawable/water" />
 
         </LinearLayout>
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/autour_one"
+                android:text="Guesses:"
+                android:textColor="@color/textColor"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/remaining_guess_count_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:fontFamily="@font/autour_one"
+                android:gravity="center"
+                android:text="10"
+                android:textColor="@color/textColor"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/autour_one"
+                android:text="Time:"
+                android:textColor="@color/textColor"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/countdown_timer_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:fontFamily="@font/autour_one"
+                android:gravity="center"
+                android:text="00:30"
+                android:textColor="@color/textColor"
+                android:textSize="16sp" />
+
+
+        </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/numbers_selected_textview"
@@ -224,110 +282,11 @@
     </LinearLayout>
 
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:orientation="horizontal"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/autour_one"
-                android:text="Guesses:"
-                android:textColor="@color/textColor"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/remaining_guess_count_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:fontFamily="@font/autour_one"
-                android:gravity="center"
-                android:text="10"
-                android:textColor="@color/textColor"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:orientation="horizontal"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:fontFamily="@font/autour_one"
-                android:text="Time:"
-                android:textColor="@color/textColor"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/countdown_timer_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:fontFamily="@font/autour_one"
-                android:gravity="center"
-                android:text="00:30"
-                android:textColor="@color/textColor"
-                android:textSize="16sp" />
-
-
-        </LinearLayout>
-    </RelativeLayout>
-
-    <EditText
-        android:id="@+id/user_guess_edittext"
-        android:layout_width="wrap_content"
-        android:layout_height="64dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:background="@color/colorAccent"
-        android:focusable="false"
-        android:fontFamily="@font/autour_one"
-        android:hint="@string/guess_hint"
-        android:inputType="number"
-        android:maxLength="4"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="32sp"
-        android:textStyle="bold" />
-
-
-    <TextView
-        android:id="@+id/combination_textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:text="6 4 2 0"
-        android:textColor="@color/textColor"/>
-
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:layout_marginTop="24dp">
+        android:layout_height="180dp"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -345,8 +304,7 @@
                 android:text="Previous Guesses"
                 android:textColor="@color/textColor"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/prev_guess_recycler"
@@ -358,195 +316,267 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/edit_text_and_combinnation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/user_guess_edittext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="64dp"
+                    android:layout_gravity="center"
+                    android:background="@color/colorAccent"
+                    android:focusable="false"
+                    android:fontFamily="@font/autour_one"
+                    android:gravity="center"
+                    android:hint="@string/guess_hint"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="32sp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/combination_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="6 4 2 0"
+                    android:textColor="@color/textColor"
+                    android:textSize="20sp" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center">
+
+        <LinearLayout
             android:id="@+id/entry_button_linear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/zero_one_two_three_linear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="4dp"
-            android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/zero_one_two_three_linear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/zero_button"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/colorPrimary"
-                android:fontFamily="@font/autour_one"
-                android:gravity="center"
-                android:text="@string/button_zero_text"
-                android:textColor="@color/textColor"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                <Button
+                    android:id="@+id/zero_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/colorPrimary"
+                    android:fontFamily="@font/autour_one"
+                    android:gravity="center"
+                    android:text="@string/button_zero_text"
+                    android:textColor="@color/textColor"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/one_button"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/colorPrimary"
-                android:fontFamily="@font/autour_one"
-                android:gravity="center"
-                android:text="@string/button_one_text"
-                android:textColor="@color/textColor"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                <Button
+                    android:id="@+id/one_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/colorPrimary"
+                    android:fontFamily="@font/autour_one"
+                    android:gravity="center"
+                    android:text="@string/button_one_text"
+                    android:textColor="@color/textColor"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
 
-            <Button
-                android:id="@+id/two_button"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/colorPrimary"
-                android:fontFamily="@font/autour_one"
-                android:gravity="center"
-                android:text="@string/button_two_text"
-                android:textColor="@color/textColor"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                <Button
+                    android:id="@+id/two_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/colorPrimary"
+                    android:fontFamily="@font/autour_one"
+                    android:gravity="center"
+                    android:text="@string/button_two_text"
+                    android:textColor="@color/textColor"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/three_button"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/colorPrimary"
-                android:fontFamily="@font/autour_one"
-                android:gravity="center"
-                android:text="@string/button_three_text"
-                android:textColor="@color/textColor"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                <Button
+                    android:id="@+id/three_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@color/colorPrimary"
+                    android:fontFamily="@font/autour_one"
+                    android:gravity="center"
+                    android:text="@string/button_three_text"
+                    android:textColor="@color/textColor"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/four_five_six_seven_linear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="4dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/four_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/colorPrimary"
+                    android:fontFamily="@font/autour_one"
+                    android:gravity="center"
+                    android:text="@string/button_four_text"
+                    android:textColor="@color/textColor"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+
+                <Button
+                    android:id="@+id/five_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/colorPrimary"
+                    android:fontFamily="@font/autour_one"
+                    android:gravity="center"
+                    android:text="@string/button_five_text"
+                    android:textColor="@color/textColor"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+
+                <Button
+                    android:id="@+id/six_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/colorPrimary"
+                    android:fontFamily="@font/autour_one"
+                    android:gravity="center"
+                    android:text="@string/button_six_text"
+                    android:textColor="@color/textColor"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/seven_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@color/colorPrimary"
+                    android:fontFamily="@font/autour_one"
+                    android:gravity="center"
+                    android:text="@string/button_seven_text"
+                    android:textColor="@color/textColor"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/del_sound_guess_linear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="4dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/delete_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/colorPrimary"
+                    android:fontFamily="@font/autour_one"
+                    android:gravity="center"
+                    android:text="@string/delete_button_text"
+                    android:textAllCaps="false"
+                    android:textColor="@color/textColor"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/hint_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="Hint"
+                    android:textAllCaps="false"
+                    android:gravity="center"
+                    android:background="@color/colorPrimary"
+                    android:textColor="@color/textColor"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+
+                <Button
+
+                    android:id="@+id/reset_button"
+                    android:layout_width="80dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="16dp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/textColor"
+                    android:text="@string/reset_button_text"
+                    android:background="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/four_five_six_seven_linear"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="4dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/four_button"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/colorPrimary"
-                android:fontFamily="@font/autour_one"
-                android:gravity="center"
-                android:text="@string/button_four_text"
-                android:textColor="@color/textColor"
-                android:textSize="24sp"
-                android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/five_button"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/colorPrimary"
-                android:fontFamily="@font/autour_one"
-                android:gravity="center"
-                android:text="@string/button_five_text"
-                android:textColor="@color/textColor"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-
-            <Button
-                android:id="@+id/six_button"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/colorPrimary"
-                android:fontFamily="@font/autour_one"
-                android:gravity="center"
-                android:text="@string/button_six_text"
-                android:textColor="@color/textColor"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/seven_button"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/colorPrimary"
-                android:fontFamily="@font/autour_one"
-                android:gravity="center"
-                android:text="@string/button_seven_text"
-                android:textColor="@color/textColor"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/del_sound_guess_linear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="4dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/delete_button"
-                android:layout_width="40dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/colorPrimary"
-                android:fontFamily="@font/autour_one"
-                android:gravity="center"
-                android:text="@string/delete_button_text"
-                android:textAllCaps="false"
-                android:textColor="@color/textColor"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/unassigned_button"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/play_song_speaker"
-                android:backgroundTint="@android:color/white"
-                android:gravity="center"
-                android:textColor="@color/textColor"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-
-            <Button
                 android:id="@+id/guess_button"
-                android:layout_width="72dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@color/colorPrimary"
                 android:fontFamily="@font/autour_one"
                 android:gravity="center"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:text="@string/guess_button_text"
                 android:textAllCaps="false"
                 android:textColor="@color/textColor"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
+                android:textSize="24sp"
+                android:textStyle="bold"
+                 />
 
         </LinearLayout>
-        </LinearLayout>
-
     </LinearLayout>
-
 </LinearLayout>
