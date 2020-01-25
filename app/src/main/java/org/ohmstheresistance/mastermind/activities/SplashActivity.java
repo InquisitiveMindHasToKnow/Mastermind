@@ -15,7 +15,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private static int SPLASH_SCREEN_TIMER = 2000;
 
-    private Button splashButtonSeven, splashButtonThree, splashButtonFive, splashButtonOne;
+    private Button splashButtonSeven, splashButtonThree, splashButtonFive, splashButtonZero;
 
     private EditText splashScreenEditText;
     private ImageView splashCheckMarkImageView;
@@ -35,42 +35,39 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                splashButtonSeven.setBackgroundColor(getResources().getColor(R.color.splashButtonBackgroundColor));
+                splashButtonSeven.setBackground(getDrawable(R.drawable.pressed_rounded_button));
                 splashScreenEditText.append("7");
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
 
-                        splashButtonThree.setBackgroundColor(getResources().getColor(R.color.splashButtonBackgroundColor));
-                        splashButtonSeven.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-
-                        splashScreenEditText.append("3");
+                        splashButtonSeven.setBackground(getDrawable(R.drawable.rounded_button_corners));
+                        splashButtonZero.setBackground(getDrawable(R.drawable.pressed_rounded_button));
+                        splashScreenEditText.append("0");
 
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
 
-                                splashButtonFive.setBackgroundColor(getResources().getColor(R.color.splashButtonBackgroundColor));
-                                splashButtonThree.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-
+                                splashButtonZero.setBackground(getDrawable(R.drawable.rounded_button_corners));
+                                splashButtonFive.setBackground(getDrawable(R.drawable.pressed_rounded_button));
                                 splashScreenEditText.append("5");
-
 
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
 
-                                        splashButtonOne.setBackgroundColor(getResources().getColor(R.color.splashButtonBackgroundColor));
-                                        splashButtonFive.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                                        splashScreenEditText.append("1");
+                                        splashButtonFive.setBackground(getDrawable(R.drawable.rounded_button_corners));
+                                        splashButtonThree.setBackground(getDrawable(R.drawable.pressed_rounded_button));
+                                        splashScreenEditText.append("0");
 
 
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
 
-                                                splashButtonOne.setBackgroundColor(getResources().getColor(R.color.splashButtonBackgroundColor));
+                                                splashButtonThree.setBackground(getDrawable(R.drawable.rounded_button_corners));
                                                 splashCheckMarkImageView.setVisibility(View.VISIBLE);
 
                                             }
@@ -111,7 +108,8 @@ public class SplashActivity extends AppCompatActivity {
         splashButtonSeven = findViewById(R.id.splash_seven_button);
         splashButtonFive = findViewById(R.id.splash_five_button);
         splashButtonThree = findViewById(R.id.splash_three_button);
-        splashButtonOne = findViewById(R.id.splash_one_button);
+        splashButtonZero = findViewById(R.id.splash_zero_button);
 
     }
+
 }

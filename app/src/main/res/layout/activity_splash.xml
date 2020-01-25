@@ -12,17 +12,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/autour_one"
-        android:layout_marginTop="24dp"
-        android:textSize="40sp"
         android:padding="8dp"
         android:text="@string/mastermind_header_text"
         android:textAlignment="center"
         android:textColor="@color/textColor"
-        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="40sp"
         app:layout_constraintBottom_toTopOf="@id/splash_numbers_to_choose_from_linear"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <LinearLayout
@@ -100,6 +99,7 @@
             android:textColor="@color/textColor"
             android:textSize="24sp"
             android:textStyle="bold" />
+
         <TextView
             android:id="@+id/splash_fifth_number_textview"
             android:layout_width="32dp"
@@ -141,41 +141,39 @@
             android:textStyle="bold" />
 
 
-
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/edittext_and_correct_linear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:gravity="center_horizontal"
-        app:layout_constraintTop_toBottomOf="@id/splash_numbers_to_choose_from_linear"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/splash_button_linear"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/splash_numbers_to_choose_from_linear">
 
-    <EditText
-        android:id="@+id/splash_edittext"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="40dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:textSize="48sp"
-        android:gravity="center"
-        android:textColor="@color/colorPrimaryDark"
-        android:background="@color/colorAccent"
-        />
+        <EditText
+            android:id="@+id/splash_edittext"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/colorAccent"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="48sp" />
 
         <ImageView
             android:id="@+id/splash_checkmark"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:visibility="invisible"
             android:layout_gravity="center"
-            android:src="@drawable/correct"/>
+            android:src="@drawable/correct"
+            android:visibility="invisible" />
 
     </LinearLayout>
 
@@ -184,138 +182,138 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:orientation="vertical">
+        app:layout_constraintRight_toRightOf="parent">
 
 
-            <LinearLayout
-                android:id="@+id/splash_zero_one_two_three_linear"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+        <LinearLayout
+            android:id="@+id/splash_zero_one_two_three_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/splash_zero_button"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/rounded_button_corners"
+                android:fontFamily="@font/autour_one"
+                android:gravity="center"
+                android:text="@string/button_zero_text"
+                android:textColor="@color/textColor"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/splash_one_button"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/rounded_button_corners"
+                android:fontFamily="@font/autour_one"
+                android:gravity="center"
+                android:text="@string/button_one_text"
+                android:textColor="@color/textColor"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+
+            <Button
+                android:id="@+id/splash_two_button"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/rounded_button_corners"
+                android:fontFamily="@font/autour_one"
+                android:gravity="center"
+                android:text="@string/button_two_text"
+                android:textColor="@color/textColor"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/splash_three_button"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:layout_marginEnd="4dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/splash_zero_button"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@color/colorPrimary"
-                    android:fontFamily="@font/autour_one"
-                    android:gravity="center"
-                    android:text="@string/button_zero_text"
-                    android:textColor="@color/textColor"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/splash_one_button"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@color/colorPrimary"
-                    android:fontFamily="@font/autour_one"
-                    android:gravity="center"
-                    android:text="@string/button_one_text"
-                    android:textColor="@color/textColor"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
+                android:background="@drawable/rounded_button_corners"
+                android:fontFamily="@font/autour_one"
+                android:gravity="center"
+                android:text="@string/button_three_text"
+                android:textColor="@color/textColor"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
 
-                <Button
-                    android:id="@+id/splash_two_button"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@color/colorPrimary"
-                    android:fontFamily="@font/autour_one"
-                    android:gravity="center"
-                    android:text="@string/button_two_text"
-                    android:textColor="@color/textColor"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/splash_three_button"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginEnd="4dp"
-                    android:background="@color/colorPrimary"
-                    android:fontFamily="@font/autour_one"
-                    android:gravity="center"
-                    android:text="@string/button_three_text"
-                    android:textColor="@color/textColor"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/splash_four_five_six_seven_linear"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="4dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/splash_four_button"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@color/colorPrimary"
-                    android:fontFamily="@font/autour_one"
-                    android:gravity="center"
-                    android:text="@string/button_four_text"
-                    android:textColor="@color/textColor"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-
-
-                <Button
-                    android:id="@+id/splash_five_button"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@color/colorPrimary"
-                    android:fontFamily="@font/autour_one"
-                    android:gravity="center"
-                    android:text="@string/button_five_text"
-                    android:textColor="@color/textColor"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-
-
-                <Button
-                    android:id="@+id/splash_six_button"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@color/colorPrimary"
-                    android:fontFamily="@font/autour_one"
-                    android:gravity="center"
-                    android:text="@string/button_six_text"
-                    android:textColor="@color/textColor"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/splash_seven_button"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginEnd="4dp"
-                    android:background="@color/colorPrimary"
-                    android:fontFamily="@font/autour_one"
-                    android:gravity="center"
-                    android:text="@string/button_seven_text"
-                    android:textColor="@color/textColor"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/splash_four_five_six_seven_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/splash_four_button"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/rounded_button_corners"
+                android:fontFamily="@font/autour_one"
+                android:gravity="center"
+                android:text="@string/button_four_text"
+                android:textColor="@color/textColor"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+
+            <Button
+                android:id="@+id/splash_five_button"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/rounded_button_corners"
+                android:fontFamily="@font/autour_one"
+                android:gravity="center"
+                android:text="@string/button_five_text"
+                android:textColor="@color/textColor"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+
+            <Button
+                android:id="@+id/splash_six_button"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/rounded_button_corners"
+                android:fontFamily="@font/autour_one"
+                android:gravity="center"
+                android:text="@string/button_six_text"
+                android:textColor="@color/textColor"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/splash_seven_button"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/rounded_button_corners"
+                android:fontFamily="@font/autour_one"
+                android:gravity="center"
+                android:text="@string/button_seven_text"
+                android:textColor="@color/textColor"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
