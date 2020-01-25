@@ -246,19 +246,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (userGuessEditText.getText().toString().length() < 4 && userGuessEditText.getText().toString().length() >= 1) {
 
                         feedBackTextView.setText(getResources().getText(R.string.enter_four_digits));
+                        return;
                     }
 
                     if (userGuessEditText.getText().toString().isEmpty()) {
                         feedBackTextView.setText(getResources().getText(R.string.enter_valid_entry));
-
+                        return;
                     }
 
                     totalGuesses--;
                     guessesRemainingTextView.setText(totalGuesses + "");
-
-                    animatePersonLinear();
-
-                } else {
 
                     animatePersonLinear();
                 }
@@ -375,12 +372,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             countDownTimer.cancel();
 
             userWon();
+
         }
 
         if ((combination.startsWith(String.valueOf(userGuessEditText.getText().toString().charAt(0))) ||
                 String.valueOf(combination.charAt(1)).matches(secondNumber) ||
                 String.valueOf(combination.charAt(2)).matches(thirdNumber) ||
-                combination.endsWith((userGuessEditText.getText().toString().substring(3))))) {
+                combination.endsWith((userGuessEditText.getText().toString().substring(3)))) && !(userGuessEditText.getText().toString().equals(combination))) {
 
             feedBackTextView.setText(getResources().getText(R.string.partially_correct));
             userGuessEditText.setText("");
@@ -414,7 +412,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 timeLeftInMillis = 0;
                 updateCountDownText();
 
-                userLostByTimerRanOut();
+                userLostBecauseTimerRanOut();
 
             }
         }.start();
@@ -442,7 +440,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void userLostByTimerRanOut() {
+    private void userLostBecauseTimerRanOut() {
         guessButton.setEnabled(false);
         deleteButton.setEnabled(false);
         hintButton.setEnabled(false);
@@ -487,8 +485,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void userWon() {
 
         displayHintsAndGameStatusTextview.setText(getResources().getText(R.string.you_won_text));
-
-
+        feedBackTextView.setText(getResources().getText(R.string.correct));
         userGuessEditText.setBackgroundColor(getResources().getColor(R.color.userWonColor));
         userGuessEditText.setText(combination);
 
@@ -580,6 +577,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }, 200);
         }
         if (totalGuesses == 2) {
+            guessesRemainingTextView.setTextColor(getResources().getColor(R.color.low_guesses_color));
             personImageView.setImageDrawable(getDrawable(R.drawable.bartscared));
             brickThree.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
             new Handler().postDelayed(new Runnable() {

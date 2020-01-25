@@ -26,7 +26,7 @@
     <string name="you_lost_text"><font fgcolor="#F44336">You lost! Poor Bart!</font></string>
 
     <string name="partially_correct"><font fgcolor="#F0810F">Partially correct.</font></string>
-    <string name="correct"><font fgcolor="#5CB5B5">Correct</font></string>
+    <string name="correct"><font fgcolor="#5CB5B5">Correct!</font></string>
     <string name="incorrect"><font fgcolor="#F44336">Incorrect.</font></string>
     <string name="reveal_button_text">Reveal</string>
 
