@@ -6,9 +6,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/mastermindguesses"
+        android:icon="@drawable/bartfalling"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/mastermindguesses"
+        android:roundIcon="@drawable/bartfalling"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.MainActivity"></activity>
