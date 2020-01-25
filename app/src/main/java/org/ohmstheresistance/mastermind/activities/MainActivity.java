@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.ohmstheresistance.mastermind.R;
 import org.ohmstheresistance.mastermind.rv.PrevGuessesAdapter;
@@ -246,12 +245,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     if (userGuessEditText.getText().toString().length() < 4 && userGuessEditText.getText().toString().length() >= 1) {
 
-                        Toast.makeText(this, "Please enter a 4 digit combination.", Toast.LENGTH_SHORT).show();
-                        return;
+                        feedBackTextView.setText(getResources().getText(R.string.enter_four_digits));
                     }
+
                     if (userGuessEditText.getText().toString().isEmpty()) {
-                        Toast.makeText(this, "Please enter a valid entry.", Toast.LENGTH_SHORT).show();
-                        return;
+                        feedBackTextView.setText(getResources().getText(R.string.enter_valid_entry));
+
                     }
 
                     totalGuesses--;
@@ -262,7 +261,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
 
                     animatePersonLinear();
-                    guessButton.setEnabled(false);
                 }
                 break;
         }
@@ -384,7 +382,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String.valueOf(combination.charAt(2)).matches(thirdNumber) ||
                 combination.endsWith((userGuessEditText.getText().toString().substring(3))))) {
 
-            Toast.makeText(this, "You guessed a correct number and its correct location!", Toast.LENGTH_SHORT).show();
+            feedBackTextView.setText(getResources().getText(R.string.partially_correct));
             userGuessEditText.setText("");
 
             return;
@@ -395,7 +393,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String.valueOf(combination.charAt(2)).matches(thirdNumber) ||
                 combination.endsWith((userGuessEditText.getText().toString().substring(3))))) {
 
-            Toast.makeText(this, "Incorrect!", Toast.LENGTH_SHORT).show();
+            feedBackTextView.setText(getResources().getText(R.string.incorrect));
             userGuessEditText.setText("");
         }
 
