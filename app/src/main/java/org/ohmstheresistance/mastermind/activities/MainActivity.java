@@ -1,7 +1,5 @@
 package org.ohmstheresistance.mastermind.activities;
 
-import android.graphics.Color;
-import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button resetButton;
     private Button hintButton;
     private Button guessButton;
+    private Button revealButton;
 
     private CountDownTimer countDownTimer;
     private int totalGuesses = 10;
@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String randomNumbersResponse;
 
     LinearLayoutManager linearLayoutManager;
+    LinearLayout combinationLinearLayout;
 
     private List<String> comboList;
 
@@ -149,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         hintButton = findViewById(R.id.hint_button);
         guessButton = findViewById(R.id.guess_button);
         resetButton = findViewById(R.id.reset_button);
+        revealButton = findViewById(R.id.reveal_button);
 
         zeroButton.setOnClickListener(this);
         oneButton.setOnClickListener(this);
@@ -162,8 +164,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         guessButton.setOnClickListener(this);
         hintButton.setOnClickListener(this);
         resetButton.setOnClickListener(this);
+        revealButton.setOnClickListener(this);
 
         linearLayoutManager = new LinearLayoutManager(this);
+        combinationLinearLayout = findViewById(R.id.combination_linear);
         prevGuessesRecyclerView.setLayoutManager(linearLayoutManager);
         prevGuessesEnteredList = new ArrayList<>();
         prevGuessesAdapter = new PrevGuessesAdapter(prevGuessesEnteredList, comboList);
@@ -229,6 +233,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 resetGame();
                 break;
 
+            case R.id.reveal_button:
+                revealCombination();
+
+                break;
+
             case R.id.guess_button:
 
                 if (totalGuesses > 0) {
@@ -256,6 +265,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void revealCombination() {
+
+        combinationLinearLayout.setVisibility(View.VISIBLE);
+    }
+
+
     private void deleteLastEntry() {
 
         int length = userGuessEditText.getText().length();
@@ -268,7 +283,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         finish();
         startActivity(getIntent());
-        overridePendingTransition(0,0);
+        overridePendingTransition(0, 0);
     }
 
     private void getRandomNumbers() {
@@ -362,9 +377,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if ((combination.startsWith(String.valueOf(userGuessEditText.getText().toString().charAt(0))) ||
-                String.valueOf(combination.charAt(1)).matches(secondNumber)||
+                String.valueOf(combination.charAt(1)).matches(secondNumber) ||
                 String.valueOf(combination.charAt(2)).matches(thirdNumber) ||
-                        combination.endsWith((userGuessEditText.getText().toString().substring(3))))) {
+                combination.endsWith((userGuessEditText.getText().toString().substring(3))))) {
 
             Toast.makeText(this, "You guessed a correct number and its correct location!", Toast.LENGTH_SHORT).show();
             userGuessEditText.setText("");
@@ -373,7 +388,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (!(combination.startsWith(String.valueOf(userGuessEditText.getText().toString().charAt(0))) ||
-                String.valueOf(combination.charAt(1)).matches(secondNumber)||
+                String.valueOf(combination.charAt(1)).matches(secondNumber) ||
                 String.valueOf(combination.charAt(2)).matches(thirdNumber) ||
                 combination.endsWith((userGuessEditText.getText().toString().substring(3))))) {
 
@@ -402,6 +417,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         }.start();
+    }
+
+
+    private void updateCountDownText() {
+
+        int minutes = (int) (timeLeftInMillis / 1000 / 60);
+        int seconds = (int) (timeLeftInMillis / 1000) % 60;
+
+        String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+        countDownTimerTextView.setText(formattedTime);
+
+        if (timeLeftInMillis < 15000) {
+            countDownTimerTextView.setTextColor(getResources().getColor(R.color.lose_and_timer_running_out_color));
+        } else {
+            countDownTimerTextView.setTextColor(countDownTimerTextView.getTextColors());
+        }
+
+        if (totalGuesses == 0) {
+
+            countDownTimer.cancel();
+        }
+
     }
 
     private void userLostByTimerRanOut() {
@@ -446,14 +483,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         displayHintsAndGameStatusTextview.setText(R.string.you_lost_text);
     }
 
-    private void userWon(){
+    private void userWon() {
 
         displayHintsAndGameStatusTextview.setText(getResources().getText(R.string.you_won_text));
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            userGuessEditText.setBackgroundColor(getColor(R.color.userWonColor));
-        }
 
+        userGuessEditText.setBackgroundColor(getResources().getColor(R.color.userWonColor));
         userGuessEditText.setText(combination);
 
         guessButton.setEnabled(false);
@@ -469,26 +504,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sevenButton.setEnabled(false);
     }
 
-    private void updateCountDownText() {
-
-        int minutes = (int) (timeLeftInMillis / 1000 / 60);
-        int seconds = (int) (timeLeftInMillis / 1000) % 60;
-
-        String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
-        countDownTimerTextView.setText(formattedTime);
-
-        if (timeLeftInMillis < 15000) {
-            countDownTimerTextView.setTextColor(Color.RED);
-        } else {
-            countDownTimerTextView.setTextColor(countDownTimerTextView.getTextColors());
-        }
-
-        if (totalGuesses == 0) {
-
-            countDownTimer.cancel();
-        }
-
-    }
 
     private void animatePersonLinear() {
 
@@ -571,7 +586,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void run() {
                     brickThree.setVisibility(View.INVISIBLE);
                 }
-            }, 200);        }
+            }, 200);
+        }
         if (totalGuesses == 1) {
             brickTwo.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
             new Handler().postDelayed(new Runnable() {
@@ -603,10 +619,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void pickAHintToDisplay(){
+    private void pickAHintToDisplay() {
 
         String[] hints = {"There is no chance the number to guess is negative.", "The combination is 4 digits long.", "At least one of the numbers above is in the combo.",
-                "You have " + totalGuesses + " guesses remaining!", "You have " +countDownTimerTextView.getText().toString()+ " left!" };
+                "You have " + totalGuesses + " guesses remaining!", "You have " + countDownTimerTextView.getText().toString() + " left!"};
 
         Collections.shuffle(Arrays.asList(hints));
         String displayHint = hints[2];

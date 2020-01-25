@@ -23,5 +23,9 @@
     <string name="reset_button_text">Reset</string>
 
     <string name="you_won_text"><font fgcolor="#5CB5B5">You won! Bart is saved!</font></string>
-    <string name="you_lost_text"><font fgcolor="#FF0B65">You lost! Poor Bart!</font></string>
+    <string name="you_lost_text"><font fgcolor="#F44336">You lost! Poor Bart!</font></string>
+
+    <string name="partly_correct">Partly correct.</string>
+    <string name="incorrect">Incorrect</string>
+    <string name="reveal_button_text">Reveal</string>
 </resources>

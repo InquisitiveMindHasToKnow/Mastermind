@@ -116,6 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/autour_one"
+                style="@style/TextAppearance.AppCompat.Headline"
                 android:text="Guesses:"
                 android:textColor="@color/textColor"
                 android:textSize="16sp" />
@@ -126,6 +127,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:fontFamily="@font/autour_one"
+                style="@style/TextAppearance.AppCompat.Headline"
                 android:gravity="center"
                 android:text="10"
                 android:textColor="@color/textColor"
@@ -137,6 +139,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            style="@style/TextAppearance.AppCompat.Headline"
             android:orientation="horizontal"
             android:paddingStart="16dp"
             android:paddingEnd="16dp">
@@ -345,15 +348,39 @@
                     android:textSize="32sp"
                     android:textStyle="bold" />
 
-
-                <TextView
-                    android:id="@+id/combination_textview"
+                <LinearLayout
+                    android:id="@+id/combination_linear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="6 4 2 0"
-                    android:textColor="@color/textColor"
-                    android:textSize="20sp" />
+                    android:visibility="invisible"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/personnametitle_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/autour_one"
+                        android:text="Combo:"
+                        android:layout_gravity="center"
+                        style="@style/TextAppearance.AppCompat.Subhead"
+                        android:textSize="16sp"
+                        android:textColor="@color/textColor" />
+
+
+                    <TextView
+                        android:id="@+id/combination_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="6 4 2 0"
+                        android:fontFamily="@font/autour_one"
+                        android:textColor="@color/textColor"
+                        android:textSize="20sp" />
+
+
+                </LinearLayout>
+
+
 
                 <TextView
                     android:id="@+id/dispay_hints_and_game_status_textview"
@@ -514,7 +541,7 @@
 
             <LinearLayout
                 android:id="@+id/del_sound_guess_linear"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="4dp"
@@ -522,7 +549,7 @@
 
                 <Button
                     android:id="@+id/delete_button"
-                    android:layout_width="48dp"
+                    android:layout_width="80dp"
                     android:layout_height="48dp"
                     android:layout_marginEnd="16dp"
                     android:background="@color/colorPrimary"
@@ -568,19 +595,39 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+
+                android:id="@+id/reveal_button"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@color/colorPrimary"
+                android:fontFamily="@font/autour_one"
+                android:gravity="center"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/reveal_button_text"
+                android:textAllCaps="false"
+                android:textColor="@color/textColor"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"
+                />
 
             <Button
 
                 android:id="@+id/guess_button"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="80dp"
                 android:background="@color/colorPrimary"
                 android:fontFamily="@font/autour_one"
                 android:gravity="center"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:text="@string/guess_button_text"
+                android:layout_marginTop="8dp"
                 android:textAllCaps="false"
                 android:textColor="@color/textColor"
                 android:textSize="24sp"
