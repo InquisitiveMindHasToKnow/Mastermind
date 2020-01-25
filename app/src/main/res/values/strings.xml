@@ -21,4 +21,7 @@
     <string name="delete_button_text">Del</string>
     <string name="guess_button_text">Guess</string>
     <string name="reset_button_text">Reset</string>
+
+    <string name="you_won_text"><font fgcolor="#5CB5B5">You won! Bart is saved!</font></string>
+    <string name="you_lost_text"><font fgcolor="#FF0B65">You lost! Poor Bart!</font></string>
 </resources>
