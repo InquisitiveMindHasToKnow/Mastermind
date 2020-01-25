@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView eighthNumberTextView;
     private TextView combinationTextView;
     private TextView displayHintsAndGameStatusTextview;
+    private TextView feedBackTextView;
 
     private ImageView personImageView;
     private ImageView brickOne;
@@ -123,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prevGuessesRecyclerView = findViewById(R.id.prev_guess_recycler);
         combinationTextView = findViewById(R.id.combination_textview);
         displayHintsAndGameStatusTextview = findViewById(R.id.dispay_hints_and_game_status_textview);
+        feedBackTextView = findViewById(R.id.feedback_textview);
 
         personImageView = findViewById(R.id.person_imageview);
 
@@ -243,6 +245,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (totalGuesses > 0) {
 
                     if (userGuessEditText.getText().toString().length() < 4 && userGuessEditText.getText().toString().length() >= 1) {
+
                         Toast.makeText(this, "Please enter a 4 digit combination.", Toast.LENGTH_SHORT).show();
                         return;
                     }
