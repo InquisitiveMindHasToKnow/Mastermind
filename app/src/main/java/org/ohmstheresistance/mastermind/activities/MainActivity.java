@@ -36,63 +36,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final long COUNTDOWN_TIMER_IN_MILLIS = 60000;
 
     private EditText userGuessEditText;
-    private TextView guessesRemainingTextView;
-    private TextView previousGuessesHeaderTextView;
-    private TextView countDownTimerTextView;
-    private TextView firstNumberTextView;
-    private TextView secondNumberTextView;
-    private TextView thirdNumberTextView;
-    private TextView fourthNumberTextView;
-    private TextView fifthNumberTextView;
-    private TextView sixthNumberTextView;
-    private TextView seventhNumberTextView;
-    private TextView eighthNumberTextView;
-    private TextView combinationTextView;
-    private TextView displayHintsAndGameStatusTextview;
-    private TextView feedBackTextView;
 
-    private ImageView personImageView;
-    private ImageView brickOne;
-    private ImageView brickTwo;
-    private ImageView brickThree;
-    private ImageView brickFour;
-    private ImageView brickFive;
-    private ImageView brickSix;
-    private ImageView brickSeven;
-    private ImageView brickEight;
-    private ImageView brickNine;
-    private ImageView brickTen;
+    private TextView guessesRemainingTextView, previousGuessesHeaderTextView, countDownTimerTextView, firstNumberTextView, secondNumberTextView,
+            thirdNumberTextView, fourthNumberTextView, fifthNumberTextView, sixthNumberTextView, seventhNumberTextView, eighthNumberTextView,
+            combinationTextView, displayHintsAndGameStatusTextview, feedBackTextView;
+
+    private ImageView personImageView, brickOne, brickTwo, brickThree, brickFour, brickFive, brickSix, brickSeven, brickEight, brickNine, brickTen;
+
+    private Button zeroButton, oneButton, twoButton, threeButton, fourButton, fiveButton, sixButton, sevenButton, deleteButton, resetButton, hintButton,
+            guessButton, revealButton;
+
+    private List<String> prevGuessesEnteredList, comboList;
+
+    private String combination, randomNumbersResponse;
 
     private RecyclerView prevGuessesRecyclerView;
     private PrevGuessesAdapter prevGuessesAdapter;
-    private List<String> prevGuessesEnteredList;
-
-    private Button zeroButton;
-    private Button oneButton;
-    private Button twoButton;
-    private Button threeButton;
-    private Button fourButton;
-    private Button fiveButton;
-    private Button sixButton;
-    private Button sevenButton;
-    private Button deleteButton;
-    private Button resetButton;
-    private Button hintButton;
-    private Button guessButton;
-    private Button revealButton;
 
     private CountDownTimer countDownTimer;
     private int totalGuesses = 10;
     private long timeLeftInMillis;
 
-    private String combination;
-    private String randomNumbersResponse;
-
-    LinearLayoutManager linearLayoutManager;
-    LinearLayout combinationLinearLayout;
-
-    private List<String> comboList;
-
+    private LinearLayoutManager linearLayoutManager;
+    private LinearLayout combinationLinearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -625,7 +591,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         String[] hints = {"There is no chance the number to guess is negative.", "C'mon! The combination is 4 digits long.", "At least one of the numbers above is in the combo.",
                 "You have " + totalGuesses + " guesses remaining!", "You have " + countDownTimerTextView.getText().toString() + " left!", "Haha! Not happening!",
-        "I could but where's the fun in that?", "It's only 4 digits. You got this!", "I would've solved it already."};
+                "I could but where's the fun in that?", "It's only 4 digits. You got this!", "I would've solved it already."};
 
         Collections.shuffle(Arrays.asList(hints));
         String displayHint = hints[2];
@@ -646,7 +612,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
         overridePendingTransition(0, 0);
     }
 }
