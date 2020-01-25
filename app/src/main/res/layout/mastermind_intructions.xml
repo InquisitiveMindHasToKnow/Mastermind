@@ -1,31 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
     android:background="@android:color/white"
     android:orientation="vertical"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
-    android:paddingBottom="24dp"
-    android:layout_gravity="center"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:paddingBottom="24dp">
 
     <TextView
         android:id="@+id/instructions_header"
-        android:layout_marginTop="8dp"
-        android:text="Mastermind Instructions"
-        android:textColor="@color/colorPrimaryDark"
-        android:gravity="center"
-        android:textSize="24sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="Mastermind Instructions"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="24sp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="8dp"
-        >
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="260dp"
@@ -36,9 +34,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
+                android:text="Hello there, I'm Bart!"
                 android:textColor="@color/colorPrimaryDark"
-                android:text="Hello there, I'm Bart!"/>
+                android:textSize="12sp" />
 
 
             <TextView
@@ -46,30 +44,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="12sp"
                 android:text="The first and probably most important rule: Do NOT let me fall!"
-                />
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/instructions_part_two_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/colorPrimaryDark"
-                android:text="You have a total of 10 guesses to guess the correct 4 digit combination. "
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
-                />
+                android:text="You have a total of 10 guesses to guess the correct 4 digit combination. "
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp" />
 
         </LinearLayout>
 
-            <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:src="@drawable/bartlooking"
-                android:layout_marginEnd="16dp"
-                />
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/bartlooking" />
 
     </LinearLayout>
 
@@ -77,96 +72,88 @@
         android:id="@+id/instructions_part_three_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:textColor="@color/colorPrimaryDark"
-        android:text="For every guess that's not the correct combo, my support falls apart. If you run out of guesses, I will fall. Please don't let that happen! "
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
-        />
+        android:text="For every guess that's not the correct combo, my support falls apart. If you run out of guesses, I will fall. Please don't let that happen! "
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/instructions_part_four_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
-        android:textSize="12sp"
         android:layout_marginTop="8dp"
-        android:textColor="@color/colorPrimaryDark"
+        android:gravity="center"
         android:text="After every guess you get one of three hints: "
-        />
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="12sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        >
+        android:layout_marginTop="8dp">
 
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/correct"
             android:layout_marginEnd="16dp"
-            />
+            android:src="@drawable/correct" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:textSize="12sp"
+            android:text="● You correctly guessed the 4 digit combination and won"
             android:textColor="@color/colorPrimaryDark"
-            android:text="● You correctly guessed the 4 digit combination and won"/>
+            android:textSize="12sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        >
+        android:layout_marginTop="8dp">
 
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/questionmark"
             android:layout_marginEnd="16dp"
-            />
+            android:src="@drawable/questionmark" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:textSize="12sp"
+            android:text="● You guessed a correct number and its correct location. "
             android:textColor="@color/colorPrimaryDark"
-            android:text="● You guessed a correct number and its correct location. "/>
+            android:textSize="12sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        >
+        android:layout_marginTop="8dp">
 
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/wrong"
             android:layout_marginEnd="16dp"
-            />
+            android:src="@drawable/wrong" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:textSize="12sp"
+            android:text="● All entries are incorrect. "
             android:textColor="@color/colorPrimaryDark"
-            android:text="● All entries are incorrect. "/>
+            android:textSize="12sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="16dp"
+        android:gravity="center">
 
         <Button
             android:id="@+id/got_it_button"
@@ -174,13 +161,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:background="@drawable/rounded_button_corners"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:textSize="24sp"
-            android:textAllCaps="false"
-            android:background="@color/colorPrimary"
             android:text="Got It!"
-            />
+            android:textAllCaps="false"
+            android:textSize="24sp" />
 
         <Button
             android:id="@+id/play_now_from_instructions_button"
@@ -188,12 +174,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:background="@drawable/rounded_button_corners"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:textSize="24sp"
             android:text="Play now"
             android:textAllCaps="false"
-            android:background="@color/colorPrimary"/>
+            android:textSize="24sp" />
 
     </LinearLayout>
 

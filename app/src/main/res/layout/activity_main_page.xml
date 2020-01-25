@@ -26,10 +26,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="24sp"
-        android:textColor="@color/textColor"
         android:text="Good morning, Omar!"
-        />
+        android:textColor="@color/textColor"
+        android:textSize="24sp" />
 
     <ImageView
         android:layout_width="180dp"
@@ -50,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/rounded_button_corners"
             android:fontFamily="@font/autour_one"
             android:paddingStart="32dp"
             android:paddingEnd="32dp"
@@ -63,7 +62,7 @@
             android:id="@+id/instructions_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/rounded_button_corners"
             android:fontFamily="@font/autour_one"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"

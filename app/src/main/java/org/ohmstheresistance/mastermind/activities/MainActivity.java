@@ -1,5 +1,6 @@
 package org.ohmstheresistance.mastermind.activities;
 
+import android.annotation.SuppressLint;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -31,7 +33,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
     private static final long COUNTDOWN_TIMER_IN_MILLIS = 60000;
 
@@ -72,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startCountDown();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setUpViews() {
 
         userGuessEditText = findViewById(R.id.user_guess_edittext);
@@ -133,6 +136,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         resetButton.setOnClickListener(this);
         revealButton.setOnClickListener(this);
 
+        zeroButton.setOnTouchListener(this);
+        oneButton.setOnTouchListener(this);
+        twoButton.setOnTouchListener(this);
+        threeButton.setOnTouchListener(this);
+        fourButton.setOnTouchListener(this);
+        fiveButton.setOnTouchListener(this);
+        sixButton.setOnTouchListener(this);
+        sevenButton.setOnTouchListener(this);
+        deleteButton.setOnTouchListener(this);
+        guessButton.setOnTouchListener(this);
+        hintButton.setOnTouchListener(this);
+        resetButton.setOnTouchListener(this);
+        revealButton.setOnTouchListener(this);
+
         linearLayoutManager = new LinearLayoutManager(this);
         combinationLinearLayout = findViewById(R.id.combination_linear);
         prevGuessesRecyclerView.setLayoutManager(linearLayoutManager);
@@ -141,7 +158,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prevGuessesRecyclerView.setAdapter(prevGuessesAdapter);
 
         comboList = new ArrayList<>();
-
     }
 
     @Override
@@ -360,7 +376,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             feedBackTextView.setText(getResources().getText(R.string.incorrect));
             userGuessEditText.setText("");
         }
-
     }
 
     private void startCountDown() {
@@ -383,7 +398,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }.start();
     }
-
 
     private void updateCountDownText() {
 
@@ -468,7 +482,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sevenButton.setEnabled(false);
         revealButton.setEnabled(false);
     }
-
 
     private void animatePersonLinear() {
 
@@ -614,4 +627,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onBackPressed();
         overridePendingTransition(0, 0);
     }
-}
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+
+                v.setBackground(getResources().getDrawable(R.drawable.pressed_rounded_button));
+                break;
+
+            case MotionEvent.ACTION_UP:
+
+                v.setBackground(getResources().getDrawable(R.drawable.rounded_button_corners));
+                break;
+        }
+            return false;
+        }
+    }
