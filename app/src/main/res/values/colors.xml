@@ -7,4 +7,5 @@
 
     <color name="userWonColor">#5CB5B5</color>
     <color name="hintColor">#eedfd0</color>
+    <color name="lose_and_timer_running_out_color">#F44336</color>
 </resources>
