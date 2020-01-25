@@ -40,20 +40,25 @@ public class PrevGuessesAdapter extends RecyclerView.Adapter<PrevGuessesAdapter.
         String secondNumber = String.valueOf(secondAndThirdNumbers.charAt(0));
         String thirdNumber = String.valueOf(secondAndThirdNumbers.charAt(1));
 
-        if(combination.equals(usersGuess)){
+        if(combination.matches(usersGuess)){
 
             prevGuessViewHolder.prevGuessImageView.setImageResource(R.drawable.correct);
 
         }
 
-        if (!(combination.startsWith(String.valueOf(usersGuess.charAt(0))) ||
+        else if(((combination.startsWith(String.valueOf(usersGuess.charAt(0))) ||
                 String.valueOf(combination.charAt(1)).matches(secondNumber)||
                 String.valueOf(combination.charAt(2)).matches(thirdNumber) ||
-                combination.endsWith((usersGuess.substring(3))))) {
+                combination.endsWith((usersGuess.substring(3))))) && !(usersGuess.matches(combination))){
+
+            prevGuessViewHolder.prevGuessImageView.setImageResource(R.drawable.questionmark);
+
+        }
+
+        else {
 
             prevGuessViewHolder.prevGuessImageView.setImageResource(R.drawable.wrong);
         }
-
 
     }
 

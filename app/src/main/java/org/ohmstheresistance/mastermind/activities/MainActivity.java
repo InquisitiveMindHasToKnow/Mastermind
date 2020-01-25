@@ -368,7 +368,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String thirdNumber = String.valueOf(secondAndThirdNumbers.charAt(1));
 
 
-        if (userGuessEditText.getText().toString().equals(combination)) {
+        if (userGuessEditText.getText().toString().matches(combination)) {
             countDownTimer.cancel();
 
             userWon();
@@ -500,6 +500,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fiveButton.setEnabled(false);
         sixButton.setEnabled(false);
         sevenButton.setEnabled(false);
+        revealButton.setEnabled(false);
     }
 
 
@@ -603,6 +604,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             brickOne.setVisibility(View.INVISIBLE);
 
             displayHintsAndGameStatusTextview.setText(R.string.you_lost_text);
+            combinationLinearLayout.setVisibility(View.VISIBLE);
 
             guessButton.setEnabled(false);
             deleteButton.setEnabled(false);
@@ -615,13 +617,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             fiveButton.setEnabled(false);
             sixButton.setEnabled(false);
             sevenButton.setEnabled(false);
+            revealButton.setEnabled(false);
         }
     }
 
     private void pickAHintToDisplay() {
 
-        String[] hints = {"There is no chance the number to guess is negative.", "The combination is 4 digits long.", "At least one of the numbers above is in the combo.",
-                "You have " + totalGuesses + " guesses remaining!", "You have " + countDownTimerTextView.getText().toString() + " left!"};
+        String[] hints = {"There is no chance the number to guess is negative.", "C'mon! The combination is 4 digits long.", "At least one of the numbers above is in the combo.",
+                "You have " + totalGuesses + " guesses remaining!", "You have " + countDownTimerTextView.getText().toString() + " left!", "Haha! Not happening!",
+        "I could but where's the fun in that?", "It's only 4 digits. You got this!", "I would've solved it already."};
 
         Collections.shuffle(Arrays.asList(hints));
         String displayHint = hints[2];
