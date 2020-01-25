@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView seventhNumberTextView;
     private TextView eighthNumberTextView;
     private TextView combinationTextView;
+    private TextView displayHintsAndGameStatusTextview;
 
     private ImageView personImageView;
     private ImageView brickOne;
@@ -120,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         eighthNumberTextView = findViewById(R.id.eighth_number_textview);
         prevGuessesRecyclerView = findViewById(R.id.prev_guess_recycler);
         combinationTextView = findViewById(R.id.combination_textview);
-        resetButton = findViewById(R.id.reset_button);
+        displayHintsAndGameStatusTextview = findViewById(R.id.dispay_hints_and_game_status_textview);
 
         personImageView = findViewById(R.id.person_imageview);
 
@@ -147,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         deleteButton = findViewById(R.id.delete_button);
         hintButton = findViewById(R.id.hint_button);
         guessButton = findViewById(R.id.guess_button);
+        resetButton = findViewById(R.id.reset_button);
 
         zeroButton.setOnClickListener(this);
         oneButton.setOnClickListener(this);
@@ -213,10 +215,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.delete_button:
 
-                int length = userGuessEditText.getText().length();
-                if (length > 0) {
-                    userGuessEditText.getText().delete(length - 1, length);
-                }
+                deleteLastEntry();
+
                 break;
 
             case R.id.hint_button:
@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.reset_button:
 
-                Toast.makeText(this, "Reset has not been implemented yet.", Toast.LENGTH_SHORT).show();
+                resetGame();
                 break;
 
             case R.id.guess_button:
@@ -251,10 +251,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     animatePersonLinear();
                     guessButton.setEnabled(false);
-                    Toast.makeText(this, "You Lost!", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
+    }
+
+    private void deleteLastEntry() {
+
+        int length = userGuessEditText.getText().length();
+        if (length > 0) {
+            userGuessEditText.getText().delete(length - 1, length);
+        }
+    }
+
+    private void resetGame() {
+
+        finish();
+        startActivity(getIntent());
+        overridePendingTransition(0,0);
     }
 
     private void getRandomNumbers() {
@@ -344,13 +358,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (userGuessEditText.getText().toString().equals(combination)) {
             countDownTimer.cancel();
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                userGuessEditText.setBackgroundColor(getColor(R.color.userWonColor));
-                userGuessEditText.setText(combination);
-
-            }
-            Toast.makeText(this, "You won!", Toast.LENGTH_SHORT).show();
-            return;
+            userWon();
         }
 
         if ((combination.startsWith(String.valueOf(userGuessEditText.getText().toString().charAt(0))) ||
@@ -389,8 +397,76 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 timeLeftInMillis = 0;
                 updateCountDownText();
+
+                userLostByTimerRanOut();
+
             }
         }.start();
+    }
+
+    private void userLostByTimerRanOut() {
+        guessButton.setEnabled(false);
+        deleteButton.setEnabled(false);
+        hintButton.setEnabled(false);
+        zeroButton.setEnabled(false);
+        oneButton.setEnabled(false);
+        twoButton.setEnabled(false);
+        threeButton.setEnabled(false);
+        fourButton.setEnabled(false);
+        fiveButton.setEnabled(false);
+        sixButton.setEnabled(false);
+        sevenButton.setEnabled(false);
+
+
+        brickOne.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+        brickTwo.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+        brickThree.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+        brickFour.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+        brickFive.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+        brickSix.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+        brickSeven.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+        brickEight.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+        brickNine.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+        brickTen.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+
+        brickOne.setVisibility(View.INVISIBLE);
+        brickTwo.setVisibility(View.INVISIBLE);
+        brickThree.setVisibility(View.INVISIBLE);
+        brickFour.setVisibility(View.INVISIBLE);
+        brickFive.setVisibility(View.INVISIBLE);
+        brickSix.setVisibility(View.INVISIBLE);
+        brickSeven.setVisibility(View.INVISIBLE);
+        brickEight.setVisibility(View.INVISIBLE);
+        brickNine.setVisibility(View.INVISIBLE);
+        brickTen.setVisibility(View.INVISIBLE);
+
+        personImageView.setImageResource(R.drawable.bartfalling);
+        personImageView.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.exit_bottom));
+
+        displayHintsAndGameStatusTextview.setText(R.string.you_lost_text);
+    }
+
+    private void userWon(){
+
+        displayHintsAndGameStatusTextview.setText(getResources().getText(R.string.you_won_text));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            userGuessEditText.setBackgroundColor(getColor(R.color.userWonColor));
+        }
+
+        userGuessEditText.setText(combination);
+
+        guessButton.setEnabled(false);
+        deleteButton.setEnabled(false);
+        hintButton.setEnabled(false);
+        zeroButton.setEnabled(false);
+        oneButton.setEnabled(false);
+        twoButton.setEnabled(false);
+        threeButton.setEnabled(false);
+        fourButton.setEnabled(false);
+        fiveButton.setEnabled(false);
+        sixButton.setEnabled(false);
+        sevenButton.setEnabled(false);
     }
 
     private void updateCountDownText() {
@@ -511,21 +587,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             personImageView.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.exit_bottom));
             brickOne.setVisibility(View.INVISIBLE);
 
+            displayHintsAndGameStatusTextview.setText(R.string.you_lost_text);
+
             guessButton.setEnabled(false);
             deleteButton.setEnabled(false);
+            hintButton.setEnabled(false);
+            zeroButton.setEnabled(false);
+            oneButton.setEnabled(false);
+            twoButton.setEnabled(false);
+            threeButton.setEnabled(false);
+            fourButton.setEnabled(false);
+            fiveButton.setEnabled(false);
+            sixButton.setEnabled(false);
+            sevenButton.setEnabled(false);
         }
-
     }
 
     private void pickAHintToDisplay(){
 
-        String[] hints = {"There is no chance the number to guess is negative.", "The combination is 4 digit long.", "At least one of the numbers above is in the combo.",
-                "You have " + totalGuesses + " remaining!", "You have " +countDownTimerTextView.getText().toString()+ " left!" };
+        String[] hints = {"There is no chance the number to guess is negative.", "The combination is 4 digits long.", "At least one of the numbers above is in the combo.",
+                "You have " + totalGuesses + " guesses remaining!", "You have " +countDownTimerTextView.getText().toString()+ " left!" };
 
         Collections.shuffle(Arrays.asList(hints));
         String displayHint = hints[2];
 
-        Toast.makeText(this, displayHint, Toast.LENGTH_SHORT).show();
+        displayHintsAndGameStatusTextview.setText(displayHint);
+        displayHintsAndGameStatusTextview.setTextColor(getResources().getColor(R.color.hintColor));
     }
 
     @Override
