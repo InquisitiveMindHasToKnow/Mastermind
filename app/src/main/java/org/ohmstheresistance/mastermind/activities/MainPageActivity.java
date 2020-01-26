@@ -10,17 +10,19 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import org.ohmstheresistance.mastermind.R;
+import org.ohmstheresistance.mastermind.database.UserInfoDatabaseHelper;
 
 import java.util.Calendar;
 
 public class MainPageActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
-    private TextView greetingTextView;
-    private Button playNowButton;
-    private Button instructionsButton;
+    private TextView greetingTextView, userNameTextView;
+    private Button playNowButton, instructionsButton;
     private Intent navigationIntent;
+    private UserInfoDatabaseHelper userInfoDatabaseHelper;
 
-    @SuppressLint("ClickableViewAccessibility")
+    private String userName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,18 +31,26 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
         setViews();
         setGreeting();
 
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void setViews() {
+
+        greetingTextView = findViewById(R.id.greeting_textview);
+        userNameTextView = findViewById(R.id.user_name_textview);
+        playNowButton = findViewById(R.id.play_now_button);
+        instructionsButton = findViewById(R.id.instructions_button);
+        userInfoDatabaseHelper = UserInfoDatabaseHelper.getInstance(this);
+
         playNowButton.setOnClickListener(this);
         instructionsButton.setOnClickListener(this);
 
         playNowButton.setOnTouchListener(this);
         instructionsButton.setOnTouchListener(this);
-    }
 
-    private void setViews() {
+        userName = userInfoDatabaseHelper.getUserInfo().get(0).getUserName();
+        userNameTextView.setText(userName + "!");
 
-        greetingTextView = findViewById(R.id.greeting_textview);
-        playNowButton = findViewById(R.id.play_now_button);
-        instructionsButton = findViewById(R.id.instructions_button);
     }
 
     private void setGreeting() {
@@ -49,16 +59,17 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
 
         if (timeOfDay >= 0 && timeOfDay < 12) {
-            greetingTextView.setText(getString(R.string.good_morning) + " Omar.");
+            greetingTextView.setText(getString(R.string.good_morning));
 
         } else if (timeOfDay >= 12 && timeOfDay < 16) {
-            greetingTextView.setText(getString(R.string.good_afternoon) + " Omar.");
+            greetingTextView.setText(getString(R.string.good_afternoon));
+
 
         } else if (timeOfDay >= 16 && timeOfDay < 21) {
-            greetingTextView.setText(getString(R.string.good_evening) + " Omar.");
+            greetingTextView.setText(getString(R.string.good_evening));
 
         } else if (timeOfDay >= 21 && timeOfDay < 24) {
-            greetingTextView.setText(getString(R.string.good_night) + " Omar.");
+            greetingTextView.setText(getString(R.string.good_night) );
         }
     }
 

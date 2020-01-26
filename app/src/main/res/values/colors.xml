@@ -10,4 +10,7 @@
     <color name="splashButtonBackgroundColor">#00a8a8</color>
     <color name="low_guesses_color">#F44336</color>
     <color name="lose_and_timer_running_out_color">#F44336</color>
+
+    <color name="dialogEditTextTextColor">#FFF</color>
+
 </resources>
