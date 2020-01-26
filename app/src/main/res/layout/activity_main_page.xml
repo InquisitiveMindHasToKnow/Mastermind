@@ -26,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:fontFamily="@font/autour_one"
         android:text="Good morning,"
         android:textColor="@color/textColor"
         android:textSize="24sp" />
@@ -35,6 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:fontFamily="@font/autour_one"
         android:text="Jeremy"
         android:textColor="@color/textColor"
         android:textSize="24sp" />
@@ -65,7 +67,7 @@
             android:paddingEnd="32dp"
             android:text="@string/play_now_button_text"
             android:textAllCaps="false"
-            android:textColor="@color/textColor"
+            android:textColor="@color/buttonTextColor"
             android:textSize="24sp" />
 
         <Button
@@ -78,7 +80,7 @@
             android:paddingEnd="16dp"
             android:text="@string/game_rules_text"
             android:textAllCaps="false"
-            android:textColor="@color/textColor"
+            android:textColor="@color/buttonTextColor"
             android:textSize="20sp" />
 
     </LinearLayout>

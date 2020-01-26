@@ -5,14 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        >
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
-        android:background="@color/cardview_dark_background"
+        android:background="@color/rvItemColor"
         android:gravity="center"
         android:layout_gravity="center_horizontal"
         android:orientation="horizontal">
@@ -23,7 +29,7 @@
            android:layout_height="wrap_content"
            android:layout_marginEnd="24dp"
            android:gravity="center"
-           android:textColor="@color/textColor"
+           android:textColor="@color/buttonTextColor"
            android:text="5 7 3 1"
            android:textSize="16sp"
            />
@@ -38,5 +44,5 @@
 
 
     </LinearLayout>
-
+    </android.support.v7.widget.CardView>
 </LinearLayout>

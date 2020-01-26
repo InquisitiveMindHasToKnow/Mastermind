@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#063852</color>
-    <color name="colorPrimaryDark">#011a27</color>
+
+    <color name="colorPrimary">#ffa384</color>
+    <color name="colorPrimaryDark">#1e2640</color>
     <color name="colorAccent">#f0810f</color>
-    <color name="textColor">#e6df44</color>
+    <color name="textColor">#f3eac0</color>
 
     <color name="userWonColor">#5CB5B5</color>
-    <color name="hintColor">#eedfd0</color>
-    <color name="splashButtonBackgroundColor">#00a8a8</color>
+    <color name="hintColor">#341948</color>
+    <color name="splashButtonBackgroundColor">#050a30</color>
     <color name="low_guesses_color">#F44336</color>
     <color name="lose_and_timer_running_out_color">#F44336</color>
 
     <color name="dialogEditTextTextColor">#FFF</color>
 
+    <color name="roundedButtonColor">#f3eac0</color>
+    <color name="buttonTextColor">#1e2640</color>
+    <color name="rvItemColor">#ffa384</color>
+    <color name="entryEditTextColor">#ffa384</color>
+    <color name="numberDisplayTextViewColor">#f3eac0</color>
 </resources>
