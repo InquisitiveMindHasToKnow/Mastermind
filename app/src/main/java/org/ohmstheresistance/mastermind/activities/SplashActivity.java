@@ -1,7 +1,10 @@
 package org.ohmstheresistance.mastermind.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
+import android.preference.PreferenceManager;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +17,8 @@ import org.ohmstheresistance.mastermind.R;
 public class SplashActivity extends AppCompatActivity {
 
     private static int SPLASH_SCREEN_TIMER = 2000;
+    public static final String KEY_PREFS_FIRST_LAUNCH = "first_launch";
+
 
     private Button splashButtonSeven, splashButtonThree, splashButtonFive, splashButtonZero;
 
@@ -60,7 +65,7 @@ public class SplashActivity extends AppCompatActivity {
 
                                         splashButtonFive.setBackground(getDrawable(R.drawable.rounded_button_corners));
                                         splashButtonThree.setBackground(getDrawable(R.drawable.pressed_rounded_button));
-                                        splashScreenEditText.append("0");
+                                        splashScreenEditText.append("3");
 
 
                                         new Handler().postDelayed(new Runnable() {
@@ -84,20 +89,38 @@ public class SplashActivity extends AppCompatActivity {
             }
         }, 200);
 
+        final SharedPreferences firstLaunchCheck = PreferenceManager.getDefaultSharedPreferences(this);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
+        if (firstLaunchCheck.getBoolean(KEY_PREFS_FIRST_LAUNCH, true)) {
 
-                toMainScreenIntent = new Intent(SplashActivity.this, MainPageActivity.class);
-                startActivity(toMainScreenIntent);
-                SplashActivity.this.finish();
-                overridePendingTransition(0,0);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
 
+                    toMainScreenIntent = new Intent(SplashActivity.this, UserInfoActivity.class);
+                    startActivity(toMainScreenIntent);
+                    SplashActivity.this.finish();
+                    overridePendingTransition(0, 0);
 
-            }
-        }, SPLASH_SCREEN_TIMER);
+                    firstLaunchCheck.edit().putBoolean(KEY_PREFS_FIRST_LAUNCH, false).apply();
 
+                }
+            }, SPLASH_SCREEN_TIMER);
+
+        } else {
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    toMainScreenIntent = new Intent(SplashActivity.this, MainPageActivity.class);
+                    startActivity(toMainScreenIntent);
+                    SplashActivity.this.finish();
+                    overridePendingTransition(0, 0);
+
+                }
+            }, SPLASH_SCREEN_TIMER);
+        }
     }
 
     private void setUpViews() {

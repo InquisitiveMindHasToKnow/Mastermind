@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">Mastermind</string>
     <string name="mastermind_header_text">Mastermind</string>
-    <string name="greeting_text">Good night,\n Omar!</string>
+    <string name="greeting_text">Good night, </string>
     <string name="play_now_button_text">Play Now</string>
     <string name="game_rules_text">Instructions</string>
 
-    <string name="good_morning">Good morning,</string>
-    <string name="good_afternoon">Good afternoon,</string>
-    <string name="good_evening">Good evening,</string>
-    <string name="good_night">Good night,</string>
+    <string name="good_morning">Good morning, </string>
+    <string name="good_afternoon">Good afternoon, </string>
+    <string name="good_evening">Good evening, </string>
+    <string name="good_night">Good night, </string>
     <string name="guess_hint">_ _ _ _</string>
     <string name="button_six_text">6</string>
     <string name="button_zero_text">0</string>
@@ -32,6 +32,5 @@
 
     <string name="enter_four_digits"><font fgcolor="#EEDFD0">Please enter a 4 digit combination.</font></string>
     <string name="enter_valid_entry"><font fgcolor="#EEDFD0">Please enter a valid entry.</font></string>
-
 
 </resources>
