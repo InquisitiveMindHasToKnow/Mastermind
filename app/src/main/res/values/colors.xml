@@ -12,5 +12,11 @@
     <color name="lose_and_timer_running_out_color">#F44336</color>
 
     <color name="dialogEditTextTextColor">#FFF</color>
+    <color name="rvItemColor">#e9eaec</color>
+    <color name="buttonTextColor">#e6df44</color>
+    <color name="entryEditTextColor">#e9eaec</color>
+    <color name="numberDisplayTextViewColor">#063852</color>
+
+
 
 </resources>
