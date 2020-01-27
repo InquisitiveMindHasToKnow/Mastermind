@@ -309,9 +309,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     String fourthNumber = separatedResponse[3];
 
                     combination = firstNumber + secondNumber + thirdNumber + fourthNumber;
-                    winningCombinationBundle.putString("combination", combination);
                     comboList.add(combination);
-                    combinationTextView.setText(combination);
 
                     String[] numbers = {"0", "1", "2", "3", "4", "5", "6", "7"};
                     Collections.shuffle(Arrays.asList(numbers));
@@ -327,6 +325,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     MainActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+
+                            combinationTextView.setText(combination);
 
                             firstNumberTextView.setText(eightDisplayedNumbers[5]);
                             secondNumberTextView.setText(eightDisplayedNumbers[1]);
@@ -349,6 +349,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prevGuessesAdapter.setComboInfo(comboList);
         prevGuessesEnteredList.add(userGuessEditText.getText().toString());
         prevGuessesAdapter.setData(prevGuessesEnteredList);
+        winningCombinationBundle.putString("combination", combination);
+
 
         String secondAndThirdNumbers = userGuessEditText.getText().toString().substring(1);
         String secondNumber = String.valueOf(secondAndThirdNumbers.charAt(0));
