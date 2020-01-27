@@ -1,4 +1,4 @@
-package org.ohmstheresistance.mastermind.activities;
+package org.ohmstheresistance.mastermind.dialogs;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import org.ohmstheresistance.mastermind.R;
+import org.ohmstheresistance.mastermind.activities.MainActivity;
 
 public class MastermindInstructions extends DialogFragment implements View.OnClickListener, View.OnTouchListener {
 

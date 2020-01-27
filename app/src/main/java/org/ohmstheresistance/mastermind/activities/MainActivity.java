@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.ohmstheresistance.mastermind.R;
+import org.ohmstheresistance.mastermind.dialogs.NoMoreGuesses;
+import org.ohmstheresistance.mastermind.dialogs.WinnerWinner;
 import org.ohmstheresistance.mastermind.rv.PrevGuessesAdapter;
 
 import java.io.IOException;
@@ -61,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private LinearLayoutManager linearLayoutManager;
     private LinearLayout combinationLinearLayout;
+
+    private Bundle winningCombinationBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prevGuessesRecyclerView.setAdapter(prevGuessesAdapter);
 
         comboList = new ArrayList<>();
+        winningCombinationBundle = new Bundle();
     }
 
     @Override
@@ -304,7 +309,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     String fourthNumber = separatedResponse[3];
 
                     combination = firstNumber + secondNumber + thirdNumber + fourthNumber;
-
+                    winningCombinationBundle.putString("combination", combination);
                     comboList.add(combination);
                     combinationTextView.setText(combination);
 
@@ -433,6 +438,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sixButton.setEnabled(false);
         sevenButton.setEnabled(false);
 
+        combinationLinearLayout.setVisibility(View.VISIBLE);
 
         brickOne.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
         brickTwo.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
@@ -464,10 +470,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void userWon() {
 
+        combinationLinearLayout.setVisibility(View.VISIBLE);
         displayHintsAndGameStatusTextview.setText(getResources().getText(R.string.you_won_text));
         feedBackTextView.setText(getResources().getText(R.string.correct));
         userGuessEditText.setBackgroundColor(getResources().getColor(R.color.userWonColor));
         userGuessEditText.setText(combination);
+
+        WinnerWinner winnerWinnerDialog = new WinnerWinner();
+        winnerWinnerDialog.setArguments(winningCombinationBundle);
+        winnerWinnerDialog.show(getSupportFragmentManager(), "WinnerWinnerDialog");
 
         guessButton.setEnabled(false);
         deleteButton.setEnabled(false);
@@ -508,6 +519,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }, 200);
         }
         if (totalGuesses == 7) {
+            personImageView.setImageDrawable(getDrawable(R.drawable.bartchilling));
             brickEight.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
 
             new Handler().postDelayed(new Runnable() {
@@ -597,6 +609,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             sixButton.setEnabled(false);
             sevenButton.setEnabled(false);
             revealButton.setEnabled(false);
+
+            NoMoreGuesses noMoreGuessesDialog = new NoMoreGuesses();
+            noMoreGuessesDialog.setArguments(winningCombinationBundle);
+            noMoreGuessesDialog.show(getSupportFragmentManager(), "NoMoreGuesses");
         }
     }
 
