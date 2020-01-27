@@ -1,7 +1,9 @@
 package org.ohmstheresistance.mastermind.dialogs;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -19,6 +21,12 @@ public class WinnerWinner extends DialogFragment implements View.OnClickListener
     private TextView dialogWinningCombinationTextView;
     private Bundle getCombinationBundle;
 
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        return new Dialog(getActivity(), R.style.WideDialog);
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
