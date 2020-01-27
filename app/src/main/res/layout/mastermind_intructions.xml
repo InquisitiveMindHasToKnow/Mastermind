@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="@android:color/white"
+    android:background="@color/colorPrimaryDark"
     android:orientation="vertical"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
@@ -16,7 +16,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="Mastermind Instructions"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/hintColor"
         android:textSize="24sp" />
 
     <LinearLayout
@@ -35,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hello there, I'm Bart!"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/hintColor"
                 android:textSize="12sp" />
 
 
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="The first and probably most important rule: Do NOT let me fall!"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/hintColor"
                 android:textSize="12sp" />
 
             <TextView
@@ -70,12 +70,12 @@
 
     <TextView
         android:id="@+id/instructions_part_three_textview"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
         android:text="For every guess that's not the correct combo, my support falls apart. If you run out of guesses, I will fall. Please don't let that happen! "
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/hintColor"
         android:textSize="12sp" />
 
     <TextView
@@ -86,7 +86,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="After every guess you get one of three hints: "
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/hintColor"
         android:textSize="12sp" />
 
     <LinearLayout
@@ -105,7 +105,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:text="● You correctly guessed the 4 digit combination and won"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/hintColor"
             android:textSize="12sp" />
     </LinearLayout>
 
@@ -125,7 +125,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:text="● You guessed a correct number and its correct location. "
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/hintColor"
             android:textSize="12sp" />
     </LinearLayout>
 
@@ -145,7 +145,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:text="● All entries are incorrect. "
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/hintColor"
             android:textSize="12sp" />
     </LinearLayout>
 
@@ -166,6 +166,7 @@
             android:paddingEnd="16dp"
             android:text="Got It!"
             android:textAllCaps="false"
+            android:textColor="@color/hintColor"
             android:textSize="24sp" />
 
         <Button
@@ -179,6 +180,7 @@
             android:paddingEnd="16dp"
             android:text="Play now"
             android:textAllCaps="false"
+            android:textColor="@color/hintColor"
             android:textSize="24sp" />
 
     </LinearLayout>
