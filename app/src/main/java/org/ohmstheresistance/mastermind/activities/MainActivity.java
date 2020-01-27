@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import org.ohmstheresistance.mastermind.R;
 import org.ohmstheresistance.mastermind.dialogs.NoMoreGuesses;
+import org.ohmstheresistance.mastermind.dialogs.TimerRanOutDialog;
 import org.ohmstheresistance.mastermind.dialogs.WinnerWinner;
 import org.ohmstheresistance.mastermind.rv.PrevGuessesAdapter;
 
@@ -310,6 +311,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     combination = firstNumber + secondNumber + thirdNumber + fourthNumber;
                     comboList.add(combination);
+                    winningCombinationBundle.putString("combination", combination);
+
 
                     String[] numbers = {"0", "1", "2", "3", "4", "5", "6", "7"};
                     Collections.shuffle(Arrays.asList(numbers));
@@ -349,7 +352,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prevGuessesAdapter.setComboInfo(comboList);
         prevGuessesEnteredList.add(userGuessEditText.getText().toString());
         prevGuessesAdapter.setData(prevGuessesEnteredList);
-        winningCombinationBundle.putString("combination", combination);
 
 
         String secondAndThirdNumbers = userGuessEditText.getText().toString().substring(1);
@@ -468,6 +470,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         personImageView.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.exit_bottom));
 
         displayHintsAndGameStatusTextview.setText(R.string.you_lost_text);
+
+        TimerRanOutDialog timerRanOutDialog = new TimerRanOutDialog();
+        timerRanOutDialog.setArguments(winningCombinationBundle);
+        timerRanOutDialog.show(getSupportFragmentManager(), "TimerRanOutDialog");
     }
 
     private void userWon() {
@@ -477,6 +483,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         feedBackTextView.setText(getResources().getText(R.string.correct));
         userGuessEditText.setBackgroundColor(getResources().getColor(R.color.userWonColor));
         userGuessEditText.setText(combination);
+
 
         WinnerWinner winnerWinnerDialog = new WinnerWinner();
         winnerWinnerDialog.setArguments(winningCombinationBundle);
@@ -590,7 +597,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }, 200);
         }
-        if (totalGuesses == 0) {
+        if (totalGuesses == 0 && !userGuessEditText.getText().toString().matches(combination)) {
             personImageView.setImageDrawable(getDrawable(R.drawable.bartfalling));
             brickOne.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
             personImageView.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.exit_bottom));
