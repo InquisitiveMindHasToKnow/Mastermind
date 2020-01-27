@@ -30,7 +30,7 @@ public class NoMoreGuesses extends DialogFragment implements View.OnClickListene
         getCombinationBundle = getArguments();
         String winningCombo = getCombinationBundle.getString("combination");
 
-        correctCombinationTextView.setText("The winning combination was: " + winningCombo);
+        correctCombinationTextView.setText("Winning combination: " + winningCombo);
 
         noMoreGuessesConfirmButton.setOnClickListener(this);
         noMoreGuessesConfirmButton.setOnTouchListener(this);
