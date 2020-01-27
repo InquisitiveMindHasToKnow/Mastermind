@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,18 +8,10 @@
     android:orientation="vertical"
     tools:context=".activities.MainPageActivity">
 
-    <TextView
-        android:id="@+id/header_textview"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:fontFamily="@font/autour_one"
-        android:padding="8dp"
-        android:text="@string/mastermind_header_text"
-        android:textAlignment="center"
-        android:textColor="@color/textColor"
-        android:textSize="40sp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
     <TextView
         android:id="@+id/greeting_textview"
@@ -27,7 +19,9 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Good morning,"
+        android:layout_marginTop="40dp"
         android:textColor="@color/textColor"
+        android:fontFamily="@font/autour_one"
         android:textSize="24sp" />
 
     <TextView
@@ -36,22 +30,40 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Jeremy"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/autour_one"
         android:textColor="@color/textColor"
         android:textSize="24sp" />
 
+        <TextView
+            android:id="@+id/not_user_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:fontFamily="@font/autour_one"
+            android:layout_marginTop="24dp"
+            android:textColor="@color/textColor"
+            android:textSize="12sp"
+            android:text="Not Jeremy?"
+            android:layout_marginBottom="24dp"
+            />
 
-    <ImageView
-        android:layout_width="180dp"
-        android:layout_height="240dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="40dp"
-        android:src="@drawable/mastermindguesses" />
+
+        <ImageView
+            android:id="@+id/master_mind_main_imageview"
+            android:layout_width="180dp"
+            android:layout_height="240dp"
+            android:elevation="1dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/mastermind"
+             />
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
+        android:layout_marginTop="40dp"
         android:orientation="vertical">
 
         <Button
@@ -82,4 +94,5 @@
             android:textSize="20sp" />
 
     </LinearLayout>
-</LinearLayout>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
