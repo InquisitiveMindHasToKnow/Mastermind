@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import org.ohmstheresistance.mastermind.R;
 import org.ohmstheresistance.mastermind.database.UserInfoDatabaseHelper;
+import org.ohmstheresistance.mastermind.dialogs.MastermindInstructions;
 
 import java.util.Calendar;
 
