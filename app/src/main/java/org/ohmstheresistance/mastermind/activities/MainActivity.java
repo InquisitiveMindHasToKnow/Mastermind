@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setUpViews();
         getRandomNumbers();
-        startCountDown();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -328,6 +327,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     MainActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+
+                            startCountDown();
 
                             combinationTextView.setText(combination);
 
