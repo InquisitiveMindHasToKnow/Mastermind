@@ -23,4 +23,12 @@
         <item name="android:windowMinWidthMinor">100%</item>
     </style>
 
+    <style name="RevealDialog" parent="Base.Theme.AppCompat.Dialog">
+        <item name="android:windowMinWidthMajor">100%</item>
+        <item name="android:windowMinWidthMinor">100%</item>
+        <item name="android:textColor">@color/low_guesses_color</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:textColorPrimary">@color/low_guesses_color</item>
+    </style>
+
 </resources>
