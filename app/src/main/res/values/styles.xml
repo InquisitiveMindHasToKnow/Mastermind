@@ -15,6 +15,7 @@
         <item name="colorButtonNormal">@color/colorPrimary</item>
         <item name="android:textColorPrimary">@color/hintColor</item>
         <item name="android:textColor">@color/hintColor</item>
+        <item name="android:fontFamily">@font/autour_one</item>
         <item name="buttonBarPositiveButtonStyle">@drawable/rounded_button_corners</item>
     </style>
 
@@ -29,6 +30,7 @@
         <item name="android:textColor">@color/low_guesses_color</item>
         <item name="android:background">@color/colorPrimaryDark</item>
         <item name="android:textColorPrimary">@color/low_guesses_color</item>
+        <item name="android:fontFamily">@font/autour_one</item>
     </style>
 
 </resources>
