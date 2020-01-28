@@ -14,11 +14,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import org.ohmstheresistance.mastermind.R;
+import org.ohmstheresistance.mastermind.activities.MainActivity;
 
 public class TimerRanOutDialog extends DialogFragment implements View.OnClickListener, View.OnTouchListener {
 
     private TextView winningCombinationTextView;
-    private Button timerRanOutConfirmButton;
+    private Button timerRanOutConfirmButton, timerRanOutPlayAgainButton;
     private Bundle getCombinationBundle;
 
     @NonNull
@@ -34,6 +35,7 @@ public class TimerRanOutDialog extends DialogFragment implements View.OnClickLis
 
         winningCombinationTextView = view.findViewById(R.id.timer_ran_out_winning_combination_textview);
         timerRanOutConfirmButton = view.findViewById(R.id.timer_ran_out_confirm_button);
+        timerRanOutPlayAgainButton = view.findViewById(R.id.timer_ran_out_play_again_button);
 
         getCombinationBundle = getArguments();
 
@@ -41,7 +43,9 @@ public class TimerRanOutDialog extends DialogFragment implements View.OnClickLis
         winningCombinationTextView.setText("Winning Combination: " + winningCombination);
 
         timerRanOutConfirmButton.setOnTouchListener(this);
+        timerRanOutPlayAgainButton.setOnClickListener(this);
         timerRanOutConfirmButton.setOnClickListener(this);
+        timerRanOutPlayAgainButton.setOnTouchListener(this);
 
         return view;
     }
@@ -56,7 +60,18 @@ public class TimerRanOutDialog extends DialogFragment implements View.OnClickLis
 
                     getDialog().dismiss();
                     break;
+
+                case R.id.timer_ran_out_play_again_button:
+
+                    playAgain();
+                    break;
             }
+    }
+
+    private void playAgain() {
+
+        getDialog().dismiss();
+        ((MainActivity)getActivity()).resetGame();
     }
 
     @Override

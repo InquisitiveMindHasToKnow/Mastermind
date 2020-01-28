@@ -2,6 +2,7 @@ package org.ohmstheresistance.mastermind.dialogs;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,10 +15,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import org.ohmstheresistance.mastermind.R;
+import org.ohmstheresistance.mastermind.activities.MainActivity;
 
 public class WinnerWinner extends DialogFragment implements View.OnClickListener, View.OnTouchListener {
 
-    private Button winnerConfirmButton;
+    private Button winnerConfirmButton, winnerPlayAgainButton;
     private TextView dialogWinningCombinationTextView;
     private Bundle getCombinationBundle;
 
@@ -33,6 +35,7 @@ public class WinnerWinner extends DialogFragment implements View.OnClickListener
         View view = inflater.inflate(R.layout.winner_winner, container, false);
 
         winnerConfirmButton = view.findViewById(R.id.winner_confirm_button);
+        winnerPlayAgainButton = view.findViewById(R.id.winner_play_again_button);
         dialogWinningCombinationTextView = view.findViewById(R.id.winner_dialog_combination_textview);
 
         getCombinationBundle = getArguments();
@@ -42,7 +45,9 @@ public class WinnerWinner extends DialogFragment implements View.OnClickListener
         dialogWinningCombinationTextView.setText("Winning Combo: " + winningCombo);
 
         winnerConfirmButton.setOnClickListener(this);
+        winnerPlayAgainButton.setOnClickListener(this);
         winnerConfirmButton.setOnTouchListener(this);
+        winnerPlayAgainButton.setOnTouchListener(this);
 
         return view;
     }
@@ -59,8 +64,20 @@ public class WinnerWinner extends DialogFragment implements View.OnClickListener
 
                 getDialog().dismiss();
                 break;
+
+            case R.id.winner_play_again_button:
+
+                playAgain();
+                break;
         }
     }
+
+    private void playAgain() {
+
+        getDialog().dismiss();
+        ((MainActivity)getActivity()).resetGame();
+    }
+
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
