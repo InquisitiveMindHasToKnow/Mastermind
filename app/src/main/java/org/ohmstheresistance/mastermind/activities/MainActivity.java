@@ -38,7 +38,7 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
-    private static final long COUNTDOWN_TIMER_IN_MILLIS = 60000;
+    private static final long COUNTDOWN_TIMER_IN_MILLIS = 300000;
 
     private EditText userGuessEditText;
 
@@ -66,6 +66,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout combinationLinearLayout;
 
     private Bundle winningCombinationBundle;
+
+    private int matchCounter = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,6 +166,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         comboList = new ArrayList<>();
         winningCombinationBundle = new Bundle();
+
+        revealButton.setEnabled(false);
+        guessButton.setEnabled(false);
     }
 
     @Override
@@ -340,6 +346,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             sixthNumberTextView.setText(eightDisplayedNumbers[7]);
                             seventhNumberTextView.setText(eightDisplayedNumbers[4]);
                             eighthNumberTextView.setText(eightDisplayedNumbers[6]);
+
+                            revealButton.setEnabled(true);
+                            guessButton.setEnabled(true);
                         }
 
                     });
@@ -354,34 +363,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prevGuessesEnteredList.add(userGuessEditText.getText().toString());
         prevGuessesAdapter.setData(prevGuessesEnteredList);
 
+        matchCounter(combination, userGuessEditText.getText().toString());
 
-        String secondAndThirdNumbers = userGuessEditText.getText().toString().substring(1);
-        String secondNumber = String.valueOf(secondAndThirdNumbers.charAt(0));
-        String thirdNumber = String.valueOf(secondAndThirdNumbers.charAt(1));
+        Log.d("COMBO", (combination.charAt(0) + " " + (combination.charAt(1) + " " +
+                (combination.charAt(2) + " " + (combination.charAt(3))))));
+
+        Log.d("COMBOENTRY", (userGuessEditText.getText().toString().charAt(0) + " " + (userGuessEditText.getText().toString().charAt(1) + " " +
+                (userGuessEditText.getText().toString().charAt(2) + " " + (userGuessEditText.getText().toString().charAt(3))))));
 
 
-        if (userGuessEditText.getText().toString().matches(combination)) {
-            countDownTimer.cancel();
+        Log.d("COMBOCOUNTER", String.valueOf(matchCounter));
 
-            userWon();
-
-        }
-
-        if ((combination.startsWith(String.valueOf(userGuessEditText.getText().toString().charAt(0))) ||
-                String.valueOf(combination.charAt(1)).matches(secondNumber) ||
-                String.valueOf(combination.charAt(2)).matches(thirdNumber) ||
-                combination.endsWith((userGuessEditText.getText().toString().substring(3)))) && !(userGuessEditText.getText().toString().equals(combination))) {
-
-            feedBackTextView.setText(getResources().getText(R.string.partially_correct));
+        if (matchCounter == 1) {
+            feedBackTextView.setText(getResources().getText(R.string.one_entry_correct));
             userGuessEditText.setText("");
+            matchCounter = 0;
 
-            return;
-        }
+        } else if (matchCounter == 2) {
+            feedBackTextView.setText(getResources().getText(R.string.two_entries_correct));
+            userGuessEditText.setText("");
+            matchCounter = 0;
 
-        if (!(combination.startsWith(String.valueOf(userGuessEditText.getText().toString().charAt(0))) ||
-                String.valueOf(combination.charAt(1)).matches(secondNumber) ||
-                String.valueOf(combination.charAt(2)).matches(thirdNumber) ||
-                combination.endsWith((userGuessEditText.getText().toString().substring(3))))) {
+        } else if (matchCounter == 3) {
+            feedBackTextView.setText(getResources().getText(R.string.three_entries_correct));
+            userGuessEditText.setText("");
+            matchCounter = 0;
+        } else if (matchCounter == 4) {
+            userWon();
+        } else {
 
             feedBackTextView.setText(getResources().getText(R.string.incorrect));
             userGuessEditText.setText("");
@@ -407,6 +416,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         }.start();
+    }
+
+    private int matchCounter(String combo, String entry) {
+
+        for (int i = 0; i < combo.length(); i++) {
+            if (combo.charAt(i) == entry.charAt(i)) {
+
+                matchCounter++;
+            }
+        }
+
+        return matchCounter;
     }
 
     private void updateCountDownText() {
@@ -598,7 +619,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }, 200);
         }
-        if (totalGuesses == 0 && !userGuessEditText.getText().toString().matches(combination)) {
+        if (totalGuesses == 0 && matchCounter != 4) {
             personImageView.setImageDrawable(getDrawable(R.drawable.bartfalling));
             brickOne.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
             personImageView.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.exit_bottom));
@@ -668,6 +689,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 v.setBackground(getResources().getDrawable(R.drawable.rounded_button_corners));
                 break;
         }
-            return false;
-        }
+        return false;
     }
+}
