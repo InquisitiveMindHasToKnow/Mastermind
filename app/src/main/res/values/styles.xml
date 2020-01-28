@@ -17,6 +17,7 @@
         <item name="android:textColor">@color/hintColor</item>
         <item name="android:fontFamily">@font/autour_one</item>
         <item name="buttonBarPositiveButtonStyle">@drawable/rounded_button_corners</item>
+        <item name="android:textAppearanceSmall">@style/revealDialogAppearance</item>
     </style>
 
     <style name="WideDialog" parent="Base.Theme.AppCompat.Dialog">
@@ -30,6 +31,11 @@
         <item name="android:textColor">@color/low_guesses_color</item>
         <item name="android:background">@color/colorPrimaryDark</item>
         <item name="android:textColorPrimary">@color/low_guesses_color</item>
+        <item name="android:fontFamily">@font/autour_one</item>
+        <item name="android:textAppearanceSmall">@style/revealDialogAppearance</item>
+    </style>
+
+    <style name="revealDialogAppearance" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">@font/autour_one</item>
     </style>
 

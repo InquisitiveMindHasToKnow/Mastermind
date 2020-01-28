@@ -265,7 +265,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this, R.style.RevealDialog);
 
-        alertDialog.setTitle("Are you sure you want to reveal the answer?");
+        alertDialog.setTitle("Reveal combination?");
         alertDialog.setMessage("Completing this action will result in a loss!");
         alertDialog.setPositiveButton("Confirm",
                 new DialogInterface.OnClickListener() {
