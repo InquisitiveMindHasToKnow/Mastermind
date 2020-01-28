@@ -272,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void resetGame() {
+    public void resetGame() {
 
         finish();
         startActivity(getIntent());

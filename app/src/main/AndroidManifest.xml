@@ -11,8 +11,10 @@
         android:roundIcon="@drawable/bartfalling"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.UserInfoActivity"></activity>
-        <activity android:name=".activities.SplashActivity">
+        <activity android:name=".activities.UserInfoActivity" android:configChanges="orientation"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".activities.SplashActivity" android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -14,11 +14,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import org.ohmstheresistance.mastermind.R;
+import org.ohmstheresistance.mastermind.activities.MainActivity;
 
 public class NoMoreGuesses extends DialogFragment implements View.OnClickListener, View.OnTouchListener {
 
     private TextView correctCombinationTextView;
-    private Button noMoreGuessesConfirmButton;
+    private Button noMoreGuessesConfirmButton, noMoreGuessesPlayAgainButton;
     private Bundle getCombinationBundle;
 
     @NonNull
@@ -33,6 +34,7 @@ public class NoMoreGuesses extends DialogFragment implements View.OnClickListene
 
         correctCombinationTextView = view.findViewById(R.id.no_more_guesses_winning_combination_textview);
         noMoreGuessesConfirmButton = view.findViewById(R.id.no_more_guesses_confirm_button);
+        noMoreGuessesPlayAgainButton = view.findViewById(R.id.no_more_guesses_play_again_button);
 
         getCombinationBundle = getArguments();
         String winningCombo = getCombinationBundle.getString("combination");
@@ -40,7 +42,10 @@ public class NoMoreGuesses extends DialogFragment implements View.OnClickListene
         correctCombinationTextView.setText("Winning combination: " + winningCombo);
 
         noMoreGuessesConfirmButton.setOnClickListener(this);
+        noMoreGuessesPlayAgainButton.setOnClickListener(this);
+
         noMoreGuessesConfirmButton.setOnTouchListener(this);
+        noMoreGuessesPlayAgainButton.setOnTouchListener(this);
 
         return view;
     }
@@ -56,7 +61,18 @@ public class NoMoreGuesses extends DialogFragment implements View.OnClickListene
 
                 getDialog().dismiss();
                 break;
+
+            case R.id.no_more_guesses_play_again_button:
+
+                playAgain();
+                break;
         }
+    }
+
+    private void playAgain() {
+
+        getDialog().dismiss();
+        ((MainActivity)getActivity()).resetGame();
     }
 
     @Override
