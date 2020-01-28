@@ -1,8 +1,10 @@
 package org.ohmstheresistance.mastermind.activities;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +22,7 @@ import android.widget.TextView;
 import org.ohmstheresistance.mastermind.R;
 import org.ohmstheresistance.mastermind.dialogs.NoMoreGuesses;
 import org.ohmstheresistance.mastermind.dialogs.TimerRanOutDialog;
+import org.ohmstheresistance.mastermind.dialogs.UserRevealedComboDialog;
 import org.ohmstheresistance.mastermind.dialogs.WinnerWinner;
 import org.ohmstheresistance.mastermind.rv.PrevGuessesAdapter;
 
@@ -260,7 +263,73 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void revealCombination() {
 
-        combinationLinearLayout.setVisibility(View.VISIBLE);
+       final AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this, R.style.RevealDialog);
+
+        alertDialog.setTitle("Are you sure you want to reveal the answer?");
+        alertDialog.setMessage("Completing this action will result in a loss!");
+        alertDialog.setPositiveButton("Confirm",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                        countDownTimer.cancel();
+                        combinationLinearLayout.setVisibility(View.VISIBLE);
+
+                        feedBackTextView.setText(getResources().getText(R.string.revealed_answer_feedback));
+                        displayHintsAndGameStatusTextview.setText(R.string.you_lost_text);
+
+                        UserRevealedComboDialog userRevealedComboDialog = new UserRevealedComboDialog();
+                        userRevealedComboDialog.setArguments(winningCombinationBundle);
+                        userRevealedComboDialog.show(getSupportFragmentManager(), "UserRevealedComboDialog");
+
+                        guessButton.setEnabled(false);
+                        deleteButton.setEnabled(false);
+                        hintButton.setEnabled(false);
+                        zeroButton.setEnabled(false);
+                        oneButton.setEnabled(false);
+                        twoButton.setEnabled(false);
+                        threeButton.setEnabled(false);
+                        fourButton.setEnabled(false);
+                        fiveButton.setEnabled(false);
+                        sixButton.setEnabled(false);
+                        sevenButton.setEnabled(false);
+                        revealButton.setEnabled(false);
+
+                        brickOne.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+                        brickTwo.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+                        brickThree.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+                        brickFour.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+                        brickFive.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+                        brickSix.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+                        brickSeven.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+                        brickEight.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+                        brickNine.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+                        brickTen.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+
+                        brickOne.setVisibility(View.INVISIBLE);
+                        brickTwo.setVisibility(View.INVISIBLE);
+                        brickThree.setVisibility(View.INVISIBLE);
+                        brickFour.setVisibility(View.INVISIBLE);
+                        brickFive.setVisibility(View.INVISIBLE);
+                        brickSix.setVisibility(View.INVISIBLE);
+                        brickSeven.setVisibility(View.INVISIBLE);
+                        brickEight.setVisibility(View.INVISIBLE);
+                        brickNine.setVisibility(View.INVISIBLE);
+                        brickTen.setVisibility(View.INVISIBLE);
+
+                        personImageView.setImageResource(R.drawable.bartfalling);
+                        personImageView.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.exit_bottom));
+
+                    }
+
+                });
+        alertDialog.setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        alertDialog.show();
     }
 
 

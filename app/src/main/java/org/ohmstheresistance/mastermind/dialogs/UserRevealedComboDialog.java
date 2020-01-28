@@ -16,12 +16,11 @@ import android.widget.TextView;
 import org.ohmstheresistance.mastermind.R;
 import org.ohmstheresistance.mastermind.activities.MainActivity;
 
-public class WinnerWinner extends DialogFragment implements View.OnClickListener, View.OnTouchListener {
+public class UserRevealedComboDialog extends DialogFragment implements View.OnClickListener, View.OnTouchListener {
 
-    private Button winnerConfirmButton, winnerPlayAgainButton;
+    private Button revealedCombinationConfirmButton, revealedCombinationPlayAgainButton;
     private TextView dialogWinningCombinationTextView;
     private Bundle getCombinationBundle;
-
 
     @NonNull
     @Override
@@ -31,11 +30,11 @@ public class WinnerWinner extends DialogFragment implements View.OnClickListener
 
     @SuppressLint("ClickableViewAccessibility")
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.winner_winner, container, false);
+        View view = inflater.inflate(R.layout.user_revealed_combo, container, false);
 
-        winnerConfirmButton = view.findViewById(R.id.winner_confirm_button);
-        winnerPlayAgainButton = view.findViewById(R.id.winner_play_again_button);
-        dialogWinningCombinationTextView = view.findViewById(R.id.winner_dialog_combination_textview);
+        revealedCombinationConfirmButton = view.findViewById(R.id.revealed_combination_confirm_button);
+        revealedCombinationPlayAgainButton = view.findViewById(R.id.revealed_combination_play_again_button);
+        dialogWinningCombinationTextView = view.findViewById(R.id.revealed_combination_winning_combination_textview);
 
         getCombinationBundle = getArguments();
         String winningCombo = getCombinationBundle.getString("combination");
@@ -43,32 +42,13 @@ public class WinnerWinner extends DialogFragment implements View.OnClickListener
 
         dialogWinningCombinationTextView.setText("Winning Combo: " + winningCombo);
 
-        winnerConfirmButton.setOnClickListener(this);
-        winnerPlayAgainButton.setOnClickListener(this);
-        winnerConfirmButton.setOnTouchListener(this);
-        winnerPlayAgainButton.setOnTouchListener(this);
+        revealedCombinationConfirmButton.setOnClickListener(this);
+        revealedCombinationPlayAgainButton.setOnClickListener(this);
+
+        revealedCombinationConfirmButton.setOnTouchListener(this);
+        revealedCombinationPlayAgainButton.setOnTouchListener(this);
 
         return view;
-    }
-
-
-    @Override
-    public void onClick(View v) {
-
-        int id = v.getId();
-
-        switch (id) {
-
-            case R.id.winner_confirm_button:
-
-                getDialog().dismiss();
-                break;
-
-            case R.id.winner_play_again_button:
-
-                playAgain();
-                break;
-        }
     }
 
     private void playAgain() {
@@ -79,7 +59,26 @@ public class WinnerWinner extends DialogFragment implements View.OnClickListener
 
 
     @Override
+    public void onClick(View v) {
+
+        int id = v.getId();
+
+        switch (id) {
+
+            case R.id.revealed_combination_confirm_button:
+
+                getDialog().dismiss();
+                break;
+
+            case R.id.revealed_combination_play_again_button:
+                playAgain();
+                break;
+        }
+    }
+
+    @Override
     public boolean onTouch(View v, MotionEvent event) {
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
 
