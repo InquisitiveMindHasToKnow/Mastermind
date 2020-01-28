@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             guessButton, revealButton;
 
     private List<String> prevGuessesEnteredList, comboList;
+    private List<Integer>rightsGuesses;
 
     private String combination, randomNumbersResponse;
 
@@ -161,7 +162,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         combinationLinearLayout = findViewById(R.id.combination_linear);
         prevGuessesRecyclerView.setLayoutManager(linearLayoutManager);
         prevGuessesEnteredList = new ArrayList<>();
-        prevGuessesAdapter = new PrevGuessesAdapter(prevGuessesEnteredList, comboList);
+        rightsGuesses = new ArrayList<>();
+        prevGuessesAdapter = new PrevGuessesAdapter(prevGuessesEnteredList, comboList, rightsGuesses);
         prevGuessesRecyclerView.setAdapter(prevGuessesAdapter);
 
         comboList = new ArrayList<>();
@@ -365,6 +367,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         matchCounter(combination, userGuessEditText.getText().toString());
 
+        rightsGuesses.add(matchCounter);
+        prevGuessesAdapter.setCorrectItems(rightsGuesses);
+
         Log.d("COMBO", (combination.charAt(0) + " " + (combination.charAt(1) + " " +
                 (combination.charAt(2) + " " + (combination.charAt(3))))));
 
@@ -500,6 +505,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void userWon() {
 
+        countDownTimer.cancel();
         combinationLinearLayout.setVisibility(View.VISIBLE);
         displayHintsAndGameStatusTextview.setText(getResources().getText(R.string.you_won_text));
         feedBackTextView.setText(getResources().getText(R.string.correct));

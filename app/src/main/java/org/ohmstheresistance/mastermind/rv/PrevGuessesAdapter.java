@@ -16,10 +16,13 @@ public class PrevGuessesAdapter extends RecyclerView.Adapter<PrevGuessesAdapter.
 
     private List<String> guessedList;
     private List<String> comboList;
+    private List<Integer> correctItems;
 
-    public PrevGuessesAdapter(List<String> guessedList, List<String> comboList) {
+
+    public PrevGuessesAdapter(List<String> guessedList, List<String> comboList, List<Integer>correctItems) {
         this.guessedList = guessedList;
         this.comboList = comboList;
+        this.correctItems = correctItems;
     }
 
     @NonNull
@@ -33,6 +36,8 @@ public class PrevGuessesAdapter extends RecyclerView.Adapter<PrevGuessesAdapter.
     public void onBindViewHolder(@NonNull PrevGuessViewHolder prevGuessViewHolder, int position) {
 
         prevGuessViewHolder.prevGuessTextView.setText(guessedList.get(position));
+        prevGuessViewHolder.prevGuessCorrectItemsTextView.setText(String.valueOf(correctItems.get(position)));
+
 
         String combination = String.valueOf(comboList).substring(1, 5);
         String usersGuess = prevGuessViewHolder.prevGuessTextView.getText().toString();
@@ -60,6 +65,7 @@ public class PrevGuessesAdapter extends RecyclerView.Adapter<PrevGuessesAdapter.
             prevGuessViewHolder.prevGuessImageView.setImageResource(R.drawable.wrong);
         }
 
+
     }
 
     @Override
@@ -78,15 +84,21 @@ public class PrevGuessesAdapter extends RecyclerView.Adapter<PrevGuessesAdapter.
         notifyDataSetChanged();
     }
 
+    public void setCorrectItems(List<Integer> rightItems){
+        correctItems = rightItems;
+        notifyDataSetChanged();
+    }
+
     class PrevGuessViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView prevGuessTextView;
+        private TextView prevGuessTextView, prevGuessCorrectItemsTextView;
         private ImageView prevGuessImageView;
 
         public PrevGuessViewHolder(@NonNull View itemView) {
             super(itemView);
 
             prevGuessTextView = itemView.findViewById(R.id.previous_guess_textview);
+            prevGuessCorrectItemsTextView = itemView.findViewById(R.id.prev_guess_correct_items_textview);
             prevGuessImageView = itemView.findViewById(R.id.prev_guess_imageview);
         }
 
