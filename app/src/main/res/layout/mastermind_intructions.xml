@@ -118,8 +118,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="● You correctly guessed the 4 digit combination and won"
-            android:textColor="@color/hintColor"
+            android:text="● You correctly guessed the 4 digit combination and won."
+            android:textColor="@color/userWonColor"
             android:fontFamily="@font/autour_one"
 
             android:textSize="12sp" />
@@ -144,7 +144,7 @@
             android:gravity="center_vertical"
             android:text="● You guessed a correct number and its correct location. "
             android:fontFamily="@font/autour_one"
-            android:textColor="@color/hintColor"
+            android:textColor="@color/colorAccent"
             android:textSize="12sp" />
     </LinearLayout>
 
@@ -167,7 +167,7 @@
             android:gravity="center_vertical"
             android:text="● All entries are incorrect. "
             android:fontFamily="@font/autour_one"
-            android:textColor="@color/hintColor"
+            android:textColor="@color/lose_and_timer_running_out_color"
             android:textSize="12sp" />
     </LinearLayout>
 

@@ -19,7 +19,8 @@
             android:gravity="center"
             android:text="You lost!"
             android:textColor="@color/low_guesses_color"
-            android:textSize="32sp" />
+            android:textStyle="bold"
+            android:textSize="24sp" />
 
 
         <TextView
@@ -30,7 +31,6 @@
             android:fontFamily="@font/autour_one"
             android:gravity="center"
             android:textColor="@color/userWonColor"
-            android:textSize="16sp"
             android:textStyle="bold" />
 
         <ImageView
@@ -51,8 +51,7 @@
             android:gravity="center"
             android:text="You revealed the correct combination manually before the game ended."
             android:textColor="@color/low_guesses_color"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+             />
 
         <TextView
             android:id="@+id/revealed_combination_message_two_textview"
@@ -64,8 +63,7 @@
             android:gravity="center"
             android:text="Better luck next time!"
             android:textColor="@color/low_guesses_color"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+             />
 
         <LinearLayout
             android:layout_width="match_parent"
