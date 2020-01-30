@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import org.ohmstheresistance.mastermind.R;
+import org.ohmstheresistance.mastermind.database.UserInfoDatabaseHelper;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -26,6 +27,8 @@ public class SplashActivity extends AppCompatActivity {
     private ImageView splashCheckMarkImageView;
 
     private Intent toMainScreenIntent;
+
+    private UserInfoDatabaseHelper userInfoDatabaseHelper;
 
 
     @Override
@@ -91,7 +94,7 @@ public class SplashActivity extends AppCompatActivity {
 
         final SharedPreferences firstLaunchCheck = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (firstLaunchCheck.getBoolean(KEY_PREFS_FIRST_LAUNCH, true)) {
+        if (firstLaunchCheck.getBoolean(KEY_PREFS_FIRST_LAUNCH, true) || (userInfoDatabaseHelper.getUserInfo().isEmpty())) {
 
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -132,6 +135,8 @@ public class SplashActivity extends AppCompatActivity {
         splashButtonFive = findViewById(R.id.splash_five_button);
         splashButtonThree = findViewById(R.id.splash_three_button);
         splashButtonZero = findViewById(R.id.splash_zero_button);
+
+        userInfoDatabaseHelper = UserInfoDatabaseHelper.getInstance(this);
 
     }
 
