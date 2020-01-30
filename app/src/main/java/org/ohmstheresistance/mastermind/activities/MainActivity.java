@@ -377,8 +377,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (response.isSuccessful()) {
                     randomNumbersResponse = response.body().string();
 
-                    Log.e("RESPONSE", randomNumbersResponse);
-
                     String[] separatedResponse = randomNumbersResponse.split("\\s+");
 
                     String firstNumber = separatedResponse[0];
@@ -396,13 +394,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     final String[] eightDisplayedNumbers = {numbers[0], numbers[2], numbers[4], numbers[6], firstNumber, secondNumber, thirdNumber, fourthNumber};
                     Collections.shuffle(Arrays.asList(eightDisplayedNumbers));
-
-                    Log.d("EIGHT",eightDisplayedNumbers[0] + eightDisplayedNumbers[1] + eightDisplayedNumbers[2] + eightDisplayedNumbers[3] +  eightDisplayedNumbers[4]+ eightDisplayedNumbers[5]+ eightDisplayedNumbers[6] +eightDisplayedNumbers[7]);
-                    Log.d("EIGHTCOMBO", combination);
-
-                    Log.e("Combination", combination);
-                    Log.e("Combination", numbers[2]);
-
 
                     MainActivity.this.runOnUiThread(new Runnable() {
                         @Override
@@ -442,15 +433,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         rightsGuesses.add(matchCounter);
         prevGuessesAdapter.setCorrectItems(rightsGuesses);
-
-        Log.d("COMBO", (combination.charAt(0) + " " + (combination.charAt(1) + " " +
-                (combination.charAt(2) + " " + (combination.charAt(3))))));
-
-        Log.d("COMBOENTRY", (userGuessEditText.getText().toString().charAt(0) + " " + (userGuessEditText.getText().toString().charAt(1) + " " +
-                (userGuessEditText.getText().toString().charAt(2) + " " + (userGuessEditText.getText().toString().charAt(3))))));
-
-
-        Log.d("COMBOCOUNTER", String.valueOf(matchCounter));
 
         if (matchCounter == 1) {
             feedBackTextView.setText(getResources().getText(R.string.one_entry_correct));
