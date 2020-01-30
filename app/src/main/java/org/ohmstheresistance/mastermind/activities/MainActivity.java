@@ -174,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         revealButton.setEnabled(false);
         guessButton.setEnabled(false);
+        hintButton.setEnabled(false);
     }
 
     @Override
@@ -396,6 +397,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     final String[] eightDisplayedNumbers = {numbers[0], numbers[2], numbers[4], numbers[6], firstNumber, secondNumber, thirdNumber, fourthNumber};
                     Collections.shuffle(Arrays.asList(eightDisplayedNumbers));
 
+                    Log.d("EIGHT",eightDisplayedNumbers[0] + eightDisplayedNumbers[1] + eightDisplayedNumbers[2] + eightDisplayedNumbers[3] +  eightDisplayedNumbers[4]+ eightDisplayedNumbers[5]+ eightDisplayedNumbers[6] +eightDisplayedNumbers[7]);
+                    Log.d("EIGHTCOMBO", combination);
 
                     Log.e("Combination", combination);
                     Log.e("Combination", numbers[2]);
@@ -420,6 +423,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             revealButton.setEnabled(true);
                             guessButton.setEnabled(true);
+                            hintButton.setEnabled(true);
                         }
 
                     });
@@ -537,6 +541,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fiveButton.setEnabled(false);
         sixButton.setEnabled(false);
         sevenButton.setEnabled(false);
+        revealButton.setEnabled(false);
+
 
         combinationLinearLayout.setVisibility(View.VISIBLE);
 
@@ -726,7 +732,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         String[] hints = {"There is no chance the number to guess is negative.", "C'mon! The combination is 4 digits long.", "At least one of the numbers above is in the combo.",
                 "You have " + totalGuesses + " guesses remaining!", "You have " + countDownTimerTextView.getText().toString() + " left!", "Haha! Not happening!",
-                "I could but where's the fun in that?", "It's only 4 digits. You got this!", "I would've solved it already."};
+                "I could but where's the fun in that?", "It's only 4 digits. You got this!", "I would've solved it already.", "FINE! There's a " + combination.charAt(2) + " include somewhere.",
+                "You're running out of time!", "Okay a " + combination.charAt(0) + " is included somewhere."};
 
         Collections.shuffle(Arrays.asList(hints));
         String displayHint = hints[2];
