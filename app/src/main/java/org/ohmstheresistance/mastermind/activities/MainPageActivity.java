@@ -2,6 +2,7 @@ package org.ohmstheresistance.mastermind.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,24 +17,34 @@ import org.ohmstheresistance.mastermind.dialogs.EditUserInfoDialog;
 import org.ohmstheresistance.mastermind.dialogs.MastermindInstructions;
 
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 public class MainPageActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
-    private TextView greetingTextView, userNameTextView, notUserTextView;
+    private TextView greetingTextView, userNameTextView, notUserTextView, highScoreTextView;
     private Button playNowButton, instructionsButton;
     private Intent navigationIntent;
     private UserInfoDatabaseHelper userInfoDatabaseHelper;
 
-    private String userName;
+    private String userName, highScorer;
+    private long highScore;
+
+    private SharedPreferences highScoreSharedPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
 
+        highScoreSharedPrefs = getApplicationContext().getSharedPreferences("hsSharedPrefs", MODE_PRIVATE);
+
         setViews();
         setGreeting();
 
+        highScorer = highScoreSharedPrefs.getString("highScorer", "BriBri");
+        highScore = highScoreSharedPrefs.getLong("highScore", 0);
+
+        highScoreTextView.setText("HIGH SCORE: " + highScorer + "(" + highScore + ")");
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -42,6 +53,7 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
         greetingTextView = findViewById(R.id.greeting_textview);
         userNameTextView = findViewById(R.id.user_name_textview);
         notUserTextView = findViewById(R.id.not_user_textview);
+        highScoreTextView = findViewById(R.id.high_score_textview);
         playNowButton = findViewById(R.id.play_now_button);
         instructionsButton = findViewById(R.id.instructions_button);
         userInfoDatabaseHelper = UserInfoDatabaseHelper.getInstance(this);
