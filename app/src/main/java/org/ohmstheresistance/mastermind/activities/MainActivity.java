@@ -591,11 +591,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (timeLeftInMillis < defaultHighScore) {
 
-            highScore = timeLeftInMillis;
-            defaultHighScore = highScore;
+            highScore = defaultHighScore - timeLeftInMillis;
 
             highScoreSharedPrefsEditor.putString("highScorer", highScorer);
             highScoreSharedPrefsEditor.putLong("highScore" , highScore);
+            highScoreSharedPrefsEditor.putBoolean("sharedPrefsNotEmpty", true);
                 highScoreSharedPrefsEditor.apply();
         }
 
