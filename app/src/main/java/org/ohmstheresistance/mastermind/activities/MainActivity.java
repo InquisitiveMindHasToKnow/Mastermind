@@ -2,6 +2,7 @@ package org.ohmstheresistance.mastermind.activities;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
@@ -9,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -32,6 +32,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -66,12 +67,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int totalGuesses = 10;
     private long timeLeftInMillis;
 
+    private long defaultHighScore;
+
     private LinearLayoutManager linearLayoutManager;
     private LinearLayout combinationLinearLayout;
 
     private Bundle winningCombinationBundle;
 
+    private SharedPreferences highScoreSharedPrefs;
+
     private int matchCounter = 0;
+
+
+    private long highScore;
 
 
     @Override
@@ -80,9 +88,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         timeLeftInMillis = COUNTDOWN_TIMER_IN_MILLIS;
+        highScoreSharedPrefs = getApplicationContext().getSharedPreferences("hsSharedPrefs", MODE_PRIVATE);
 
         setUpViews();
         getRandomNumbers();
+
+        highScore = highScoreSharedPrefs.getLong("CURRENTHIGHSCORE", defaultHighScore);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -574,6 +585,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         winnerWinnerDialog.setArguments(winningCombinationBundle);
         winnerWinnerDialog.show(getSupportFragmentManager(), "WinnerWinnerDialog");
 
+
+
         guessButton.setEnabled(false);
         deleteButton.setEnabled(false);
         hintButton.setEnabled(false);
@@ -593,94 +606,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         checkWhatToastToDisplay();
 
         if (totalGuesses == 9) {
-            brickTen.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    brickTen.setVisibility(View.INVISIBLE);
-                }
-            }, 200);
+            animateBrick(brickTen);
         }
         if (totalGuesses == 8) {
-            brickNine.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    brickNine.setVisibility(View.INVISIBLE);
-                }
-            }, 200);
+            animateBrick(brickNine);
         }
         if (totalGuesses == 7) {
             personImageView.setImageDrawable(getDrawable(R.drawable.bartchilling));
-            brickEight.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    brickEight.setVisibility(View.INVISIBLE);
-                }
-            }, 200);
+            animateBrick(brickEight);
         }
         if (totalGuesses == 6) {
-            brickSeven.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    brickSeven.setVisibility(View.INVISIBLE);
-                }
-            }, 200);
+            animateBrick(brickSeven);
         }
         if (totalGuesses == 5) {
             personImageView.setImageDrawable(getDrawable(R.drawable.bartjumping));
-            brickSix.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    brickSix.setVisibility(View.INVISIBLE);
-                }
-            }, 200);
+            animateBrick(brickSix);
         }
         if (totalGuesses == 4) {
-            brickFive.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    brickFive.setVisibility(View.INVISIBLE);
-                }
-            }, 200);
+            animateBrick(brickFive);
         }
         if (totalGuesses == 3) {
-            brickFour.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    brickFour.setVisibility(View.INVISIBLE);
-                }
-            }, 200);
+            animateBrick(brickFour);
         }
         if (totalGuesses == 2) {
             guessesRemainingTextView.setTextColor(getResources().getColor(R.color.low_guesses_color));
             personImageView.setImageDrawable(getDrawable(R.drawable.bartscared));
-            brickThree.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    brickThree.setVisibility(View.INVISIBLE);
-                }
-            }, 200);
+            animateBrick(brickThree);
         }
         if (totalGuesses == 1) {
-            brickTwo.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    brickTwo.setVisibility(View.INVISIBLE);
-                }
-            }, 200);
+            animateBrick(brickTwo);
         }
         if (totalGuesses == 0 && matchCounter != 4) {
             personImageView.setImageDrawable(getDrawable(R.drawable.bartfalling));
@@ -708,6 +662,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             noMoreGuessesDialog.setArguments(winningCombinationBundle);
             noMoreGuessesDialog.show(getSupportFragmentManager(), "NoMoreGuesses");
         }
+    }
+
+    private void animateBrick(final ImageView brick) {
+        brick.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                brick.setVisibility(View.INVISIBLE);
+            }
+        }, 200);
     }
 
     private void pickAHintToDisplay() {
