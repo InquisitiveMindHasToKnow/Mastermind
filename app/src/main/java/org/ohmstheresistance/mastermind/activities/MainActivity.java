@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.ohmstheresistance.mastermind.R;
+import org.ohmstheresistance.mastermind.database.UserInfoDatabaseHelper;
 import org.ohmstheresistance.mastermind.dialogs.NoMoreGuesses;
 import org.ohmstheresistance.mastermind.dialogs.TimerRanOutDialog;
 import org.ohmstheresistance.mastermind.dialogs.UserRevealedComboDialog;
@@ -65,9 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private CountDownTimer countDownTimer;
     private int totalGuesses = 10;
-    private long timeLeftInMillis;
-
-    private long defaultHighScore;
+    private long timeLeftInMillis, defaultHighScore, highScore;
 
     private LinearLayoutManager linearLayoutManager;
     private LinearLayout combinationLinearLayout;
@@ -75,12 +74,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Bundle winningCombinationBundle;
 
     private SharedPreferences highScoreSharedPrefs;
+    SharedPreferences.Editor highScoreSharedPrefsEditor;
 
     private int matchCounter = 0;
-
-
-    private long highScore;
-
+    private UserInfoDatabaseHelper userInfoDatabaseHelper;
+    private String highScorer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,12 +86,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         timeLeftInMillis = COUNTDOWN_TIMER_IN_MILLIS;
+
         highScoreSharedPrefs = getApplicationContext().getSharedPreferences("hsSharedPrefs", MODE_PRIVATE);
+        highScoreSharedPrefsEditor = highScoreSharedPrefs.edit();
 
         setUpViews();
         getRandomNumbers();
 
-        highScore = highScoreSharedPrefs.getLong("CURRENTHIGHSCORE", defaultHighScore);
+        defaultHighScore = TimeUnit.MINUTES.toMillis(5);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -117,6 +117,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         feedBackTextView = findViewById(R.id.feedback_textview);
 
         personImageView = findViewById(R.id.person_imageview);
+        userInfoDatabaseHelper = UserInfoDatabaseHelper.getInstance(this);
+
 
         brickOne = findViewById(R.id.brick_one_imageview);
         brickTwo = findViewById(R.id.brick_two_imageview);
@@ -585,7 +587,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         winnerWinnerDialog.setArguments(winningCombinationBundle);
         winnerWinnerDialog.show(getSupportFragmentManager(), "WinnerWinnerDialog");
 
+        highScorer = userInfoDatabaseHelper.getUserInfo().get(0).getUserName();
 
+        if (timeLeftInMillis < defaultHighScore) {
+
+            highScore = timeLeftInMillis;
+            defaultHighScore = highScore;
+
+            highScoreSharedPrefsEditor.putString("highScorer", highScorer);
+            highScoreSharedPrefsEditor.putLong("highScore" , highScore);
+                highScoreSharedPrefsEditor.apply();
+        }
 
         guessButton.setEnabled(false);
         deleteButton.setEnabled(false);
