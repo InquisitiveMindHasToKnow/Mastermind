@@ -17,11 +17,11 @@ import org.ohmstheresistance.mastermind.dialogs.EditUserInfoDialog;
 import org.ohmstheresistance.mastermind.dialogs.MastermindInstructions;
 
 import java.util.Calendar;
-import java.util.concurrent.TimeUnit;
+import java.util.Locale;
 
 public class MainPageActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
-    private TextView greetingTextView, userNameTextView, notUserTextView, highScoreTextView;
+    private TextView greetingTextView, userNameTextView, notUserTextView, highScoreHeaderTextView, highScoreTextView, highScorerTextView;
     private Button playNowButton, instructionsButton;
     private Intent navigationIntent;
     private UserInfoDatabaseHelper userInfoDatabaseHelper;
@@ -36,15 +36,37 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
 
-        highScoreSharedPrefs = getApplicationContext().getSharedPreferences("hsSharedPrefs", MODE_PRIVATE);
-
         setViews();
         setGreeting();
+        displayHighScore();
+    }
 
-        highScorer = highScoreSharedPrefs.getString("highScorer", "BriBri");
-        highScore = highScoreSharedPrefs.getLong("highScore", 0);
+    private void displayHighScore() {
 
-        highScoreTextView.setText("HIGH SCORE: " + highScorer + "(" + highScore + ")");
+        highScoreSharedPrefs = getApplicationContext().getSharedPreferences("hsSharedPrefs", MODE_PRIVATE);
+
+        boolean sharedPrefsNotEmpty = highScoreSharedPrefs.getBoolean("sharedPrefsNotEmpty", false);
+
+        if(!sharedPrefsNotEmpty){
+
+            highScoreTextView.setVisibility(View.INVISIBLE);
+
+        }else{
+
+            highScoreTextView.setVisibility(View.VISIBLE);
+
+            highScorer = highScoreSharedPrefs.getString("highScorer", "");
+            highScore = highScoreSharedPrefs.getLong("highScore", 0);
+
+            int minutes = (int) (highScore / 1000 / 60);
+            int seconds = (int) (highScore / 1000) % 60;
+
+
+            String highScoreInMinsAndSeconds = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+
+           highScorerTextView.setText(highScorer);
+           highScoreTextView.setText(highScoreInMinsAndSeconds);
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -53,7 +75,10 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
         greetingTextView = findViewById(R.id.greeting_textview);
         userNameTextView = findViewById(R.id.user_name_textview);
         notUserTextView = findViewById(R.id.not_user_textview);
+        highScorerTextView = findViewById(R.id.high_scorer_textview);
+        highScoreHeaderTextView = findViewById(R.id.high_score_header_textview);
         highScoreTextView = findViewById(R.id.high_score_textview);
+
         playNowButton = findViewById(R.id.play_now_button);
         instructionsButton = findViewById(R.id.instructions_button);
         userInfoDatabaseHelper = UserInfoDatabaseHelper.getInstance(this);
