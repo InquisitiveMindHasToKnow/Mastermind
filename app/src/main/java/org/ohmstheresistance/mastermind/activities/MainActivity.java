@@ -2,6 +2,7 @@ package org.ohmstheresistance.mastermind.activities;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -44,6 +46,10 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
     private static final long COUNTDOWN_TIMER_IN_MILLIS = 300000;
+    public static final String SHARED_PREFS = "highScoreSharedPrefs";
+    public static final String HIGH_SCORE_KEY = "highScoreKey";
+    public static final String HIGH_SCORER_KEY = "highScorerKey";
+    public static final String NEW_SCORE = "newScoreKey";
 
     private EditText userGuessEditText;
 
@@ -87,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         timeLeftInMillis = COUNTDOWN_TIMER_IN_MILLIS;
 
-        highScoreSharedPrefs = getApplicationContext().getSharedPreferences("hsSharedPrefs", MODE_PRIVATE);
+        highScoreSharedPrefs = getApplicationContext().getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         highScoreSharedPrefsEditor = highScoreSharedPrefs.edit();
 
         setUpViews();
@@ -408,6 +414,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     final String[] eightDisplayedNumbers = {numbers[0], numbers[2], numbers[4], numbers[6], firstNumber, secondNumber, thirdNumber, fourthNumber};
                     Collections.shuffle(Arrays.asList(eightDisplayedNumbers));
 
+                    Log.d("EIGHT",eightDisplayedNumbers[0] + eightDisplayedNumbers[1] + eightDisplayedNumbers[2] + eightDisplayedNumbers[3] +  eightDisplayedNumbers[4]+ eightDisplayedNumbers[5]+ eightDisplayedNumbers[6] +eightDisplayedNumbers[7]);
+                    Log.d("EIGHTCOMBO", combination);
+
+                    Log.e("Combination", combination);
+                    Log.e("Combination", numbers[2]);
+
                     MainActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -587,17 +599,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         winnerWinnerDialog.setArguments(winningCombinationBundle);
         winnerWinnerDialog.show(getSupportFragmentManager(), "WinnerWinnerDialog");
 
-        highScorer = userInfoDatabaseHelper.getUserInfo().get(0).getUserName();
-
-        if (timeLeftInMillis < defaultHighScore) {
-
-            highScore = defaultHighScore - timeLeftInMillis;
-
-            highScoreSharedPrefsEditor.putString("highScorer", highScorer);
-            highScoreSharedPrefsEditor.putLong("highScore" , highScore);
-            highScoreSharedPrefsEditor.putBoolean("sharedPrefsNotEmpty", true);
-                highScoreSharedPrefsEditor.apply();
-        }
+        createOrUpdateHighScore();
 
         guessButton.setEnabled(false);
         deleteButton.setEnabled(false);
@@ -613,6 +615,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         revealButton.setEnabled(false);
     }
 
+    private void createOrUpdateHighScore() {
+        highScorer = userInfoDatabaseHelper.getUserInfo().get(0).getUserName();
+        long score = defaultHighScore - timeLeftInMillis;
+
+        highScoreSharedPrefsEditor.putString(HIGH_SCORER_KEY, highScorer);
+        highScoreSharedPrefsEditor.putLong(NEW_SCORE, score);
+        highScoreSharedPrefsEditor.commit();
+
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra(NEW_SCORE, score);
+        resultIntent.putExtra(HIGH_SCORER_KEY, highScorer);
+        setResult(RESULT_OK, resultIntent);
+
+    }
     private void animatePersonLinear() {
 
         checkWhatToastToDisplay();
