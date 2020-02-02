@@ -9,16 +9,30 @@
 
 
     <TextView
+        android:id="@+id/not_user_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/autour_one"
+        android:gravity="end"
+        android:text="Not Jeremy?"
+        android:textColor="@color/textColor"
+        android:textSize="12sp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/greeting_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/autour_one"
         android:gravity="center"
         android:text="Good morning,"
         android:textColor="@color/textColor"
         android:textSize="24sp"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/not_user_textview" />
 
     <TextView
         android:id="@+id/user_name_textview"
@@ -32,24 +46,13 @@
         android:textSize="24sp"
         app:layout_constraintTop_toBottomOf="@id/greeting_textview" />
 
-    <TextView
-        android:id="@+id/not_user_textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
-        android:fontFamily="@font/autour_one"
-        android:gravity="center_horizontal"
-        android:text="Not Jeremy?"
-        android:textColor="@color/textColor"
-        android:textSize="12sp"
-        app:layout_constraintTop_toBottomOf="@id/user_name_textview" />
+
 
     <TextView
         android:id="@+id/high_score_header_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/autour_one"
         android:gravity="center_horizontal"
         android:textColor="@color/textColor"
@@ -59,13 +62,13 @@
         android:layout_marginStart="64dp"
         app:layout_constraintRight_toLeftOf="@id/high_scorer_textview"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/not_user_textview" />
+        app:layout_constraintTop_toBottomOf="@id/user_name_textview" />
 
     <TextView
         android:id="@+id/high_scorer_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/autour_one"
         android:gravity="center_horizontal"
         android:textColor="@color/textColor"
@@ -73,13 +76,13 @@
         android:visibility="invisible"
         app:layout_constraintRight_toLeftOf="@id/high_score_textview"
         app:layout_constraintLeft_toRightOf="@id/high_score_header_textview"
-        app:layout_constraintTop_toBottomOf="@id/not_user_textview" />
+        app:layout_constraintTop_toBottomOf="@id/user_name_textview" />
 
     <TextView
         android:id="@+id/high_score_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/autour_one"
         android:gravity="center_horizontal"
         android:textColor="@color/textColor"
@@ -88,7 +91,7 @@
         android:layout_marginEnd="64dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toRightOf="@id/high_scorer_textview"
-        app:layout_constraintTop_toBottomOf="@id/not_user_textview" />
+        app:layout_constraintTop_toBottomOf="@id/user_name_textview" />
 
     <ImageView
         android:id="@+id/master_mind_main_imageview"
