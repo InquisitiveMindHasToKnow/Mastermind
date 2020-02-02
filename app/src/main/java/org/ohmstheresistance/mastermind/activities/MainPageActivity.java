@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -19,7 +18,6 @@ import org.ohmstheresistance.mastermind.R;
 import org.ohmstheresistance.mastermind.database.UserInfoDatabaseHelper;
 import org.ohmstheresistance.mastermind.dialogs.EditUserInfoDialog;
 import org.ohmstheresistance.mastermind.dialogs.MastermindInstructions;
-import org.ohmstheresistance.mastermind.dialogs.UserRevealedComboDialog;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -31,7 +29,7 @@ import static org.ohmstheresistance.mastermind.activities.MainActivity.SHARED_PR
 
 public class MainPageActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
-    private static final int MASTERMIND_REQUEST_CODE = 1;
+    public static final int MASTERMIND_REQUEST_CODE = 1;
     private TextView greetingTextView, userNameTextView, notUserTextView, highScoreHeaderTextView, highScoreTextView, highScorerTextView;
     private Button playNowButton, instructionsButton, resetHighScoreButton;
     private Intent navigationIntent;
