@@ -16,6 +16,8 @@ import android.widget.Button;
 import org.ohmstheresistance.mastermind.R;
 import org.ohmstheresistance.mastermind.activities.MainActivity;
 
+import static org.ohmstheresistance.mastermind.activities.MainPageActivity.MASTERMIND_REQUEST_CODE;
+
 public class MastermindInstructions extends DialogFragment implements View.OnClickListener, View.OnTouchListener {
 
     private Button gotItButton;
@@ -77,8 +79,8 @@ public class MastermindInstructions extends DialogFragment implements View.OnCli
             case R.id.play_now_from_instructions_button:
 
                 getDialog().dismiss();
-                Intent navigationIntent = new Intent(getContext(), MainActivity.class);
-                startActivity(navigationIntent);
+                Intent navigationIntent = new Intent(getActivity(), MainActivity.class);
+                getActivity().startActivityForResult(navigationIntent, MASTERMIND_REQUEST_CODE);
                 getActivity().overridePendingTransition(0, 0);
                 break;
         }
