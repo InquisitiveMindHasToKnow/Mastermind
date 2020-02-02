@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +31,8 @@ import static org.ohmstheresistance.mastermind.activities.MainActivity.SHARED_PR
 public class MainPageActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
     public static final int MASTERMIND_REQUEST_CODE = 1;
+    public static final String HIGH_SCORE_MAKER = "highScoreMaker";
+
     private TextView greetingTextView, userNameTextView, notUserTextView, highScoreHeaderTextView, highScoreTextView, highScorerTextView;
     private Button playNowButton, instructionsButton, resetHighScoreButton;
     private Intent navigationIntent;
@@ -62,7 +65,7 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
 
                 if (score < highScore) {
 
-                    updateHighScore(score, highScorer);
+                    updateHighScore(score);
 
                     int minutes = (int) (score / 1000 / 60);
                     int seconds = (int) (score / 1000) % 60;
@@ -215,7 +218,7 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
 
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         highScore = sharedPreferences.getLong(HIGH_SCORE_KEY, 300001);
-        highScorer = sharedPreferences.getString(HIGH_SCORER_KEY, "Potentially you!");
+        highScorer = sharedPreferences.getString(HIGH_SCORE_MAKER, "Potentially you!");
 
         if (highScore < 300000) {
 
@@ -230,21 +233,26 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
             highScoreHeaderTextView.setVisibility(View.VISIBLE);
             highScorerTextView.setVisibility(View.VISIBLE);
             highScoreTextView.setVisibility(View.VISIBLE);
+
+            Log.d("HIGHSCORERLOAD", sharedPreferences.getString(HIGH_SCORER_KEY, ""));
+            Log.d("HIGHSCORERMAKERLOAD", sharedPreferences.getString(HIGH_SCORE_MAKER, ""));
         }
 
     }
 
-    private void updateHighScore(long newHighScore, String highScoreMaker) {
+    private void updateHighScore(long newHighScore) {
 
         highScore = newHighScore;
-        highScorer = highScoreMaker;
 
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor sharedPreferencesEditor = sharedPreferences.edit();
-        sharedPreferencesEditor.putString(HIGH_SCORER_KEY, highScorer);
+        sharedPreferencesEditor.putString(HIGH_SCORE_MAKER, highScorer);
         sharedPreferencesEditor.putLong(HIGH_SCORE_KEY, highScore);
         sharedPreferencesEditor.putLong(NEW_SCORE, score);
         sharedPreferencesEditor.apply();
+
+        Log.d("HIGHSCORERUPDATE", sharedPreferences.getString(HIGH_SCORER_KEY, ""));
+        Log.d("HIGHSCORERMAKERUPDATE", sharedPreferences.getString(HIGH_SCORE_MAKER, ""));
     }
 
     public void resetHighScore() {
