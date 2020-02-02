@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private CountDownTimer countDownTimer;
     private int totalGuesses = 10;
-    private long timeLeftInMillis, defaultHighScore, highScore;
+    private long timeLeftInMillis, defaultHighScore;
 
     private LinearLayoutManager linearLayoutManager;
     private LinearLayout combinationLinearLayout;
@@ -302,18 +302,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         userRevealedComboDialog.setArguments(winningCombinationBundle);
                         userRevealedComboDialog.show(getSupportFragmentManager(), "UserRevealedComboDialog");
 
-                        guessButton.setEnabled(false);
-                        deleteButton.setEnabled(false);
-                        hintButton.setEnabled(false);
-                        zeroButton.setEnabled(false);
-                        oneButton.setEnabled(false);
-                        twoButton.setEnabled(false);
-                        threeButton.setEnabled(false);
-                        fourButton.setEnabled(false);
-                        fiveButton.setEnabled(false);
-                        sixButton.setEnabled(false);
-                        sevenButton.setEnabled(false);
-                        revealButton.setEnabled(false);
+                        disableButtons();
 
                         brickOne.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
                         brickTwo.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
@@ -537,20 +526,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void userLostBecauseTimerRanOut() {
-        guessButton.setEnabled(false);
-        deleteButton.setEnabled(false);
-        hintButton.setEnabled(false);
-        zeroButton.setEnabled(false);
-        oneButton.setEnabled(false);
-        twoButton.setEnabled(false);
-        threeButton.setEnabled(false);
-        fourButton.setEnabled(false);
-        fiveButton.setEnabled(false);
-        sixButton.setEnabled(false);
-        sevenButton.setEnabled(false);
-        revealButton.setEnabled(false);
-
-
         combinationLinearLayout.setVisibility(View.VISIBLE);
 
         brickOne.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right));
@@ -583,6 +558,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TimerRanOutDialog timerRanOutDialog = new TimerRanOutDialog();
         timerRanOutDialog.setArguments(winningCombinationBundle);
         timerRanOutDialog.show(getSupportFragmentManager(), "TimerRanOutDialog");
+
+        disableButtons();
     }
 
     private void userWon() {
@@ -601,18 +578,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         createOrUpdateHighScore();
 
-        guessButton.setEnabled(false);
-        deleteButton.setEnabled(false);
-        hintButton.setEnabled(false);
-        zeroButton.setEnabled(false);
-        oneButton.setEnabled(false);
-        twoButton.setEnabled(false);
-        threeButton.setEnabled(false);
-        fourButton.setEnabled(false);
-        fiveButton.setEnabled(false);
-        sixButton.setEnabled(false);
-        sevenButton.setEnabled(false);
-        revealButton.setEnabled(false);
+        disableButtons();
     }
 
     private void createOrUpdateHighScore() {
@@ -673,23 +639,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             displayHintsAndGameStatusTextview.setText(R.string.you_lost_text);
             combinationLinearLayout.setVisibility(View.VISIBLE);
 
-            guessButton.setEnabled(false);
-            deleteButton.setEnabled(false);
-            hintButton.setEnabled(false);
-            zeroButton.setEnabled(false);
-            oneButton.setEnabled(false);
-            twoButton.setEnabled(false);
-            threeButton.setEnabled(false);
-            fourButton.setEnabled(false);
-            fiveButton.setEnabled(false);
-            sixButton.setEnabled(false);
-            sevenButton.setEnabled(false);
-            revealButton.setEnabled(false);
-
             NoMoreGuesses noMoreGuessesDialog = new NoMoreGuesses();
             noMoreGuessesDialog.setArguments(winningCombinationBundle);
             noMoreGuessesDialog.show(getSupportFragmentManager(), "NoMoreGuesses");
+
+            disableButtons();
         }
+    }
+
+    private void disableButtons() {
+        guessButton.setEnabled(false);
+        deleteButton.setEnabled(false);
+        hintButton.setEnabled(false);
+        zeroButton.setEnabled(false);
+        oneButton.setEnabled(false);
+        twoButton.setEnabled(false);
+        threeButton.setEnabled(false);
+        fourButton.setEnabled(false);
+        fiveButton.setEnabled(false);
+        sixButton.setEnabled(false);
+        sevenButton.setEnabled(false);
+        revealButton.setEnabled(false);
     }
 
     private void animateBrick(final ImageView brick) {
