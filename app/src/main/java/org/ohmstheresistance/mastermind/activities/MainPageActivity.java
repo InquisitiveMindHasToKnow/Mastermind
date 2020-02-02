@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -19,17 +20,21 @@ import org.ohmstheresistance.mastermind.dialogs.MastermindInstructions;
 import java.util.Calendar;
 import java.util.Locale;
 
+import static org.ohmstheresistance.mastermind.activities.MainActivity.HIGH_SCORER_KEY;
+import static org.ohmstheresistance.mastermind.activities.MainActivity.HIGH_SCORE_KEY;
+import static org.ohmstheresistance.mastermind.activities.MainActivity.NEW_SCORE;
+import static org.ohmstheresistance.mastermind.activities.MainActivity.SHARED_PREFS;
+
 public class MainPageActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
+    private static final int MASTERMIND_REQUEST_CODE = 1;
     private TextView greetingTextView, userNameTextView, notUserTextView, highScoreHeaderTextView, highScoreTextView, highScorerTextView;
     private Button playNowButton, instructionsButton;
     private Intent navigationIntent;
     private UserInfoDatabaseHelper userInfoDatabaseHelper;
 
     private String userName, highScorer;
-    private long highScore;
-
-    private SharedPreferences highScoreSharedPrefs;
+    private long highScore, score;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,37 +43,35 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
 
         setViews();
         setGreeting();
-        displayHighScore();
+
+        loadHighScore();
     }
 
-    private void displayHighScore() {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        highScoreSharedPrefs = getApplicationContext().getSharedPreferences("hsSharedPrefs", MODE_PRIVATE);
+        if (requestCode == MASTERMIND_REQUEST_CODE) {
 
-        boolean sharedPrefsNotEmpty = highScoreSharedPrefs.getBoolean("sharedPrefsNotEmpty", false);
+            if (resultCode == RESULT_OK) {
+                score = data.getLongExtra(NEW_SCORE, 0);
+                highScorer = data.getStringExtra(HIGH_SCORER_KEY);
 
-        if(!sharedPrefsNotEmpty){
+                if (score < highScore) {
 
-            highScoreTextView.setVisibility(View.INVISIBLE);
+                    updateHighScore(score, highScorer);
 
-        }else{
+                    int minutes = (int) (score / 1000 / 60);
+                    int seconds = (int) (score / 1000) % 60;
 
-            highScoreTextView.setVisibility(View.VISIBLE);
+                    String highScoreInMinsAndSeconds = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
 
-            highScorer = highScoreSharedPrefs.getString("highScorer", "");
-            highScore = highScoreSharedPrefs.getLong("highScore", 0);
-
-            int minutes = (int) (highScore / 1000 / 60);
-            int seconds = (int) (highScore / 1000) % 60;
-
-
-            String highScoreInMinsAndSeconds = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
-
-           highScorerTextView.setText(highScorer);
-           highScoreTextView.setText(highScoreInMinsAndSeconds);
+                    highScorerTextView.setText(highScorer);
+                    highScoreTextView.setText(highScoreInMinsAndSeconds);
+                }
+            }
         }
     }
-
     @SuppressLint("ClickableViewAccessibility")
     private void setViews() {
 
@@ -147,7 +150,7 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
             case R.id.play_now_button:
 
                 navigationIntent = new Intent(MainPageActivity.this, MainActivity.class);
-                startActivity(navigationIntent);
+                startActivityForResult(navigationIntent, MASTERMIND_REQUEST_CODE);
                 overridePendingTransition(0, 0);
                 break;
 
@@ -169,5 +172,32 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
         editUserInfoDialog.show(getSupportFragmentManager(), "EditUserInfoDialog");
     }
 
+    private void loadHighScore(){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        highScore = sharedPreferences.getLong(HIGH_SCORE_KEY, 99999999);
+        highScorer = sharedPreferences.getString(HIGH_SCORER_KEY, "Nuh Mek Yet");
+
+        int minutes = (int) (highScore / 1000 / 60);
+        int seconds = (int) (highScore / 1000) % 60;
+
+        String highScoreInMinsAndSeconds = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+
+        highScorerTextView.setText(highScorer);
+        highScoreTextView.setText(highScoreInMinsAndSeconds);
+
+    }
+
+    private void updateHighScore(long newHighScore, String highScoreMaker) {
+
+        highScore = newHighScore;
+        highScorer = highScoreMaker;
+
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor sharedPreferencesEditor = sharedPreferences.edit();
+        sharedPreferencesEditor.putString(HIGH_SCORER_KEY, highScorer);
+        sharedPreferencesEditor.putLong(HIGH_SCORE_KEY, highScore);
+        sharedPreferencesEditor.putLong(NEW_SCORE, score);
+        sharedPreferencesEditor.apply();
+    }
 }
 
