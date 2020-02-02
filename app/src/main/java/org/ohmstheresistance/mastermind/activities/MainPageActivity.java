@@ -1,14 +1,17 @@
 package org.ohmstheresistance.mastermind.activities;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -16,6 +19,7 @@ import org.ohmstheresistance.mastermind.R;
 import org.ohmstheresistance.mastermind.database.UserInfoDatabaseHelper;
 import org.ohmstheresistance.mastermind.dialogs.EditUserInfoDialog;
 import org.ohmstheresistance.mastermind.dialogs.MastermindInstructions;
+import org.ohmstheresistance.mastermind.dialogs.UserRevealedComboDialog;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -29,7 +33,7 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
 
     private static final int MASTERMIND_REQUEST_CODE = 1;
     private TextView greetingTextView, userNameTextView, notUserTextView, highScoreHeaderTextView, highScoreTextView, highScorerTextView;
-    private Button playNowButton, instructionsButton;
+    private Button playNowButton, instructionsButton, resetHighScoreButton;
     private Intent navigationIntent;
     private UserInfoDatabaseHelper userInfoDatabaseHelper;
 
@@ -45,6 +49,7 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
         setGreeting();
 
         loadHighScore();
+        showOrHideResetHighScoreButton();
     }
 
     @Override
@@ -66,12 +71,19 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
 
                     String highScoreInMinsAndSeconds = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
 
-                    highScorerTextView.setText(highScorer);
                     highScoreTextView.setText(highScoreInMinsAndSeconds);
+
+                    highScorerTextView.setText(highScorer);
+
+                    highScoreHeaderTextView.setVisibility(View.VISIBLE);
+                    highScorerTextView.setVisibility(View.VISIBLE);
+                    highScoreTextView.setVisibility(View.VISIBLE);
+                    resetHighScoreButton.setVisibility(View.VISIBLE);
                 }
             }
         }
     }
+
     @SuppressLint("ClickableViewAccessibility")
     private void setViews() {
 
@@ -84,20 +96,23 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
 
         playNowButton = findViewById(R.id.play_now_button);
         instructionsButton = findViewById(R.id.instructions_button);
+        resetHighScoreButton = findViewById(R.id.reset_high_score_button);
         userInfoDatabaseHelper = UserInfoDatabaseHelper.getInstance(this);
 
         playNowButton.setOnClickListener(this);
         instructionsButton.setOnClickListener(this);
+        resetHighScoreButton.setOnClickListener(this);
         notUserTextView.setOnClickListener(this);
 
         playNowButton.setOnTouchListener(this);
         instructionsButton.setOnTouchListener(this);
+        resetHighScoreButton.setOnTouchListener(this);
 
         userName = userInfoDatabaseHelper.getUserInfo().get(0).getUserName();
         userNameTextView.setText(userName + "!");
 
 
-        notUserTextView.setPaintFlags(notUserTextView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+        notUserTextView.setPaintFlags(notUserTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         notUserTextView.setText("Not " + userName + "?");
 
     }
@@ -118,7 +133,7 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
             greetingTextView.setText(getString(R.string.good_evening));
 
         } else if (timeOfDay >= 21 && timeOfDay < 24) {
-            greetingTextView.setText(getString(R.string.good_night) );
+            greetingTextView.setText(getString(R.string.good_night));
         }
     }
 
@@ -163,27 +178,61 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
             case R.id.not_user_textview:
                 updateUserName();
                 break;
+
+            case R.id.reset_high_score_button:
+
+                final AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainPageActivity.this, R.style.RevealDialog);
+
+                alertDialog.setTitle("Reset High Scores?");
+                alertDialog.setMessage("Are you sure you want to reset your high score?");
+                alertDialog.setPositiveButton("Confirm",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                resetHighScore();
+                                loadHighScore();
+                                showOrHideResetHighScoreButton();
+
+                            }
+
+                        });
+                alertDialog.setNegativeButton("No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                alertDialog.show();
+                break;
         }
     }
 
-    private void updateUserName(){
+    private void updateUserName() {
 
         EditUserInfoDialog editUserInfoDialog = new EditUserInfoDialog();
         editUserInfoDialog.show(getSupportFragmentManager(), "EditUserInfoDialog");
     }
 
-    private void loadHighScore(){
+    private void loadHighScore() {
+
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        highScore = sharedPreferences.getLong(HIGH_SCORE_KEY, 99999999);
-        highScorer = sharedPreferences.getString(HIGH_SCORER_KEY, "Nuh Mek Yet");
+        highScore = sharedPreferences.getLong(HIGH_SCORE_KEY, 300001);
+        highScorer = sharedPreferences.getString(HIGH_SCORER_KEY, "Potentially you!");
 
-        int minutes = (int) (highScore / 1000 / 60);
-        int seconds = (int) (highScore / 1000) % 60;
+        if (highScore < 300000) {
 
-        String highScoreInMinsAndSeconds = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+            int minutes = (int) (highScore / 1000 / 60);
+            int seconds = (int) (highScore / 1000) % 60;
 
-        highScorerTextView.setText(highScorer);
-        highScoreTextView.setText(highScoreInMinsAndSeconds);
+            String highScoreInMinsAndSeconds = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+
+            highScorerTextView.setText(highScorer);
+            highScoreTextView.setText(highScoreInMinsAndSeconds);
+
+            highScoreHeaderTextView.setVisibility(View.VISIBLE);
+            highScorerTextView.setVisibility(View.VISIBLE);
+            highScoreTextView.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -198,6 +247,32 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
         sharedPreferencesEditor.putLong(HIGH_SCORE_KEY, highScore);
         sharedPreferencesEditor.putLong(NEW_SCORE, score);
         sharedPreferencesEditor.apply();
+    }
+
+    public void resetHighScore() {
+
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        highScore = sharedPreferences.getLong(HIGH_SCORE_KEY, 0);
+
+        sharedPreferences.edit().remove(HIGH_SCORE_KEY).apply();
+        sharedPreferences.edit().remove(HIGH_SCORER_KEY).apply();
+
+        highScoreHeaderTextView.setVisibility(View.INVISIBLE);
+        highScorerTextView.setVisibility(View.INVISIBLE);
+        highScoreTextView.setVisibility(View.INVISIBLE);
+
+    }
+
+    public void showOrHideResetHighScoreButton() {
+
+        if (highScore > 300000) {
+            resetHighScoreButton.setVisibility(View.INVISIBLE);
+        } else {
+
+            if (highScore < 300000)
+                resetHighScoreButton.setVisibility(View.VISIBLE);
+        }
+
     }
 }
 
