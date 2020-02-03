@@ -577,7 +577,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         winnerWinnerDialog.show(getSupportFragmentManager(), "WinnerWinnerDialog");
 
         createOrUpdateHighScore();
-
         disableButtons();
     }
 
