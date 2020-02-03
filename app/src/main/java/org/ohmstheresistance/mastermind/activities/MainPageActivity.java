@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +14,10 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import org.ohmstheresistance.mastermind.R;
 import org.ohmstheresistance.mastermind.database.UserInfoDatabaseHelper;
@@ -36,6 +40,7 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
     private TextView greetingTextView, userNameTextView, notUserTextView, highScoreHeaderTextView, highScoreTextView, highScorerTextView;
     private Button playNowButton, instructionsButton, resetHighScoreButton;
     private Intent navigationIntent;
+    private ImageView highScoreCelebrationImageView;
     private UserInfoDatabaseHelper userInfoDatabaseHelper;
 
     private String userName, highScorer;
@@ -94,6 +99,7 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
         highScorerTextView = findViewById(R.id.high_scorer_textview);
         highScoreHeaderTextView = findViewById(R.id.high_score_header_textview);
         highScoreTextView = findViewById(R.id.high_score_textview);
+        highScoreCelebrationImageView = findViewById(R.id.high_score_celebration_imageview);
 
         playNowButton = findViewById(R.id.play_now_button);
         instructionsButton = findViewById(R.id.instructions_button);
@@ -253,6 +259,47 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
 
         Log.d("HIGHSCORERUPDATE", sharedPreferences.getString(HIGH_SCORER_KEY, ""));
         Log.d("HIGHSCORERMAKERUPDATE", sharedPreferences.getString(HIGH_SCORE_MAKER, ""));
+
+        Glide.with(MainPageActivity.this)
+                .load(R.drawable.high_score_celebration)
+                .into(highScoreCelebrationImageView);
+
+        highScoreCelebrationImageView.setVisibility(View.VISIBLE);
+
+        highScoreHeaderTextView.setText("NEW HIGH SCORE:");
+        highScoreHeaderTextView.setTextColor(getResources().getColor(R.color.newHighScoreColor));
+        highScoreHeaderTextView.setTextSize(16);
+        highScorerTextView.setTextColor(getResources().getColor(R.color.newHighScoreColor));
+        highScoreTextView.setTextColor(getResources().getColor(R.color.newHighScoreColor));
+        greetingTextView.setText("CONGRATULATIONS!");
+        greetingTextView.setTextColor(getResources().getColor(R.color.newHighScoreColor));
+
+        userNameTextView.setText("NEW HIGH SCORE!!!");
+        userNameTextView.setTextColor(getResources().getColor(R.color.newHighScoreColor));
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                highScoreCelebrationImageView.setVisibility(View.GONE);
+                highScoreHeaderTextView.setText("HIGH SCORE:");
+                highScoreHeaderTextView.setTextColor(getResources().getColor(R.color.textColor));
+                highScoreHeaderTextView.setTextSize(12);
+                highScorerTextView.setTextColor(getResources().getColor(R.color.textColor));
+                highScoreTextView.setTextColor(getResources().getColor(R.color.textColor));
+
+                setGreeting();
+                greetingTextView.setTextColor(getResources().getColor(R.color.textColor));
+
+                userNameTextView.setText(userName + "!");
+                userNameTextView.setTextColor(getResources().getColor(R.color.textColor));
+
+
+
+            }
+        }, 4000);
+
     }
 
     public void resetHighScore() {

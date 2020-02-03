@@ -8,6 +8,13 @@
     tools:context=".activities.MainPageActivity">
 
 
+    <ImageView
+        android:id="@+id/high_score_celebration_imageview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/high_score_celebration"
+        android:visibility="gone"/>
+
     <TextView
         android:id="@+id/not_user_textview"
         android:layout_width="match_parent"
