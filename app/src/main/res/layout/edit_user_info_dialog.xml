@@ -40,6 +40,7 @@
             android:background="@color/hintColor"
             android:fontFamily="@font/autour_one"
             android:layout_gravity="center"
+            android:singleLine="true"
             android:gravity="center"
             android:maxLength="12"
             android:textColor="@color/colorPrimaryDark"
