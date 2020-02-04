@@ -40,7 +40,7 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
     private TextView greetingTextView, userNameTextView, notUserTextView, highScoreHeaderTextView, highScoreTextView, highScorerTextView;
     private Button playNowButton, instructionsButton, resetHighScoreButton;
     private Intent navigationIntent;
-    private ImageView highScoreCelebrationImageView;
+    private ImageView mainImageImageView, highScoreCelebrationImageView;
     private UserInfoDatabaseHelper userInfoDatabaseHelper;
 
     private String userName, highScorer;
@@ -100,6 +100,7 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
         highScoreHeaderTextView = findViewById(R.id.high_score_header_textview);
         highScoreTextView = findViewById(R.id.high_score_textview);
         highScoreCelebrationImageView = findViewById(R.id.high_score_celebration_imageview);
+        mainImageImageView = findViewById(R.id.master_mind_main_imageview);
 
         playNowButton = findViewById(R.id.play_now_button);
         instructionsButton = findViewById(R.id.instructions_button);
@@ -171,9 +172,7 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
 
             case R.id.play_now_button:
 
-                navigationIntent = new Intent(MainPageActivity.this, MainActivity.class);
-                startActivityForResult(navigationIntent, MASTERMIND_REQUEST_CODE);
-                overridePendingTransition(0, 0);
+                playNow();
                 break;
 
             case R.id.instructions_button:
@@ -212,6 +211,12 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
                 alertDialog.show();
                 break;
         }
+    }
+
+    public void playNow() {
+        navigationIntent = new Intent(MainPageActivity.this, MainActivity.class);
+        startActivityForResult(navigationIntent, MASTERMIND_REQUEST_CODE);
+        overridePendingTransition(0, 0);
     }
 
     private void updateUserName() {
@@ -277,6 +282,8 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
         userNameTextView.setText("NEW HIGH SCORE!!!");
         userNameTextView.setTextColor(getResources().getColor(R.color.newHighScoreColor));
 
+        mainImageImageView.setVisibility(View.INVISIBLE);
+        notUserTextView.setVisibility(View.INVISIBLE);
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -294,6 +301,9 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
 
                 userNameTextView.setText(userName + "!");
                 userNameTextView.setTextColor(getResources().getColor(R.color.textColor));
+
+                mainImageImageView.setVisibility(View.VISIBLE);
+                notUserTextView.setVisibility(View.VISIBLE);
 
 
 

@@ -352,8 +352,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void resetGame() {
 
-        finish();
-        startActivity(getIntent());
+        recreate();
         overridePendingTransition(0, 0);
     }
 
@@ -487,7 +486,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 updateCountDownText();
 
                 userLostBecauseTimerRanOut();
-
             }
         }.start();
     }
@@ -557,8 +555,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TimerRanOutDialog timerRanOutDialog = new TimerRanOutDialog();
         timerRanOutDialog.setArguments(winningCombinationBundle);
-        timerRanOutDialog.show(getSupportFragmentManager(), "TimerRanOutDialog");
+        getSupportFragmentManager().beginTransaction().add(timerRanOutDialog, "TimerRanOutDialog").commitAllowingStateLoss();
 
+        // timerRanOutDialog.show(getSupportFragmentManager(), "TimerRanOutDialog");
         disableButtons();
     }
 
@@ -692,6 +691,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
+
+
     }
 
     @Override
@@ -717,3 +718,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return false;
     }
 }
+
