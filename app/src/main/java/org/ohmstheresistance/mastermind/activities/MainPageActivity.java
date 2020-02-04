@@ -240,5 +240,13 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
         }
 
     }
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+
+        loadHighScore();
+        showOrHideResetHighScoreButton();
+    }
 }
 
