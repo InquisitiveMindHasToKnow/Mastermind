@@ -26,6 +26,7 @@ import com.bumptech.glide.Glide;
 
 import org.ohmstheresistance.mastermind.R;
 import org.ohmstheresistance.mastermind.database.UserInfoDatabaseHelper;
+import org.ohmstheresistance.mastermind.dialogs.NewHighScoreDialog;
 import org.ohmstheresistance.mastermind.dialogs.NoMoreGuesses;
 import org.ohmstheresistance.mastermind.dialogs.TimerRanOutDialog;
 import org.ohmstheresistance.mastermind.dialogs.UserRevealedComboDialog;
@@ -588,7 +589,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             highScoreSharedPrefsEditor.putLong(NEW_HIGH_SCORE_KEY, score);
             highScoreSharedPrefsEditor.commit();
 
-            Toast.makeText(this, "NEW HIGH SCORE, HAMMY!", Toast.LENGTH_LONG).show();
             Log.e("SCORE", score+"");
             Log.e("SCORECURRENT", currentHighScore+"");
 
@@ -597,16 +597,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .into(mainHighScoreCelebrationImageView);
 
             mainHighScoreCelebrationImageView.setVisibility(View.VISIBLE);
+            resetButton.setEnabled(false);
 
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     mainHighScoreCelebrationImageView.setVisibility(View.GONE);
+                    resetButton.setEnabled(true);
 
-                    WinnerWinner winnerWinnerDialog = new WinnerWinner();
-                    winnerWinnerDialog.setArguments(winningCombinationBundle);
-                    winnerWinnerDialog.show(getSupportFragmentManager(), "WinnerWinnerDialog");
-
+                    NewHighScoreDialog newHighScoreDialog = new NewHighScoreDialog();
+                    newHighScoreDialog.setArguments(winningCombinationBundle);
+                    winningCombinationBundle.putLong(NEW_HIGH_SCORE_KEY, score);
+                    newHighScoreDialog.show(getSupportFragmentManager(), "NewHighScoreDialog");
 
                 }
             }, 4000);

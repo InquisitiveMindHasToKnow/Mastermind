@@ -114,12 +114,10 @@
 
     <Button
         android:id="@+id/play_now_button"
-        android:layout_width="match_parent"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
         android:background="@drawable/rounded_button_corners"
         android:fontFamily="@font/autour_one"
         android:paddingStart="32dp"
@@ -134,15 +132,13 @@
 
     <Button
         android:id="@+id/instructions_button"
-        android:layout_width="match_parent"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_button_corners"
         android:fontFamily="@font/autour_one"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
         android:text="@string/game_rules_text"
         android:textAllCaps="false"
         android:textColor="@color/textColor"
@@ -153,12 +149,10 @@
 
     <Button
         android:id="@+id/reset_high_score_button"
-        android:layout_width="match_parent"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_button_corners"
         android:fontFamily="@font/autour_one"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:layout_marginTop="16dp"

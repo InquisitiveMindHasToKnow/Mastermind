@@ -18,6 +18,8 @@
     <color name="numberDisplayTextViewColor">#063852</color>
     <color name="newHighScoreColor">#00a8a8</color>
 
+    <color name="hs_dialog_text_color">#d7a449</color>
+
 
 
 </resources>
