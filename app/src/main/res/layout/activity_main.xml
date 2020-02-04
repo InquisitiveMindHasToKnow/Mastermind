@@ -7,6 +7,13 @@
     android:background="@color/colorPrimaryDark"
     tools:context=".activities.MainActivity">
 
+    <ImageView
+        android:id="@+id/main_high_score_celebration_imageview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/high_score_celebration"
+        android:visibility="gone"/>
+
     <LinearLayout
         android:id="@+id/bart_linear"
         android:layout_width="match_parent"

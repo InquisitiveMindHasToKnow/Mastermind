@@ -20,6 +20,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import org.ohmstheresistance.mastermind.R;
 import org.ohmstheresistance.mastermind.database.UserInfoDatabaseHelper;
@@ -43,13 +46,14 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static org.ohmstheresistance.mastermind.activities.MainPageActivity.HIGH_SCORE_MAKER;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
     private static final long COUNTDOWN_TIMER_IN_MILLIS = 300000;
     public static final String SHARED_PREFS = "highScoreSharedPrefs";
     public static final String HIGH_SCORE_KEY = "highScoreKey";
-    public static final String HIGH_SCORER_KEY = "highScorerKey";
-    public static final String NEW_SCORE = "newScoreKey";
+    public static final String NEW_HIGH_SCORE_KEY = "newHighScoreKey";
 
     private EditText userGuessEditText;
 
@@ -57,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             thirdNumberTextView, fourthNumberTextView, fifthNumberTextView, sixthNumberTextView, seventhNumberTextView, eighthNumberTextView,
             combinationTextView, displayHintsAndGameStatusTextview, feedBackTextView;
 
-    private ImageView personImageView, brickOne, brickTwo, brickThree, brickFour, brickFive, brickSix, brickSeven, brickEight, brickNine, brickTen;
+    private ImageView personImageView, brickOne, brickTwo, brickThree, brickFour, brickFive, brickSix, brickSeven, brickEight, brickNine, brickTen, mainHighScoreCelebrationImageView;
 
     private Button zeroButton, oneButton, twoButton, threeButton, fourButton, fiveButton, sixButton, sevenButton, deleteButton, resetButton, hintButton,
             guessButton, revealButton;
@@ -72,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private CountDownTimer countDownTimer;
     private int totalGuesses = 10;
-    private long timeLeftInMillis, defaultHighScore;
+    private long timeLeftInMillis, defaultHighScore, score, currentHighScore;
 
     private LinearLayoutManager linearLayoutManager;
     private LinearLayout combinationLinearLayout;
@@ -126,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         userInfoDatabaseHelper = UserInfoDatabaseHelper.getInstance(this);
 
 
+        mainHighScoreCelebrationImageView = findViewById(R.id.main_high_score_celebration_imageview);
         brickOne = findViewById(R.id.brick_one_imageview);
         brickTwo = findViewById(R.id.brick_two_imageview);
         brickThree = findViewById(R.id.brick_three_imageview);
@@ -352,7 +357,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void resetGame() {
 
-        recreate();
+        Intent resetGameIntent = new Intent(MainActivity.this, MainActivity.class);
+        startActivity(resetGameIntent);
+        finish();
         overridePendingTransition(0, 0);
     }
 
@@ -557,12 +564,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         timerRanOutDialog.setArguments(winningCombinationBundle);
         getSupportFragmentManager().beginTransaction().add(timerRanOutDialog, "TimerRanOutDialog").commitAllowingStateLoss();
 
-        // timerRanOutDialog.show(getSupportFragmentManager(), "TimerRanOutDialog");
         disableButtons();
     }
 
     private void userWon() {
 
+        disableButtons();
         countDownTimer.cancel();
         combinationLinearLayout.setVisibility(View.VISIBLE);
         displayHintsAndGameStatusTextview.setText(getResources().getText(R.string.you_won_text));
@@ -570,29 +577,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         userGuessEditText.setBackgroundColor(getResources().getColor(R.color.userWonColor));
         userGuessEditText.setText(combination);
 
-
-        WinnerWinner winnerWinnerDialog = new WinnerWinner();
-        winnerWinnerDialog.setArguments(winningCombinationBundle);
-        winnerWinnerDialog.show(getSupportFragmentManager(), "WinnerWinnerDialog");
-
-        createOrUpdateHighScore();
-        disableButtons();
-    }
-
-    private void createOrUpdateHighScore() {
         highScorer = userInfoDatabaseHelper.getUserInfo().get(0).getUserName();
-        long score = defaultHighScore - timeLeftInMillis;
+        currentHighScore = highScoreSharedPrefs.getLong(HIGH_SCORE_KEY, 300001);
+        score = defaultHighScore - timeLeftInMillis;
 
-        highScoreSharedPrefsEditor.putString(HIGH_SCORER_KEY, highScorer);
-        highScoreSharedPrefsEditor.putLong(NEW_SCORE, score);
-        highScoreSharedPrefsEditor.commit();
+        if(score < currentHighScore){
 
-        Intent resultIntent = new Intent();
-        resultIntent.putExtra(NEW_SCORE, score);
-        resultIntent.putExtra(HIGH_SCORER_KEY, highScorer);
-        setResult(RESULT_OK, resultIntent);
+            highScoreSharedPrefsEditor.putString(HIGH_SCORE_MAKER, highScorer);
+            highScoreSharedPrefsEditor.putLong(HIGH_SCORE_KEY, score);
+            highScoreSharedPrefsEditor.putLong(NEW_HIGH_SCORE_KEY, score);
+            highScoreSharedPrefsEditor.commit();
 
+            Toast.makeText(this, "NEW HIGH SCORE, HAMMY!", Toast.LENGTH_LONG).show();
+            Log.e("SCORE", score+"");
+            Log.e("SCORECURRENT", currentHighScore+"");
+
+            Glide.with(MainActivity.this)
+                    .load(R.drawable.high_score_celebration)
+                    .into(mainHighScoreCelebrationImageView);
+
+            mainHighScoreCelebrationImageView.setVisibility(View.VISIBLE);
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mainHighScoreCelebrationImageView.setVisibility(View.GONE);
+
+                    WinnerWinner winnerWinnerDialog = new WinnerWinner();
+                    winnerWinnerDialog.setArguments(winningCombinationBundle);
+                    winnerWinnerDialog.show(getSupportFragmentManager(), "WinnerWinnerDialog");
+
+
+                }
+            }, 4000);
+        }else{
+
+            WinnerWinner winnerWinnerDialog = new WinnerWinner();
+            winnerWinnerDialog.setArguments(winningCombinationBundle);
+            winnerWinnerDialog.show(getSupportFragmentManager(), "WinnerWinnerDialog");
+        }
     }
+
     private void animatePersonLinear() {
 
         checkWhatToastToDisplay();
@@ -691,8 +716,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
-
-
     }
 
     @Override
