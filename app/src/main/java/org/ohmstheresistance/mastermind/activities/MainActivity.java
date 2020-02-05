@@ -14,13 +14,14 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private TextView guessesRemainingTextView, previousGuessesHeaderTextView, countDownTimerTextView, firstNumberTextView, secondNumberTextView,
             thirdNumberTextView, fourthNumberTextView, fifthNumberTextView, sixthNumberTextView, seventhNumberTextView, eighthNumberTextView,
-            combinationTextView, displayHintsAndGameStatusTextview, feedBackTextView;
+            combinationTextView, displayHintsAndGameStatusTextview, feedBackTextView, timeHeaderTextView;
 
     private ImageView personImageView, brickOne, brickTwo, brickThree, brickFour, brickFive, brickSix, brickSeven, brickEight, brickNine, brickTen, mainHighScoreCelebrationImageView;
 
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private long timeLeftInMillis, defaultHighScore, score, currentHighScore;
 
     private LinearLayoutManager linearLayoutManager;
-    private LinearLayout combinationLinearLayout;
+    private LinearLayout combinationLinearLayout, countDownTimerLinearLayout;
 
     private Bundle winningCombinationBundle;
 
@@ -110,6 +111,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @SuppressLint("ClickableViewAccessibility")
     private void setUpViews() {
 
+        countDownTimerLinearLayout = findViewById(R.id.countdown_timer_linear);
+
         userGuessEditText = findViewById(R.id.user_guess_edittext);
         previousGuessesHeaderTextView = findViewById(R.id.previous_guesses_header_textview);
         guessesRemainingTextView = findViewById(R.id.remaining_guess_count_textview);
@@ -126,10 +129,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         combinationTextView = findViewById(R.id.combination_textview);
         displayHintsAndGameStatusTextview = findViewById(R.id.dispay_hints_and_game_status_textview);
         feedBackTextView = findViewById(R.id.feedback_textview);
+        timeHeaderTextView = findViewById(R.id.time_header_textview);
 
         personImageView = findViewById(R.id.person_imageview);
         userInfoDatabaseHelper = UserInfoDatabaseHelper.getInstance(this);
-
 
         mainHighScoreCelebrationImageView = findViewById(R.id.main_high_score_celebration_imageview);
         brickOne = findViewById(R.id.brick_one_imageview);
@@ -580,7 +583,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         highScorer = userInfoDatabaseHelper.getUserInfo().get(0).getUserName();
         currentHighScore = highScoreSharedPrefs.getLong(HIGH_SCORE_KEY, 300001);
-        score = defaultHighScore - timeLeftInMillis;
+        score = (defaultHighScore - timeLeftInMillis)+ 1000;
 
         if(score < currentHighScore){
 
@@ -599,11 +602,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mainHighScoreCelebrationImageView.setVisibility(View.VISIBLE);
             resetButton.setEnabled(false);
 
+            blinkAnimation(countDownTimerLinearLayout, timeHeaderTextView, countDownTimerTextView);
+
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     mainHighScoreCelebrationImageView.setVisibility(View.GONE);
                     resetButton.setEnabled(true);
+
 
                     NewHighScoreDialog newHighScoreDialog = new NewHighScoreDialog();
                     newHighScoreDialog.setArguments(winningCombinationBundle);
@@ -685,6 +691,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sixButton.setEnabled(false);
         sevenButton.setEnabled(false);
         revealButton.setEnabled(false);
+    }
+
+    private void blinkAnimation(final LinearLayout linearLayout, final TextView timeHeaderTV, final TextView timeTV){
+
+        Animation blinkingAnimation = new AlphaAnimation(0.0f, 1.0f);
+        blinkingAnimation.setDuration(100);
+        blinkingAnimation.setStartOffset(300);
+        blinkingAnimation.setRepeatMode(Animation.REVERSE);
+        blinkingAnimation.setRepeatCount(Animation.INFINITE);
+        linearLayout.startAnimation(blinkingAnimation);
+
+        timeHeaderTV.setTextColor(getResources().getColor(R.color.userWonColor));
+        timeHeaderTV.setTextSize(20);
+
+        int minutes = (int) (score / 1000 / 60);
+        int seconds = (int) (score / 1000) % 60;
+
+        String newHighScoreInMinsAndSeconds = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+
+        timeTV.setTextColor(getResources().getColor(R.color.userWonColor));
+        timeTV.setText(newHighScoreInMinsAndSeconds);
+        timeTV.setTextSize(20);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                int minutes = (int) (timeLeftInMillis / 1000 / 60);
+                int seconds = (int) (timeLeftInMillis / 1000) % 60;
+
+                String time = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+
+                linearLayout.clearAnimation();
+                timeHeaderTV.setTextColor(getResources().getColor(R.color.textColor));
+                timeHeaderTV.setTextSize(16);
+
+                timeTV.setTextColor(getResources().getColor(R.color.textColor));
+                timeTV.setTextSize(16);
+                timeTV.setText(time);
+
+            }
+        }, 4000);
     }
 
     private void animateBrick(final ImageView brick) {
