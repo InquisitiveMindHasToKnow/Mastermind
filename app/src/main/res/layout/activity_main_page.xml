@@ -112,9 +112,6 @@
         app:layout_constraintBottom_toTopOf="@id/main_page_button_linear"
         app:layout_constraintTop_toBottomOf="@id/high_score_header_textview" />
 
-
-
-
     <LinearLayout
         android:id="@+id/main_page_button_linear"
         android:layout_width="match_parent"
