@@ -1,9 +1,12 @@
 package org.ohmstheresistance.mastermind.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
@@ -14,14 +17,14 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
+
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -69,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             guessButton, revealButton;
 
     private List<String> prevGuessesEnteredList, comboList;
-    private List<Integer>rightsGuesses;
+    private List<Integer> rightsGuesses;
 
     private String combination, randomNumbersResponse;
 
@@ -92,6 +95,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private UserInfoDatabaseHelper userInfoDatabaseHelper;
     private String highScorer;
 
+    private boolean connectedToInternet, animationRunning;
+    private Handler blinkingHandler, displayNewHighScoreDialogHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         highScoreSharedPrefsEditor = highScoreSharedPrefs.edit();
 
         setUpViews();
-        getRandomNumbers();
+        checkInternetConnection();
 
         defaultHighScore = TimeUnit.MINUTES.toMillis(5);
     }
@@ -292,7 +298,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void revealCombination() {
 
-       final AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this, R.style.RevealDialog);
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this, R.style.RevealDialog);
 
         alertDialog.setTitle("Reveal combination?");
         alertDialog.setMessage("Completing this action will result in a loss!");
@@ -365,86 +371,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(resetGameIntent);
         finish();
         overridePendingTransition(0, 0);
-    }
-
-    private void getRandomNumbers() {
-        OkHttpClient client = new OkHttpClient();
-
-        String baseOfNumbers = "10";
-        String col = "1";
-        final String num = "4";
-        String minNum = "0";
-        String maxNum = "7";
-        String format = "plain";
-        String rnd = "new";
-
-        String url = "https://www.random.org/integers/?num=" + num + "&min=" + minNum + "&max=" + maxNum + "&col=" + col + "&base=" + baseOfNumbers + "&format=" + format + "&rnd=" + rnd;
-
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    randomNumbersResponse = response.body().string();
-
-                    String[] separatedResponse = randomNumbersResponse.split("\\s+");
-
-                    String firstNumber = separatedResponse[0];
-                    String secondNumber = separatedResponse[1];
-                    String thirdNumber = separatedResponse[2];
-                    String fourthNumber = separatedResponse[3];
-
-                    combination = firstNumber + secondNumber + thirdNumber + fourthNumber;
-                    comboList.add(combination);
-                    winningCombinationBundle.putString("combination", combination);
-
-
-                    String[] numbers = {"0", "1", "2", "3", "4", "5", "6", "7"};
-                    Collections.shuffle(Arrays.asList(numbers));
-
-                    final String[] eightDisplayedNumbers = {numbers[0], numbers[2], numbers[4], numbers[6], firstNumber, secondNumber, thirdNumber, fourthNumber};
-                    Collections.shuffle(Arrays.asList(eightDisplayedNumbers));
-
-                    Log.d("EIGHT",eightDisplayedNumbers[0] + eightDisplayedNumbers[1] + eightDisplayedNumbers[2] + eightDisplayedNumbers[3] +  eightDisplayedNumbers[4]+ eightDisplayedNumbers[5]+ eightDisplayedNumbers[6] +eightDisplayedNumbers[7]);
-                    Log.d("EIGHTCOMBO", combination);
-
-                    Log.e("Combination", combination);
-                    Log.e("Combination", numbers[2]);
-
-                    MainActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            startCountDown();
-
-                            combinationTextView.setText(combination);
-
-                            firstNumberTextView.setText(eightDisplayedNumbers[5]);
-                            secondNumberTextView.setText(eightDisplayedNumbers[1]);
-                            thirdNumberTextView.setText(eightDisplayedNumbers[3]);
-                            fourthNumberTextView.setText(eightDisplayedNumbers[0]);
-                            fifthNumberTextView.setText(eightDisplayedNumbers[2]);
-                            sixthNumberTextView.setText(eightDisplayedNumbers[7]);
-                            seventhNumberTextView.setText(eightDisplayedNumbers[4]);
-                            eighthNumberTextView.setText(eightDisplayedNumbers[6]);
-
-                            revealButton.setEnabled(true);
-                            guessButton.setEnabled(true);
-                            hintButton.setEnabled(true);
-                        }
-
-                    });
-                }
-            }
-        });
     }
 
     private void checkWhatToastToDisplay() {
@@ -583,17 +509,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         highScorer = userInfoDatabaseHelper.getUserInfo().get(0).getUserName();
         currentHighScore = highScoreSharedPrefs.getLong(HIGH_SCORE_KEY, 300001);
-        score = (defaultHighScore - timeLeftInMillis)+ 1000;
+        score = (defaultHighScore - timeLeftInMillis) + 1000;
 
-        if(score < currentHighScore){
+        if (score < currentHighScore) {
 
             highScoreSharedPrefsEditor.putString(HIGH_SCORE_MAKER, highScorer);
             highScoreSharedPrefsEditor.putLong(HIGH_SCORE_KEY, score);
             highScoreSharedPrefsEditor.putLong(NEW_HIGH_SCORE_KEY, score);
             highScoreSharedPrefsEditor.commit();
 
-            Log.e("SCORE", score+"");
-            Log.e("SCORECURRENT", currentHighScore+"");
+            Log.e("SCORE", score + "");
+            Log.e("SCORECURRENT", currentHighScore + "");
 
             Glide.with(MainActivity.this)
                     .load(R.drawable.high_score_celebration)
@@ -604,7 +530,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             blinkAnimation(countDownTimerLinearLayout, timeHeaderTextView, countDownTimerTextView);
 
-            new Handler().postDelayed(new Runnable() {
+            displayNewHighScoreDialogHandler = new Handler();
+
+            displayNewHighScoreDialogHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     mainHighScoreCelebrationImageView.setVisibility(View.GONE);
@@ -618,7 +546,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 }
             }, 4000);
-        }else{
+        } else {
 
             WinnerWinner winnerWinnerDialog = new WinnerWinner();
             winnerWinnerDialog.setArguments(winningCombinationBundle);
@@ -693,14 +621,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         revealButton.setEnabled(false);
     }
 
-    private void blinkAnimation(final LinearLayout linearLayout, final TextView timeHeaderTV, final TextView timeTV){
+    private void blinkAnimation(final LinearLayout linearLayout, final TextView timeHeaderTV, final TextView timeTV) {
 
-        Animation blinkingAnimation = new AlphaAnimation(0.0f, 1.0f);
-        blinkingAnimation.setDuration(100);
-        blinkingAnimation.setStartOffset(300);
-        blinkingAnimation.setRepeatMode(Animation.REVERSE);
-        blinkingAnimation.setRepeatCount(Animation.INFINITE);
-        linearLayout.startAnimation(blinkingAnimation);
+        animationRunning = true;
+
+        linearLayout.startAnimation(AnimationUtils.loadAnimation(this, R.anim.blink));
 
         timeHeaderTV.setTextColor(getResources().getColor(R.color.userWonColor));
         timeHeaderTV.setTextSize(20);
@@ -714,7 +639,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         timeTV.setText(newHighScoreInMinsAndSeconds);
         timeTV.setTextSize(20);
 
-        new Handler().postDelayed(new Runnable() {
+        blinkingHandler = new Handler();
+
+        blinkingHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
 
@@ -759,6 +686,145 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         displayHintsAndGameStatusTextview.setTextColor(getResources().getColor(R.color.hintColor));
     }
 
+    private void checkInternetConnection() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        connectedToInternet = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
+
+        if (connectedToInternet) {
+
+            getRandomNumbers();
+        } else {
+
+            pickRandomNumbersLocally();
+        }
+    }
+
+    private void getRandomNumbers() {
+        OkHttpClient client = new OkHttpClient();
+
+        Toast.makeText(this, "INTERNET connected", Toast.LENGTH_LONG).show();
+
+        String baseOfNumbers = "10";
+        String col = "1";
+        final String num = "4";
+        String minNum = "0";
+        String maxNum = "7";
+        String format = "plain";
+        String rnd = "new";
+
+        String url = "https://www.random.org/integers/?num=" + num + "&min=" + minNum + "&max=" + maxNum + "&col=" + col + "&base=" + baseOfNumbers + "&format=" + format + "&rnd=" + rnd;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    randomNumbersResponse = response.body().string();
+
+                    String[] separatedResponse = randomNumbersResponse.split("\\s+");
+
+                    String firstNumber = separatedResponse[0];
+                    String secondNumber = separatedResponse[1];
+                    String thirdNumber = separatedResponse[2];
+                    String fourthNumber = separatedResponse[3];
+
+                    combination = firstNumber + secondNumber + thirdNumber + fourthNumber;
+                    comboList.add(combination);
+                    winningCombinationBundle.putString("combination", combination);
+
+                    String[] numbers = {"0", "1", "2", "3", "4", "5", "6", "7"};
+                    Collections.shuffle(Arrays.asList(numbers));
+
+                    final String[] eightDisplayedNumbers = {numbers[0], numbers[2], numbers[4], numbers[6], firstNumber, secondNumber, thirdNumber, fourthNumber};
+                    Collections.shuffle(Arrays.asList(eightDisplayedNumbers));
+
+                    Log.d("EIGHT", eightDisplayedNumbers[0] + eightDisplayedNumbers[1] + eightDisplayedNumbers[2] + eightDisplayedNumbers[3] + eightDisplayedNumbers[4] + eightDisplayedNumbers[5] + eightDisplayedNumbers[6] + eightDisplayedNumbers[7]);
+                    Log.d("EIGHTCOMBO", combination);
+
+                    Log.e("Combination", combination);
+                    Log.e("Combination", numbers[2]);
+
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            startCountDown();
+
+                            combinationTextView.setText(combination);
+
+                            firstNumberTextView.setText(eightDisplayedNumbers[5]);
+                            secondNumberTextView.setText(eightDisplayedNumbers[1]);
+                            thirdNumberTextView.setText(eightDisplayedNumbers[3]);
+                            fourthNumberTextView.setText(eightDisplayedNumbers[0]);
+                            fifthNumberTextView.setText(eightDisplayedNumbers[2]);
+                            sixthNumberTextView.setText(eightDisplayedNumbers[7]);
+                            seventhNumberTextView.setText(eightDisplayedNumbers[4]);
+                            eighthNumberTextView.setText(eightDisplayedNumbers[6]);
+
+                            revealButton.setEnabled(true);
+                            guessButton.setEnabled(true);
+                            hintButton.setEnabled(true);
+                        }
+
+                    });
+                }
+            }
+        });
+    }
+
+
+    private void pickRandomNumbersLocally() {
+
+        startCountDown();
+
+        String[] localNumbers = {"0", "1", "2", "3", "4", "5", "6", "7", "0", "1", "2", "3", "4", "5", "6", "7", "0", "1", "2", "3", "4", "5", "6", "7", "0", "1", "2", "3", "4", "5", "6", "7"};
+        Collections.shuffle(Arrays.asList(localNumbers));
+
+        String firstLocalNumber = localNumbers[7];
+        String secondLocalNumber = localNumbers[14];
+        String thirdLocalNumber = localNumbers[21];
+        String fourthLocalNumber = localNumbers[3];
+
+        combination = fourthLocalNumber + thirdLocalNumber + secondLocalNumber + firstLocalNumber;
+        comboList.add(combination);
+        winningCombinationBundle.putString("combination", combination);
+
+        final String[] eightLocalDisplayedNumbers = {firstLocalNumber, secondLocalNumber, thirdLocalNumber, fourthLocalNumber, localNumbers[16], localNumbers[20], localNumbers[22], localNumbers[26]};
+        Collections.shuffle(Arrays.asList(eightLocalDisplayedNumbers));
+
+        Log.d("LOCALEIGHT", eightLocalDisplayedNumbers[0] + eightLocalDisplayedNumbers[1] + eightLocalDisplayedNumbers[2] + eightLocalDisplayedNumbers[3] + eightLocalDisplayedNumbers[4] + eightLocalDisplayedNumbers[5] + eightLocalDisplayedNumbers[6] + eightLocalDisplayedNumbers[7]);
+        Log.d("LOCALEIGHTCOMBO", combination);
+
+        Log.e("LOCALCombination", combination);
+        Log.e("LOCALCombination", localNumbers[2]);
+
+        Toast.makeText(this, "Local numbers", Toast.LENGTH_LONG).show();
+
+        combinationTextView.setText(combination);
+
+        firstNumberTextView.setText(eightLocalDisplayedNumbers[5]);
+        secondNumberTextView.setText(eightLocalDisplayedNumbers[1]);
+        thirdNumberTextView.setText(eightLocalDisplayedNumbers[3]);
+        fourthNumberTextView.setText(eightLocalDisplayedNumbers[0]);
+        fifthNumberTextView.setText(eightLocalDisplayedNumbers[2]);
+        sixthNumberTextView.setText(eightLocalDisplayedNumbers[7]);
+        seventhNumberTextView.setText(eightLocalDisplayedNumbers[4]);
+        eighthNumberTextView.setText(eightLocalDisplayedNumbers[6]);
+
+        revealButton.setEnabled(true);
+        guessButton.setEnabled(true);
+        hintButton.setEnabled(true);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -768,10 +834,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+
+        if (blinkingHandler != null) {
+            blinkingHandler.removeCallbacksAndMessages(null);
+        }
+
+        if (displayNewHighScoreDialogHandler != null) {
+            displayNewHighScoreDialogHandler.removeCallbacksAndMessages(null);
+        }
+
         overridePendingTransition(0, 0);
+
     }
 
     @Override
