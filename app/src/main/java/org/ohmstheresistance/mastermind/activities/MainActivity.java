@@ -24,7 +24,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -306,7 +305,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 
-
                         countDownTimer.cancel();
                         combinationLinearLayout.setVisibility(View.VISIBLE);
 
@@ -373,7 +371,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         overridePendingTransition(0, 0);
     }
 
-    private void checkWhatToastToDisplay() {
+    private void checkWhatMessageToDisplay() {
 
         prevGuessesAdapter.setComboInfo(comboList);
         prevGuessesEnteredList.add(userGuessEditText.getText().toString());
@@ -435,7 +433,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 matchCounter++;
             }
         }
-
         return matchCounter;
     }
 
@@ -457,7 +454,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             countDownTimer.cancel();
         }
-
     }
 
     private void userLostBecauseTimerRanOut() {
@@ -531,13 +527,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             blinkAnimation(countDownTimerLinearLayout, timeHeaderTextView, countDownTimerTextView);
 
             displayNewHighScoreDialogHandler = new Handler();
-
             displayNewHighScoreDialogHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     mainHighScoreCelebrationImageView.setVisibility(View.GONE);
                     resetButton.setEnabled(true);
-
 
                     NewHighScoreDialog newHighScoreDialog = new NewHighScoreDialog();
                     newHighScoreDialog.setArguments(winningCombinationBundle);
@@ -556,16 +550,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void animatePersonLinear() {
 
-        checkWhatToastToDisplay();
+        checkWhatMessageToDisplay();
 
         if (totalGuesses == 9) {
             animateBrick(brickTen);
         }
         if (totalGuesses == 8) {
+            personImageView.setImageDrawable(getDrawable(R.drawable.bartchilling));
             animateBrick(brickNine);
         }
         if (totalGuesses == 7) {
-            personImageView.setImageDrawable(getDrawable(R.drawable.bartchilling));
             animateBrick(brickEight);
         }
         if (totalGuesses == 6) {
@@ -579,14 +573,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             animateBrick(brickFive);
         }
         if (totalGuesses == 3) {
+            personImageView.setImageDrawable(getDrawable(R.drawable.bartscared));
             animateBrick(brickFour);
         }
         if (totalGuesses == 2) {
             guessesRemainingTextView.setTextColor(getResources().getColor(R.color.low_guesses_color));
-            personImageView.setImageDrawable(getDrawable(R.drawable.bartscared));
             animateBrick(brickThree);
         }
         if (totalGuesses == 1) {
+            personImageView.setImageDrawable(getDrawable(R.drawable.bartnervous));
             animateBrick(brickTwo);
         }
         if (totalGuesses == 0 && matchCounter != 4) {
@@ -640,7 +635,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         timeTV.setTextSize(20);
 
         blinkingHandler = new Handler();
-
         blinkingHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -702,8 +696,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void getRandomNumbers() {
         OkHttpClient client = new OkHttpClient();
-
-        Toast.makeText(this, "INTERNET connected", Toast.LENGTH_LONG).show();
 
         String baseOfNumbers = "10";
         String col = "1";
@@ -807,8 +799,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.e("LOCALCombination", combination);
         Log.e("LOCALCombination", localNumbers[2]);
 
-        Toast.makeText(this, "Local numbers", Toast.LENGTH_LONG).show();
-
         combinationTextView.setText(combination);
 
         firstNumberTextView.setText(eightLocalDisplayedNumbers[5]);
@@ -846,9 +836,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (displayNewHighScoreDialogHandler != null) {
             displayNewHighScoreDialogHandler.removeCallbacksAndMessages(null);
         }
-
         overridePendingTransition(0, 0);
-
     }
 
     @Override
